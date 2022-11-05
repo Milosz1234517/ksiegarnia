@@ -1,3 +1,7 @@
+insert into roles (name) values ('ROLE_USER');
+insert into roles (name) values ('ROLE_ADMIN');
+insert into roles (name) values ('ROLE_MOD');
+
 insert into publishing_house (icon, name) values ('x', 'abc');
 insert into publishing_house (icon, name) values ('x', 'abc1');
 insert into publishing_house (icon, name) values ('x', 'abc2');
