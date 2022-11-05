@@ -1,0 +1,3 @@
+insert into "Order_Status" ("Description") values ('Zlozone');
+insert into "Order_Status" ("Description") values ('W trakcie');
+insert into "Order_Status" ("Description") values ('Oplacone');
