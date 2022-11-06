@@ -23,6 +23,10 @@ public class BookHeader {
     @Column(name = "book_title", nullable = false, length = 255)
     private String bookTitle;
 
+    @Basic
+    @Column(name = "quantity")
+    private Integer quantity;
+
     @Column(name = "release_date")
     private Date releaseDate;
 

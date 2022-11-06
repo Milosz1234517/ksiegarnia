@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface BookHeaderRepository extends JpaRepository<BookHeader, Long> {
 
-    List<BookHeader> findBookHeadersByBookTitleAndBookAuthorsIn(
-            String bookTitle, Collection<Author> bookAuthors
-    );
+    List<BookHeader> findBookHeadersByBookTitle(String bookTitle);
 
 }

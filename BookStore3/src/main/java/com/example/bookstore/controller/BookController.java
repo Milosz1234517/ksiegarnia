@@ -27,8 +27,8 @@ public class BookController {
 
     @GetMapping("/searchBooks")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<BookHeader> searchBooks(@RequestParam String title, @RequestParam String author) {
-        return bookService.getBooks(title, author);
+    public List<BookHeader> searchBooks(@RequestParam String title) {
+        return bookService.getBooks(title);
     }
 
 }

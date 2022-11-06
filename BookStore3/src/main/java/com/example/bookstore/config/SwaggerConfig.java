@@ -22,7 +22,6 @@ import static java.util.Collections.singletonList;
 public class SwaggerConfig {
 
 //    http://localhost:8080/swagger-ui.html
-    // test
 
     @Bean
     public Docket swaggerApi() {

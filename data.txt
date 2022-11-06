@@ -1,3 +1,7 @@
+insert into roles (name) values ('ROLE_USER');
+insert into roles (name) values ('ROLE_ADMIN');
+insert into roles (name) values ('ROLE_MOD');
+
 INSERT INTO publishing_house (icon,name)
 VALUES
   ('Zeph','Cadman'),
@@ -124,106 +128,106 @@ insert into author (name, surname) values ('Hannie', 'Pywell');
 insert into author (name, surname) values ('Ermentrude', 'Teacy');
 
 
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('It Happened One Night', 'X', '2', 'X', '21.43', '2021-11-21', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Home Before Dark', 'X', '1', 'X', '94.17', '2021-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Out of Bounds', 'X', '2', 'X', '37.42', '2021-11-19', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Judge and the Assassin, The (Juge et l''assassin, Le)', 'X', '3', 'X', '14.65', '2022-12-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Truman Show, The', 'X', '2', 'X', '37.86', '2021-11-22', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Caltiki the Undying Monster', 'X', '2', 'X', '26.16', '2022-11-13', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Lone Wolf and Cub: Sword of Vengeance (Kozure Ôkami: Kowokashi udekashi tsukamatsuru)', 'X', '3', 'X', '39.59', '2021-11-21', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Jam', 'X', '2', 'X', '71.47', '2021-11-28', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Reunion', 'X', '2', 'X', '15.12', '2021-11-28', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Beethoven''s 2nd', 'X', '3', 'X', '26.91', '2021-11-18', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Silent Trigger', 'X', '3', 'X', '19.18', '2022-11-15', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Taking Care of Business', 'X', '1', 'X', '43.55', '2021-11-27', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Private Eyes, The', 'X', '2', 'X', '85.43', '2021-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Childhood of Maxim Gorky, The (Detstvo Gorkogo)', 'X', '3', 'X', '19.14', '2021-11-13', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('The Hire: Powder Keg', 'X', '1', 'X', '57.95', '2021-12-13', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Tarzan Escapes', 'X', '2', 'X', '87.66', '2021-11-28', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Fog of War: Eleven Lessons from the Life of Robert S. McNamara, The', 'X', '3', 'X', '13.27', '2022-11-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Angel''s Leap', 'X', '1', 'X', '12.54', '2021-11-16', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Davy Crockett, King of the Wild Frontier', 'X', '2', 'X', '77.11', '2022-11-11', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Don', 'X', '2', 'X', '51.21', '2022-11-28', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Gorko!', 'X', '2', 'X', '59.88', '2022-11-13', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Spring Break', 'X', '3', 'X', '58.28', '2022-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Man''s Castle', 'X', '3', 'X', '38.11', '2021-11-17', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Booker''s Place: A Mississippi Story', 'X', '3', 'X', '13.49', '2021-11-28', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Only the Young', 'X', '3', 'X', '47.21', '2022-11-22', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Ricky', 'X', '3', 'X', '27.11', '2021-11-28', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Weirdsville', 'X', '3', 'X', '91.79', '2022-11-24', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Playing for Time', 'X', '1', 'X', '46.27', '2021-11-13', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Trekkies', 'X', '3', 'X', '62.81', '2021-11-19', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Simply Irresistible', 'X', '1', 'X', '71.53', '2022-12-13', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Tol''able David', 'X', '3', 'X', '79.49', '2022-11-21', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Georg', 'X', '3', 'X', '78.93', '2021-12-25', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Climb, The', 'X', '3', 'X', '72.99', '2021-11-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Map of the Sounds of Tokyo', 'X', '3', 'X', '48.73', '2021-11-27', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Russia House, The', 'X', '3', 'X', '64.11', '2021-11-18', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Last Stop 174 (Última Parada 174) ', 'X', '1', 'X', '11.16', '2022-11-28', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('It''s Alive', 'X', '2', 'X', '67.27', '2021-11-28', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Diên Biên Phú', 'X', '2', 'X', '45.84', '2022-12-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Devil''s Pond', 'X', '2', 'X', '71.82', '2021-12-19', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('281 Miles to Heaven (281 Mil do Nieba)', 'X', '3', 'X', '64.15', '2021-11-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Tiger Eyes', 'X', '3', 'X', '67.17', '2021-11-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Tremors 3: Back to Perfection', 'X', '3', 'X', '21.59', '2021-12-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Woman in the Moon (By Rocket to the Moon) (Frau im Mond)', 'X', '1', 'X', '42.63', '2021-11-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Second Best', 'X', '3', 'X', '12.46', '2021-11-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Godzilla, King of the Monsters! (Kaijû-ô Gojira)', 'X', '2', 'X', '22.42', '2021-11-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Human Factor, The', 'X', '2', 'X', '46.28', '2021-11-28', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Ricochet', 'X', '3', 'X', '34.89', '2022-12-23', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Empire of the Sun', 'X', '3', 'X', '11.81', '2022-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Tycoon (Oligarkh)', 'X', '3', 'X', '88.73', '2021-12-18', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Let It Snow', 'X', '2', 'X', '62.25', '2021-11-17', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Candleshoe', 'X', '3', 'X', '33.25', '2021-12-16', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Finisterrae', 'X', '2', 'X', '82.18', '2021-11-19', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Samurai Banners (Fûrin kazan)', 'X', '3', 'X', '39.17', '2022-11-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Always Tell Your Wife', 'X', '3', 'X', '71.23', '2021-12-24', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Full Speed (À toute vitesse)', 'X', '3', 'X', '48.34', '2021-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Collector, The', 'X', '1', 'X', '11.15', '2021-11-21', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Essential Killing', 'X', '3', 'X', '66.97', '2021-11-17', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Blaise Pascal', 'X', '1', 'X', '24.18', '2021-11-23', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('AVP: Alien vs. Predator', 'X', '3', 'X', '37.54', '2021-11-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Two Men in Manhattan (Deux hommes dans Manhattan)', 'X', '2', 'X', '11.37', '2022-12-26', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Smart People', 'X', '3', 'X', '87.62', '2022-11-17', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Diary of a Wimpy Kid: Dog Days', 'X', '3', 'X', '22.36', '2021-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Backlight', 'X', '2', 'X', '48.46', '2021-11-28', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Devil and Daniel Johnston, The', 'X', '1', 'X', '21.25', '2022-12-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Bunch Of Amateurs, A', 'X', '3', 'X', '17.41', '2022-11-14', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Theodora Goes Wild', 'X', '3', 'X', '61.71', '2021-11-14', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Palme', 'X', '2', 'X', '11.67', '2021-11-14', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Dimples', 'X', '3', 'X', '17.37', '2021-11-15', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Battleship', 'X', '2', 'X', '91.71', '2021-11-12', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Palermo Shooting', 'X', '2', 'X', '28.19', '2021-11-11', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Martin', 'X', '2', 'X', '81.11', '2021-11-27', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Zoolander', 'X', '2', 'X', '26.85', '2021-11-22', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('The Four Feathers', 'X', '3', 'X', '64.28', '2021-11-14', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Boys, The (Pojat)', 'X', '2', 'X', '58.18', '2021-11-28', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('My Mom''s New Boyfriend', 'X', '2', 'X', '59.35', '2021-11-12', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('History of the Eagles', 'X', '3', 'X', '21.35', '2021-11-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Death on the Staircase (Soupçons)', 'X', '2', 'X', '19.83', '2022-11-11', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Broadway Bill', 'X', '3', 'X', '15.56', '2021-11-12', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Reality Bites', 'X', '3', 'X', '68.51', '2021-11-18', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Revenge of the Nerds', 'X', '2', 'X', '72.76', '2021-11-11', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Verbo', 'X', '1', 'X', '36.65', '2021-11-18', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('River, The', 'X', '3', 'X', '11.22', '2022-11-17', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Reefer Madness: The Movie Musical', 'X', '2', 'X', '47.52', '2021-11-21', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Time to Die (Tiempo de morir)', 'X', '3', 'X', '85.81', '2021-11-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Bears', 'X', '1', 'X', '57.73', '2022-11-21', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Stay', 'X', '3', 'X', '84.16', '2021-12-26', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Sugar Curtain, The (El telón de azúcar)', 'X', '1', 'X', '82.27', '2021-11-22', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Passenger, The (Professione: reporter)', 'X', '3', 'X', '26.41', '2022-11-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Harrison''s Flowers', 'X', '2', 'X', '28.28', '2021-11-24', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('To Tulsa and Back: On Tour with J.J. Cale', 'X', '2', 'X', '76.19', '2021-11-25', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Guardians of the Galaxy', 'X', '2', 'X', '55.92', '2021-11-24', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Looking for Mr. Goodbar', 'X', '2', 'X', '36.65', '2022-11-13', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('American Hustle', 'X', '1', 'X', '18.73', '2022-11-24', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('With Byrd at the South Pole', 'X', '3', 'X', '53.77', '2021-11-15', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('International House', 'X', '3', 'X', '63.98', '2022-11-18', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Notti bianche, Le (White Nights)', 'X', '2', 'X', '71.58', '2021-11-12', '2');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Shit Year', 'X', '2', 'X', '88.11', '2021-11-14', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Seven Swords (Chat gim)', 'X', '2', 'X', '58.43', '2021-11-19', '1');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Incir Reçeli', 'X', '3', 'X', '51.43', '2021-11-18', '3');
-insert into book_header (book_title, description, edition, icon, price, release_date, publishing_house_id) values ('Day of the Triffids, The', 'X', '2', 'X', '91.61', '2021-11-18', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('It Happened One Night', 1, 'X', '2', 'X', '21.43', '2021-11-21', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Home Before Dark', 1, 'X', '1', 'X', '94.17', '2021-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Out of Bounds', 1, 'X', '2', 'X', '37.42', '2021-11-19', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Judge and the Assassin, 1, The (Juge et l''assassin, Le)', 1, 'X', '3', 'X', '14.65', '2022-12-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Truman Show, The', 1, 'X', '2', 'X', '37.86', '2021-11-22', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Caltiki the Undying Monster', 1, 'X', '2', 'X', '26.16', '2022-11-13', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Lone Wolf and Cub: Sword of Vengeance (Kozure Ôkami: Kowokashi udekashi tsukamatsuru)', 1, 'X', '3', 'X', '39.59', '2021-11-21', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Jam', 1, 'X', '2', 'X', '71.47', '2021-11-28', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Reunion', 1, 'X', '2', 'X', '15.12', '2021-11-28', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Beethoven''s 2nd', 1, 'X', '3', 'X', '26.91', '2021-11-18', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Silent Trigger', 1, 'X', '3', 'X', '19.18', '2022-11-15', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Taking Care of Business', 1, 'X', '1', 'X', '43.55', '2021-11-27', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Private Eyes, The', 1, 'X', '2', 'X', '85.43', '2021-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Childhood of Maxim Gorky, The (Detstvo Gorkogo)', 1, 'X', '3', 'X', '19.14', '2021-11-13', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('The Hire: Powder Keg', 1, 'X', '1', 'X', '57.95', '2021-12-13', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Tarzan Escapes', 1, 'X', '2', 'X', '87.66', '2021-11-28', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Fog of War: Eleven Lessons from the Life of Robert S. McNamara, The', 1, 'X', '3', 'X', '13.27', '2022-11-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Angel''s Leap', 1, 'X', '1', 'X', '12.54', '2021-11-16', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Davy Crockett, King of the Wild Frontier', 1, 'X', '2', 'X', '77.11', '2022-11-11', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Don', 1, 'X', '2', 'X', '51.21', '2022-11-28', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Gorko!', 1, 'X', '2', 'X', '59.88', '2022-11-13', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Spring Break', 1, 'X', '3', 'X', '58.28', '2022-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Man''s Castle', 1, 'X', '3', 'X', '38.11', '2021-11-17', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Booker''s Place: A Mississippi Story', 1, 'X', '3', 'X', '13.49', '2021-11-28', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Only the Young', 1, 'X', '3', 'X', '47.21', '2022-11-22', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Ricky', 1, 'X', '3', 'X', '27.11', '2021-11-28', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Weirdsville', 1, 'X', '3', 'X', '91.79', '2022-11-24', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Playing for Time', 1, 'X', '1', 'X', '46.27', '2021-11-13', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Trekkies', 1, 'X', '3', 'X', '62.81', '2021-11-19', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Simply Irresistible', 1, 'X', '1', 'X', '71.53', '2022-12-13', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Tol''able David', 1, 'X', '3', 'X', '79.49', '2022-11-21', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Georg', 1, 'X', '3', 'X', '78.93', '2021-12-25', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Climb, The', 1, 'X', '3', 'X', '72.99', '2021-11-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Map of the Sounds of Tokyo', 1, 'X', '3', 'X', '48.73', '2021-11-27', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Russia House, The', 1, 'X', '3', 'X', '64.11', '2021-11-18', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Last Stop 174 (Última Parada 174) ', 1, 'X', '1', 'X', '11.16', '2022-11-28', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('It''s Alive', 1, 'X', '2', 'X', '67.27', '2021-11-28', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Diên Biên Phú', 1, 'X', '2', 'X', '45.84', '2022-12-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Devil''s Pond', 1, 'X', '2', 'X', '71.82', '2021-12-19', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('281 Miles to Heaven (281 Mil do Nieba)', 1, 'X', '3', 'X', '64.15', '2021-11-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Tiger Eyes', 1, 'X', '3', 'X', '67.17', '2021-11-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Tremors 3: Back to Perfection', 1, 'X', '3', 'X', '21.59', '2021-12-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Woman in the Moon (By Rocket to the Moon) (Frau im Mond)', 1, 'X', '1', 'X', '42.63', '2021-11-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Second Best', 1, 'X', '3', 'X', '12.46', '2021-11-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Godzilla, King of the Monsters! (Kaijû-ô Gojira)', 1, 'X', '2', 'X', '22.42', '2021-11-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Human Factor, The', 1, 'X', '2', 'X', '46.28', '2021-11-28', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Ricochet', 1, 'X', '3', 'X', '34.89', '2022-12-23', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Empire of the Sun', 1, 'X', '3', 'X', '11.81', '2022-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Tycoon (Oligarkh)', 1, 'X', '3', 'X', '88.73', '2021-12-18', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Let It Snow', 1, 'X', '2', 'X', '62.25', '2021-11-17', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Candleshoe', 1, 'X', '3', 'X', '33.25', '2021-12-16', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Finisterrae', 1, 'X', '2', 'X', '82.18', '2021-11-19', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Samurai Banners (Fûrin kazan)', 1, 'X', '3', 'X', '39.17', '2022-11-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Always Tell Your Wife', 1, 'X', '3', 'X', '71.23', '2021-12-24', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Full Speed (À toute vitesse)', 1, 'X', '3', 'X', '48.34', '2021-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Collector, The', 1, 'X', '1', 'X', '11.15', '2021-11-21', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Essential Killing', 1, 'X', '3', 'X', '66.97', '2021-11-17', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Blaise Pascal', 1, 'X', '1', 'X', '24.18', '2021-11-23', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('AVP: Alien vs. Predator', 1, 'X', '3', 'X', '37.54', '2021-11-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Two Men in Manhattan (Deux hommes dans Manhattan)', 1, 'X', '2', 'X', '11.37', '2022-12-26', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Smart People', 1, 'X', '3', 'X', '87.62', '2022-11-17', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Diary of a Wimpy Kid: Dog Days', 1, 'X', '3', 'X', '22.36', '2021-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Backlight', 1, 'X', '2', 'X', '48.46', '2021-11-28', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Devil and Daniel Johnston, The', 1, 'X', '1', 'X', '21.25', '2022-12-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Bunch Of Amateurs, A', 1, 'X', '3', 'X', '17.41', '2022-11-14', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Theodora Goes Wild', 1, 'X', '3', 'X', '61.71', '2021-11-14', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Palme', 1, 'X', '2', 'X', '11.67', '2021-11-14', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Dimples', 1, 'X', '3', 'X', '17.37', '2021-11-15', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Battleship', 1, 'X', '2', 'X', '91.71', '2021-11-12', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Palermo Shooting', 1, 'X', '2', 'X', '28.19', '2021-11-11', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Martin', 1, 'X', '2', 'X', '81.11', '2021-11-27', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Zoolander', 1, 'X', '2', 'X', '26.85', '2021-11-22', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('The Four Feathers', 1, 'X', '3', 'X', '64.28', '2021-11-14', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Boys, The (Pojat)', 1, 'X', '2', 'X', '58.18', '2021-11-28', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('My Mom''s New Boyfriend', 1, 'X', '2', 'X', '59.35', '2021-11-12', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('History of the Eagles', 1, 'X', '3', 'X', '21.35', '2021-11-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Death on the Staircase (Soupçons)', 1, 'X', '2', 'X', '19.83', '2022-11-11', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Broadway Bill', 1, 'X', '3', 'X', '15.56', '2021-11-12', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Reality Bites', 1, 'X', '3', 'X', '68.51', '2021-11-18', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Revenge of the Nerds', 1, 'X', '2', 'X', '72.76', '2021-11-11', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Verbo', 1, 'X', '1', 'X', '36.65', '2021-11-18', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('River, The', 1, 'X', '3', 'X', '11.22', '2022-11-17', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Reefer Madness: The Movie Musical', 1, 'X', '2', 'X', '47.52', '2021-11-21', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Time to Die (Tiempo de morir)', 1, 'X', '3', 'X', '85.81', '2021-11-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Bears', 1, 'X', '1', 'X', '57.73', '2022-11-21', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Stay', 1, 'X', '3', 'X', '84.16', '2021-12-26', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Sugar Curtain, The (El telón de azúcar)', 1, 'X', '1', 'X', '82.27', '2021-11-22', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Passenger, The (Professione: reporter)', 1, 'X', '3', 'X', '26.41', '2022-11-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Harrison''s Flowers', 1, 'X', '2', 'X', '28.28', '2021-11-24', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('To Tulsa and Back: On Tour with J.J. Cale', 1, 'X', '2', 'X', '76.19', '2021-11-25', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Guardians of the Galaxy', 1, 'X', '2', 'X', '55.92', '2021-11-24', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Looking for Mr. Goodbar', 1, 'X', '2', 'X', '36.65', '2022-11-13', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('American Hustle', 1, 'X', '1', 'X', '18.73', '2022-11-24', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('With Byrd at the South Pole', 1, 'X', '3', 'X', '53.77', '2021-11-15', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('International House', 1, 'X', '3', 'X', '63.98', '2022-11-18', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Notti bianche, Le (White Nights)', 1, 'X', '2', 'X', '71.58', '2021-11-12', '2');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Shit Year', 1, 'X', '2', 'X', '88.11', '2021-11-14', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Seven Swords (Chat gim)', 1, 'X', '2', 'X', '58.43', '2021-11-19', '1');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Incir Reçeli', 1, 'X', '3', 'X', '51.43', '2021-11-18', '3');
+insert into book_header (book_title, quantity, description, edition, icon, price, release_date, publishing_house_id) values ('Day of the Triffids, The', 1, 'X', '2', 'X', '91.61', '2021-11-18', '2');
 
 INSERT INTO book_author (book_header_id,author_id)
 VALUES
@@ -432,35 +436,6 @@ VALUES
   ('Ordered'),
   ('Payed'),
   ('Canceled');
-  
-  
-  
-  
-  
-
-
-INSERT INTO warehouse (quantity, book_header_id)
-VALUES
-  (57,42),
-  (81,1),
-  (82,26),
-  (69,84),
-  (4,84),
-  (65,9),
-  (73,18),
-  (99,21),
-  (16,48),
-  (1,22),
-  (66,71),
-  (41,41),
-  (36,81),
-  (45,69),
-  (84,89),
-  (99,18),
-  (61,91),
-  (7,85),
-  (39,92),
-  (65,72);
 
 
   
