@@ -1,13 +1,15 @@
 package com.example.bookstore.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.example.bookstore.model.role.ERole;
-import com.example.bookstore.model.role.Role;
-import com.example.bookstore.model.Users;
+import com.example.bookstore.model.entities.role.ERole;
+import com.example.bookstore.model.entities.role.Role;
+import com.example.bookstore.model.entities.Users;
 import com.example.bookstore.payload.request.LoginRequest;
 import com.example.bookstore.payload.request.SignupRequest;
 import com.example.bookstore.payload.response.JwtResponse;
@@ -15,10 +17,13 @@ import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.repository.RoleRepository;
 import com.example.bookstore.repository.UserRepository;
 import com.example.bookstore.jwt.JwtUtils;
+import com.example.bookstore.service.userDetailsService.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,19 +70,28 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        String jwt = jwtUtils.generateJwtToken(authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.getLogin(),
-                                loginRequest.getPassword())));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new JwtResponse(
+                jwt,
+                "Bearer",
+                0L,
+                userDetails.getUsername(),
+                roles));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
-        if (userRepository.existsByLogin(signUpRequest.getLogin())) {
+        if (userRepository.existsByLogin(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
@@ -86,11 +100,11 @@ public class AuthController {
         Users user;
         try {
              user = new Users(
-                    signUpRequest.getLogin(),
+                    signUpRequest.getUsername(),
                     encoder.encode(signUpRequest.getPassword()),
                     signUpRequest.getName(),
-                    signUpRequest.getSurname(),
-                    Integer.parseInt(signUpRequest.getPhoneNumber()));
+                    signUpRequest.getSname(),
+                    Integer.parseInt(signUpRequest.getPhone()));
         }catch (NumberFormatException e){
             throw new RuntimeException("Error: Wrong phone number");
         }

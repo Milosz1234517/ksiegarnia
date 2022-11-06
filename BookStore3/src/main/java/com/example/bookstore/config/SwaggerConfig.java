@@ -1,5 +1,6 @@
 package com.example.bookstore.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,11 @@ import static java.util.Collections.singletonList;
 public class SwaggerConfig {
 
 //    http://localhost:8080/swagger-ui.html
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     @Bean
     public Docket swaggerApi() {

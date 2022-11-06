@@ -1,4 +1,4 @@
-package com.example.bookstore.model.role;
+package com.example.bookstore.model.entities.role;
 
 public enum ERole {
   ROLE_USER,

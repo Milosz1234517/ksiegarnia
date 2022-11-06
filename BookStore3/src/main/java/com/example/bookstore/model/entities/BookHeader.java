@@ -1,4 +1,4 @@
-package com.example.bookstore.model;
+package com.example.bookstore.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -45,6 +45,7 @@ public class BookHeader {
     @Basic
     @Column(name = "price", nullable = false, precision = 2)
     private BigDecimal price;
+
 
     @ManyToMany()
     @JoinTable(

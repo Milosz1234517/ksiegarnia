@@ -1,6 +1,5 @@
-package com.example.bookstore.model.role;
+package com.example.bookstore.model.entities.role;
 
-import com.example.bookstore.model.role.ERole;
 import lombok.Getter;
 import lombok.Setter;
 
