@@ -5,10 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthorDTO {
+public class CategoryDTO {
 
-    private String name;
-
-    private String surname;
-
+    private String description;
 }

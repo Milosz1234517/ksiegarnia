@@ -17,16 +17,14 @@ public class BookHeaderDTO {
 
     private String bookTitle;
 
-    private Integer quantity;
+    private Collection<Author> authors;
+
+    private Collection<CategoryDTO> bookCategories;
 
     private String icon;
 
-    private BigDecimal price;
-
-    private Collection<AuthorDTO> authors;
-
-    private Collection<Category> bookCategories;
-
     private PublishingHouse publishingHouse;
+
+    private String description;
 
 }

@@ -12,23 +12,5 @@ import java.util.List;
 @Repository
 public interface BookHeaderRepository extends JpaRepository<BookHeader, Long> {
 
-    List<BookHeader> findByBookTitleLikeIgnoreCase(
-            String bookTitle,
-            Pageable pageable
-    );
-
-    List<BookHeader> findByQuantityGreaterThan(
-            Integer quantity,
-            Pageable pageable
-    );
-
-    List<BookHeader> findByBookTitleLikeIgnoreCaseAndBookCategories_Description(
-            String bookTitle,
-            String description,
-            Pageable pageable
-    );
-
-
-
 }
 

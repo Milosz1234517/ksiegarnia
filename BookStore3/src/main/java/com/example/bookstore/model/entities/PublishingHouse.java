@@ -1,5 +1,6 @@
 package com.example.bookstore.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class PublishingHouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "publishing_house_id", nullable = false)
+    @JsonIgnore
     private int publishingHouseId;
 
     @Basic

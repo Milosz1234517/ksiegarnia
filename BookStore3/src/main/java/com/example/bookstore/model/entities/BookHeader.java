@@ -1,6 +1,8 @@
 package com.example.bookstore.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,10 +26,6 @@ public class BookHeader {
     @Column(name = "book_title", nullable = false, length = 255)
     private String bookTitle;
 
-    @Basic
-    @Column(name = "quantity")
-    private Integer quantity;
-
     @Column(name = "release_date")
     private Date releaseDate;
 
@@ -42,10 +40,6 @@ public class BookHeader {
     @Basic
     @Column(name = "icon", length = 15)
     private String icon;
-
-    @Basic
-    @Column(name = "price", nullable = false, precision = 2)
-    private BigDecimal price;
 
 
     @ManyToMany()
@@ -69,5 +63,4 @@ public class BookHeader {
 
     @OneToMany(mappedBy = "bookHeader", cascade = CascadeType.ALL)
     private Collection<BookReviews> bookReviews;
-
 }
