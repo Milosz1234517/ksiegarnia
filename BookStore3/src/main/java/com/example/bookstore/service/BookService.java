@@ -1,18 +1,14 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.model.dto.BookHeaderDTO;
-import com.example.bookstore.model.dto.Test;
+import com.example.bookstore.model.dto.BookReviewsDTO;
 import com.example.bookstore.model.dto.WarehouseDTO;
-import com.example.bookstore.model.entities.BookHeader;
+import com.example.bookstore.model.entities.BookReviews;
 import com.example.bookstore.model.entities.Warehouse;
-import com.example.bookstore.repository.AuthorRepository;
-import com.example.bookstore.repository.BookHeaderRepository;
-import com.example.bookstore.repository.CategoryRepository;
-import com.example.bookstore.repository.WarehouseRepository;
+import com.example.bookstore.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +21,16 @@ import java.util.stream.Collectors;
 public class BookService {
 
     BookHeaderRepository bookHeaderRepository;
-
     WarehouseRepository warehouseRepository;
     AuthorRepository authorRepository;
-
     CategoryRepository categoryRepository;
+    BookReviewsRepository bookReviewsRepository;
     ModelMapper modelMapper;
+
+    @Autowired
+    public void setBookReviewsRepository(BookReviewsRepository bookReviewsRepository) {
+        this.bookReviewsRepository = bookReviewsRepository;
+    }
 
     @Autowired
     public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
@@ -66,33 +66,6 @@ public class BookService {
                 .stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
                 .collect(Collectors.toList());
-    }
-
-    public List<WarehouseDTO> searchBooksByTitleCategory(String title, String category, Integer page) {
-        return warehouseRepository
-                .findByBookHeader_BookTitleLikeIgnoreCaseAndBookHeader_BookCategories_Description(
-                        "%" + title + "%",
-                        category,
-                        PageRequest.of(--page, 20)
-                )
-                .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
-                .toList();
-    }
-
-    public List<WarehouseDTO> searchBooksByTitleCategoryPrice(
-            String title, String category, String priceLow, String priceHigh, Integer page) {
-        throw new RuntimeException();
-    }
-
-    public List<WarehouseDTO> searchBooksByCategoryPrice(
-            String title, String priceLow, String priceHigh, Integer page) {
-        throw new RuntimeException();
-    }
-
-    public List<WarehouseDTO> searchBooksByTitlePrice(
-            String title, String priceLow, String priceHigh, Integer page) {
-        throw new RuntimeException();
     }
 
     public static Specification<Warehouse> nameContains(String expression) {
@@ -138,18 +111,18 @@ public class BookService {
     }
 
     public static Specification<Warehouse> priceLow(Integer price) {
-        return (root, query, builder) -> builder.lessThan(root.get("price"), price);
+        return (root, query, builder) -> builder.greaterThan(root.get("price"), price);
     }
 
     public static Specification<Warehouse> priceHigh(Integer price) {
-        return (root, query, builder) -> builder.greaterThan(root.get("price"), price);
+        return (root, query, builder) -> builder.lessThan(root.get("price"), price);
     }
 
     private static String contains(String expression) {
         return MessageFormat.format("%{0}%", expression);
     }
 
-    public List<WarehouseDTO> searchBooksByAuthor(
+    public List<WarehouseDTO> searchBooksFilter(
             String authorName,
             String authorSurname,
             String title,
@@ -173,16 +146,12 @@ public class BookService {
                 .toList();
     }
 
-    public List<WarehouseDTO> getAllAvailableBooks(Integer page) {
-        return warehouseRepository
-                .findByQuantityGreaterThan(
-                        0,
-                        PageRequest.of(--page, 20)
-                )
+    public List<BookReviewsDTO> getBookReviews(Integer bookHeaderId, Integer page) {
+        return bookReviewsRepository
+                .findByBookHeader_BookHeaderId(bookHeaderId, PageRequest.of(--page, 20))
                 .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
+                .map(bookReviews -> modelMapper
+                        .map(bookReviews, BookReviewsDTO.class))
                 .toList();
     }
-
-
 }

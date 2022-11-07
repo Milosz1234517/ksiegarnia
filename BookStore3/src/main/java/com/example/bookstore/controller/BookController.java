@@ -1,14 +1,12 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.BookHeaderDTO;
+import com.example.bookstore.model.dto.BookReviewsDTO;
 import com.example.bookstore.model.dto.WarehouseDTO;
-import com.example.bookstore.model.entities.Category;
+import com.example.bookstore.model.entities.BookReviews;
 import com.example.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,25 +26,21 @@ public class BookController {
         return bookService.searchBooksByTitle(title, page);
     }
 
-    @GetMapping("/getBooksByAuthor")
+    @GetMapping("/getBooksFilter")
     public List<WarehouseDTO> searchBooksByAuthor(
             String name,
             String surname,
             String title,
             Integer priceLow,
             Integer priceHigh,
-            Boolean available,
+            @RequestParam Boolean available,
             @RequestParam Integer page) {
-        return bookService.searchBooksByAuthor(name, surname, title, priceLow, priceHigh, page, available);
+        return bookService.searchBooksFilter(name, surname, title, priceLow, priceHigh, page, available);
     }
 
-    @GetMapping("/getBooksByTitleCategory")
-    public List<WarehouseDTO> searchBooksByTitleCategory(String title, String category, Integer page) {
-        return bookService.searchBooksByTitleCategory(title, category, page);
+    @GetMapping("/getBookReviews")
+    public List<BookReviewsDTO> getBookReviews(@RequestParam Integer bookHeaderId, @RequestParam Integer page) {
+        return bookService.getBookReviews(bookHeaderId, page);
     }
 
-    @GetMapping("/getHomePageBooks")
-    public List<WarehouseDTO> getHomepageBooks(@RequestParam Integer page) {
-        return bookService.getAllAvailableBooks(page);
-    }
 }

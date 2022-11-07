@@ -60,7 +60,4 @@ public class BookHeader {
     @JoinColumn(name = "publishing_house_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private PublishingHouse publishingHouse;
-
-    @OneToMany(mappedBy = "bookHeader", cascade = CascadeType.ALL)
-    private Collection<BookReviews> bookReviews;
 }
