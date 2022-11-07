@@ -14,6 +14,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "book_header", schema = "public", catalog = "BookStore")
 public class BookHeader {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "book_header_id", nullable = false)
@@ -53,6 +54,13 @@ public class BookHeader {
             joinColumns = @JoinColumn(name = "book_header_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Collection<Author> bookAuthors;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "book_category",
+            joinColumns = @JoinColumn(name = "book_header_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Collection<Category> bookCategories;
 
     @ManyToOne(targetEntity = PublishingHouse.class)
     @JoinColumn(name = "publishing_house_id")

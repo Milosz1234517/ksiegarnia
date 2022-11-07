@@ -34,7 +34,6 @@ public class BookReviews {
     private BookHeader bookHeader;
 
 
-//    @JsonIgnore
     @ManyToOne(targetEntity = Users.class)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

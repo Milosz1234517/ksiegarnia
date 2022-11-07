@@ -23,4 +23,11 @@ public class Author {
     @Basic
     @Column(name = "surname", length = 15)
     private String surname;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_header_id"))
+    private Collection<BookHeader> bookHeaders;
 }
