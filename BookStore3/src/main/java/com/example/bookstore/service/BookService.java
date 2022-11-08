@@ -2,13 +2,13 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.model.dto.BookReviewsDTO;
 import com.example.bookstore.model.dto.WarehouseDTO;
-import com.example.bookstore.model.entities.BookReviews;
-import com.example.bookstore.model.entities.Warehouse;
+import com.example.bookstore.model.entities.*;
+import com.example.bookstore.payload.request.BookCreateRequest;
 import com.example.bookstore.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,17 @@ import java.util.stream.Collectors;
 public class BookService {
 
     BookHeaderRepository bookHeaderRepository;
+    PublishingHouseRepository publishingHouseRepository;
     WarehouseRepository warehouseRepository;
     AuthorRepository authorRepository;
     CategoryRepository categoryRepository;
     BookReviewsRepository bookReviewsRepository;
     ModelMapper modelMapper;
+
+    @Autowired
+    public void setPublishingHouseRepository(PublishingHouseRepository publishingHouseRepository) {
+        this.publishingHouseRepository = publishingHouseRepository;
+    }
 
     @Autowired
     public void setBookReviewsRepository(BookReviewsRepository bookReviewsRepository) {
@@ -69,41 +75,46 @@ public class BookService {
     }
 
     public static Specification<Warehouse> nameContains(String expression) {
-        return (root, query, builder) -> builder
-                .like(
-                        builder.upper(
-                                root
-                                        .join("bookHeader")
-                                        .join("bookAuthors")
-                                        .get("name")
-                        ),
-                        contains(expression).toUpperCase()
-                );
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder
+                    .like(
+                            builder.upper(
+                                    root
+                                            .join("bookHeader")
+                                            .join("bookAuthors")
+                                            .get("name")
+                            ),
+                            contains(expression).toUpperCase()
+                    );
+        };
     }
 
     public static Specification<Warehouse> titleContains(String expression) {
         return (root, query, builder) -> builder
                 .like(
-                        builder.upper(
-                                root
-                                        .join("bookHeader")
-                                        .get("bookTitle")
-                        ),
-                        contains(expression).toUpperCase()
+                        root
+                                .join("bookHeader")
+                                .get("bookTitle"),
+                        contains(expression)
                 );
     }
 
     public static Specification<Warehouse> surnameContains(String expression) {
-        return (root, query, builder) -> builder
-                .like(
-                        builder.upper(
-                                root
-                                        .join("bookHeader")
-                                        .join("bookAuthors")
-                                        .get("surname")
-                        ),
-                        contains(expression).toUpperCase()
-                );
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder
+                    .like(
+                            builder.upper(
+                                    root
+                                            .join("bookHeader")
+                                            .join("bookAuthors")
+                                            .get("surname")
+                            ),
+                            contains(expression).toUpperCase()
+                    );
+        };
+
     }
 
     public static Specification<Warehouse> availableBooks() {
@@ -130,6 +141,7 @@ public class BookService {
             Integer priceHigh,
             Integer page,
             Boolean available) {
+
         return warehouseRepository
                 .findAll(
                         Specification
@@ -140,9 +152,9 @@ public class BookService {
                                 .and(priceHigh == null ? null : priceHigh(priceHigh))
                                 .and(available ? availableBooks() : null),
                         PageRequest.of(--page, 20)
-                )
-                .stream()
+                ).stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
+                .distinct()
                 .toList();
     }
 
@@ -153,5 +165,9 @@ public class BookService {
                 .map(bookReviews -> modelMapper
                         .map(bookReviews, BookReviewsDTO.class))
                 .toList();
+    }
+
+    public BookHeader addBook(BookCreateRequest bookCreateRequest) {
+        throw new RuntimeException();
     }
 }

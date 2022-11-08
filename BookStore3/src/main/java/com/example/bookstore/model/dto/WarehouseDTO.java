@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 public class WarehouseDTO {
 
-    private int bookHeaderId;
+    private Integer itemId;
 
     private Integer quantity;
 

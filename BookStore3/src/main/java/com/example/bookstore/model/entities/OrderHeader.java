@@ -36,7 +36,7 @@ public class OrderHeader {
     private Date realizationDate;
 
     @Basic
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)

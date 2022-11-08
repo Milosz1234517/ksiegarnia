@@ -12,11 +12,9 @@ import javax.persistence.*;
 @Table(name = "Publishing_House", schema = "public", catalog = "BookStore")
 public class PublishingHouse {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "publishing_house_id", nullable = false)
-    @JsonIgnore
-    private int publishingHouseId;
+    private String publishingHouseId;
 
     @Basic
     @Column(name = "name", nullable = false, length = 15)

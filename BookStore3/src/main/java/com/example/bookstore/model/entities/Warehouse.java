@@ -8,19 +8,16 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@Data
 @Table(name = "warehouse", schema = "public", catalog = "BookStore")
 public class Warehouse {
 
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "item_id", nullable = false)
     private Integer itemId;
 
     @Basic
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Basic
@@ -31,8 +28,4 @@ public class Warehouse {
     @JoinColumn(name = "book_header_id", referencedColumnName = "book_header_id")
     private BookHeader bookHeader;
 
-
-    public Warehouse() {
-
-    }
 }

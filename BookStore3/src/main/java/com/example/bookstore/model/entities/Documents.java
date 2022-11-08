@@ -22,7 +22,7 @@ public class Documents {
 
     @Basic
     @Column(name = "description")
-    private Integer description;
+    private String description;
 
     @ManyToOne(targetEntity = OrderHeader.class)
     @JoinColumn(name = "order_id")

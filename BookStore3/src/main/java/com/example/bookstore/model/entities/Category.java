@@ -13,14 +13,12 @@ import java.util.Collection;
 @Table(name = "category", schema = "public", catalog = "BookStore")
 public class Category {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "category_id", nullable = false)
-    @JsonIgnore
-    private int categoryId;
+    private String categoryId;
 
     @Basic
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @ManyToMany()

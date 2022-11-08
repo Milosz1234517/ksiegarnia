@@ -1,8 +1,12 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.model.dto.BookHeaderCreateDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO;
 import com.example.bookstore.model.dto.BookReviewsDTO;
 import com.example.bookstore.model.dto.WarehouseDTO;
+import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.BookReviews;
+import com.example.bookstore.payload.request.BookCreateRequest;
 import com.example.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +45,11 @@ public class BookController {
     @GetMapping("/getBookReviews")
     public List<BookReviewsDTO> getBookReviews(@RequestParam Integer bookHeaderId, @RequestParam Integer page) {
         return bookService.getBookReviews(bookHeaderId, page);
+    }
+
+    @PostMapping("/addBook")
+    public BookHeader addBook(@RequestBody BookCreateRequest bookCreateRequest){
+        return bookService.addBook(bookCreateRequest);
     }
 
 }
