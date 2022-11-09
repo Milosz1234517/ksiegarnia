@@ -13,11 +13,12 @@ import java.util.Collection;
 public class OrderStatus {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "status_id", nullable = false)
-    private String statusId;
+    private Integer statusId;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", unique = true)
     private String description;
 
     @OneToMany(mappedBy = "orderStatus", cascade = CascadeType.ALL)

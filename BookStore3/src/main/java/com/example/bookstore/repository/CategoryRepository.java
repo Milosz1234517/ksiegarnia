@@ -3,11 +3,8 @@ package com.example.bookstore.repository;
 import com.example.bookstore.model.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-
-    Category findByDescription(String description);
-
+    Optional<Category> findByDescription(String description);
 }

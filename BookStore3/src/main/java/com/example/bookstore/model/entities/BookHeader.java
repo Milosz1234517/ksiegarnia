@@ -1,8 +1,6 @@
 package com.example.bookstore.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +39,14 @@ public class BookHeader {
     @Column(name = "icon", length = 15)
     private String icon;
 
+    @Basic
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @Basic
+    @Column(name = "price", nullable = false, precision = 6, scale = 2)
+    private BigDecimal price;
+
 
     @ManyToMany()
     @JoinTable(
@@ -60,4 +66,7 @@ public class BookHeader {
     @JoinColumn(name = "publishing_house_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private PublishingHouse publishingHouse;
+
+    @OneToMany(mappedBy = "reviewId", cascade = CascadeType.ALL)
+    Collection<BookReviews> bookReviews;
 }

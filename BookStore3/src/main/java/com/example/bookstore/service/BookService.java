@@ -1,19 +1,23 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.model.dto.BookReviewsDTO;
-import com.example.bookstore.model.dto.WarehouseDTO;
-import com.example.bookstore.model.entities.*;
-import com.example.bookstore.payload.request.BookCreateRequest;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderNoIdDTO;
+import com.example.bookstore.model.entities.Author;
+import com.example.bookstore.model.entities.BookHeader;
+import com.example.bookstore.model.entities.Category;
+import com.example.bookstore.model.entities.PublishingHouse;
 import com.example.bookstore.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -22,7 +26,6 @@ public class BookService {
 
     BookHeaderRepository bookHeaderRepository;
     PublishingHouseRepository publishingHouseRepository;
-    WarehouseRepository warehouseRepository;
     AuthorRepository authorRepository;
     CategoryRepository categoryRepository;
     BookReviewsRepository bookReviewsRepository;
@@ -36,11 +39,6 @@ public class BookService {
     @Autowired
     public void setBookReviewsRepository(BookReviewsRepository bookReviewsRepository) {
         this.bookReviewsRepository = bookReviewsRepository;
-    }
-
-    @Autowired
-    public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
     }
 
     @Autowired
@@ -63,25 +61,24 @@ public class BookService {
         this.authorRepository = authorRepository;
     }
 
-    public List<WarehouseDTO> searchBooksByTitle(String bookTitle, Integer page) {
-        return warehouseRepository
-                .findByBookHeader_BookTitleLikeIgnoreCase(
+    public List<BookHeaderDTO> searchBooksByTitle(String bookTitle, Integer page) {
+        return bookHeaderRepository
+                .findByBookTitleLikeIgnoreCase(
                         "%" + bookTitle + "%",
                         PageRequest.of(--page, 20)
                 )
                 .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public static Specification<Warehouse> nameContains(String expression) {
+    private static Specification<BookHeader> nameContains(String expression) {
         return (root, query, builder) -> {
             query.distinct(true);
             return builder
                     .like(
                             builder.upper(
                                     root
-                                            .join("bookHeader")
                                             .join("bookAuthors")
                                             .get("name")
                             ),
@@ -90,24 +87,22 @@ public class BookService {
         };
     }
 
-    public static Specification<Warehouse> titleContains(String expression) {
+    private static Specification<BookHeader> titleContains(String expression) {
         return (root, query, builder) -> builder
                 .like(
                         root
-                                .join("bookHeader")
                                 .get("bookTitle"),
                         contains(expression)
                 );
     }
 
-    public static Specification<Warehouse> surnameContains(String expression) {
+    private static Specification<BookHeader> surnameContains(String expression) {
         return (root, query, builder) -> {
             query.distinct(true);
             return builder
                     .like(
                             builder.upper(
                                     root
-                                            .join("bookHeader")
                                             .join("bookAuthors")
                                             .get("surname")
                             ),
@@ -117,15 +112,15 @@ public class BookService {
 
     }
 
-    public static Specification<Warehouse> availableBooks() {
+    private static Specification<BookHeader> availableBooks() {
         return (root, query, builder) -> builder.greaterThan(root.get("quantity"), 0);
     }
 
-    public static Specification<Warehouse> priceLow(Integer price) {
+    private static Specification<BookHeader> priceLow(Integer price) {
         return (root, query, builder) -> builder.greaterThan(root.get("price"), price);
     }
 
-    public static Specification<Warehouse> priceHigh(Integer price) {
+    private static Specification<BookHeader> priceHigh(Integer price) {
         return (root, query, builder) -> builder.lessThan(root.get("price"), price);
     }
 
@@ -133,7 +128,7 @@ public class BookService {
         return MessageFormat.format("%{0}%", expression);
     }
 
-    public List<WarehouseDTO> searchBooksFilter(
+    public List<BookHeaderDTO> searchBooksFilter(
             String authorName,
             String authorSurname,
             String title,
@@ -142,7 +137,7 @@ public class BookService {
             Integer page,
             Boolean available) {
 
-        return warehouseRepository
+        return bookHeaderRepository
                 .findAll(
                         Specification
                                 .where(authorName == null ? null : nameContains(authorName))
@@ -153,21 +148,61 @@ public class BookService {
                                 .and(available ? availableBooks() : null),
                         PageRequest.of(--page, 20)
                 ).stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, WarehouseDTO.class))
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .distinct()
                 .toList();
     }
 
-    public List<BookReviewsDTO> getBookReviews(Integer bookHeaderId, Integer page) {
-        return bookReviewsRepository
-                .findByBookHeader_BookHeaderId(bookHeaderId, PageRequest.of(--page, 20))
+    public List<BookHeaderDetailsDTO> getBookWithDetails(Integer bookHeaderId) {
+        return bookHeaderRepository
+                .findByBookHeaderId(bookHeaderId)
                 .stream()
-                .map(bookReviews -> modelMapper
-                        .map(bookReviews, BookReviewsDTO.class))
+                .map(bookHeader -> modelMapper
+                        .map(bookHeader, BookHeaderDetailsDTO.class))
                 .toList();
     }
 
-    public BookHeader addBook(BookCreateRequest bookCreateRequest) {
-        throw new RuntimeException();
+    public void addBook(BookHeaderNoIdDTO bookHeaderDTO) {
+        setCategories(bookHeaderDTO);
+        setAuthors(bookHeaderDTO);
+        setPublishingHouse(bookHeaderDTO);
+
+        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
     }
+
+    private void setPublishingHouse(BookHeaderNoIdDTO bookHeaderDTO) {
+        Optional<PublishingHouse> publishingHouse = publishingHouseRepository
+                .findByName(bookHeaderDTO.getPublishingHouse().getName());
+
+        if (publishingHouse.isEmpty())
+            publishingHouseRepository.save(bookHeaderDTO.getPublishingHouse());
+        else
+            bookHeaderDTO.getPublishingHouse().setPublishingHouseId(publishingHouse.get().getPublishingHouseId());
+    }
+
+    private void setAuthors(BookHeaderNoIdDTO bookHeaderDTO) {
+        bookHeaderDTO
+                .getAuthors()
+                .forEach(author -> {
+                    Optional<Author> aut = authorRepository
+                            .findByNameIgnoreCaseAndSurnameIgnoreCase(author.getName(), author.getSurname());
+                    if (aut.isEmpty())
+                        authorRepository.save(author);
+                    else
+                        author.setAuthorId(aut.get().getAuthorId());
+                });
+    }
+
+    private void setCategories(BookHeaderNoIdDTO bookHeaderDTO) {
+        bookHeaderDTO
+                .getBookCategories()
+                .forEach(category -> {
+                    Optional<Category> cat = categoryRepository.findByDescription(category.getDescription());
+                    if (cat.isEmpty())
+                        cat = Optional.of(categoryRepository.save(modelMapper.map(category, Category.class)));
+                    category.setCategoryId(cat.get().getCategoryId());
+                });
+    }
+
+
 }

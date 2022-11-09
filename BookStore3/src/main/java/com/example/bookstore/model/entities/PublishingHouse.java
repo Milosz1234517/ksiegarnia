@@ -1,5 +1,6 @@
 package com.example.bookstore.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,15 +14,13 @@ import javax.persistence.*;
 public class PublishingHouse {
 
     @Id
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "publishing_house_id", nullable = false)
-    private String publishingHouseId;
+    private Integer publishingHouseId;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 15)
+    @Column(name = "name", length = 15, unique = true)
     private String name;
-
-    @Basic
-    @Column(name = "icon", length = 15)
-    private String icon;
 
 }

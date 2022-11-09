@@ -1,5 +1,7 @@
 package com.example.bookstore.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO {
 
-    private String categoryId;
+    @JsonIgnore
+    private Integer categoryId;
+
     private String description;
 }

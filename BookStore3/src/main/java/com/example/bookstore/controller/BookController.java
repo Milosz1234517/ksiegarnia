@@ -1,14 +1,12 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.BookHeaderCreateDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO;
-import com.example.bookstore.model.dto.BookReviewsDTO;
-import com.example.bookstore.model.dto.WarehouseDTO;
-import com.example.bookstore.model.entities.BookHeader;
-import com.example.bookstore.model.entities.BookReviews;
-import com.example.bookstore.payload.request.BookCreateRequest;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderNoIdDTO;
+import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +24,12 @@ public class BookController {
     }
 
     @GetMapping("/getBooksByTitle")
-    public List<WarehouseDTO> searchBooksByTitle(@RequestParam String title, @RequestParam Integer page) {
+    public List<BookHeaderDTO> searchBooksByTitle(@RequestParam String title, @RequestParam Integer page) {
         return bookService.searchBooksByTitle(title, page);
     }
 
     @GetMapping("/getBooksFilter")
-    public List<WarehouseDTO> searchBooksByAuthor(
+    public List<BookHeaderDTO> searchBooksByAuthor(
             String name,
             String surname,
             String title,
@@ -42,14 +40,15 @@ public class BookController {
         return bookService.searchBooksFilter(name, surname, title, priceLow, priceHigh, page, available);
     }
 
-    @GetMapping("/getBookReviews")
-    public List<BookReviewsDTO> getBookReviews(@RequestParam Integer bookHeaderId, @RequestParam Integer page) {
-        return bookService.getBookReviews(bookHeaderId, page);
+    @GetMapping("/getBookWithDetails")
+    public List<BookHeaderDetailsDTO> getBookReviews(@RequestParam Integer bookHeaderId) {
+        return bookService.getBookWithDetails(bookHeaderId);
     }
 
     @PostMapping("/addBook")
-    public BookHeader addBook(@RequestBody BookCreateRequest bookCreateRequest){
-        return bookService.addBook(bookCreateRequest);
+    public ResponseEntity<?> addBook(@RequestBody BookHeaderNoIdDTO bookHeaderDTO){
+        bookService.addBook(bookHeaderDTO);
+        return ResponseEntity.ok(new MessageResponse("Book added successfully"));
     }
 
 }

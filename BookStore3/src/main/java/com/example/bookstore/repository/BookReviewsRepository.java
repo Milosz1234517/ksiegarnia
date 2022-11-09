@@ -9,7 +9,4 @@ import java.util.List;
 
 @Repository
 public interface BookReviewsRepository extends JpaRepository<BookReviews, Integer> {
-    List<BookReviews> findByBookHeader_BookHeaderId(int bookHeaderId, Pageable pageable);
-
-
 }

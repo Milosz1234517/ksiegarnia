@@ -17,7 +17,7 @@ public class BookReviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "review_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     private int reviewId;
 
     @Basic
@@ -27,11 +27,6 @@ public class BookReviews {
     @Basic
     @Column(name = "mark", nullable = false)
     private int mark;
-
-    @ManyToOne(targetEntity = BookHeader.class)
-    @JoinColumn(name = "book_header_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private BookHeader bookHeader;
 
     @ManyToOne(targetEntity = Users.class)
     @JoinColumn(name = "user_id")

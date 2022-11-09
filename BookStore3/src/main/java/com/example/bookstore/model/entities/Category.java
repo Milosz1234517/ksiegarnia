@@ -14,11 +14,12 @@ import java.util.Collection;
 public class Category {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", nullable = false)
-    private String categoryId;
+    private Integer categoryId;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", unique = true)
     private String description;
 
     @ManyToMany()

@@ -1,12 +1,10 @@
 package com.example.bookstore.model.entities;
 
 import com.example.bookstore.model.entities.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +17,6 @@ public class Users {
     @Column(name = "user_id", nullable = false)
     private int userId;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -30,7 +27,6 @@ public class Users {
     @Column(name = "login", nullable = false, length = 20)
     private String login;
 
-    @JsonIgnore
     @Basic
     @Column(name = "password", nullable = false)
     private String password;
@@ -47,8 +43,8 @@ public class Users {
     @Column(name = "phone_number", nullable = false)
     private int phoneNumber;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Collection<BookReviews> bookReviewsByUserId;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Collection<BookReviews> bookReviewsByUserId;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private Collection<OrderHeader> orderHeadersByUserId;
