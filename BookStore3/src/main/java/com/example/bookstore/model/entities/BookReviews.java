@@ -18,7 +18,7 @@ public class BookReviews {
     @Id
     @Column(name = "review_id", nullable = false)
     @JsonBackReference
-    private int reviewId;
+    private Integer reviewId;
 
     @Basic
     @Column(name = "description")
@@ -32,5 +32,10 @@ public class BookReviews {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Users user;
+
+    @ManyToOne(targetEntity = BookHeader.class)
+    @JoinColumn(name = "book_header_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private BookHeader bookHeader;
 
 }

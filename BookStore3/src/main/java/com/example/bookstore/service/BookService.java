@@ -1,16 +1,16 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderNoIdDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.*;
 import com.example.bookstore.model.entities.Author;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.model.entities.PublishingHouse;
 import com.example.bookstore.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -22,44 +22,14 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    BookHeaderRepository bookHeaderRepository;
-    PublishingHouseRepository publishingHouseRepository;
-    AuthorRepository authorRepository;
-    CategoryRepository categoryRepository;
-    BookReviewsRepository bookReviewsRepository;
-    ModelMapper modelMapper;
-
-    @Autowired
-    public void setPublishingHouseRepository(PublishingHouseRepository publishingHouseRepository) {
-        this.publishingHouseRepository = publishingHouseRepository;
-    }
-
-    @Autowired
-    public void setBookReviewsRepository(BookReviewsRepository bookReviewsRepository) {
-        this.bookReviewsRepository = bookReviewsRepository;
-    }
-
-    @Autowired
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
-    @Autowired
-    public void setBookHeaderRepository(BookHeaderRepository bookHeaderRepository) {
-        this.bookHeaderRepository = bookHeaderRepository;
-    }
-
-    @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
+    private final BookHeaderRepository bookHeaderRepository;
+    private final PublishingHouseRepository publishingHouseRepository;
+    private final AuthorRepository authorRepository;
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     public List<BookHeaderDTO> searchBooksByTitle(String bookTitle, Integer page) {
         return bookHeaderRepository
@@ -70,6 +40,64 @@ public class BookService {
                 .stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<BookHeaderDTO> searchBooksFilter(
+            String authorName,
+            String authorSurname,
+            String title,
+            Integer priceLow,
+            Integer priceHigh,
+            Integer page,
+            Boolean available) {
+
+        return bookHeaderRepository
+                .findAll(
+                        Specification
+                                .where(authorName == null ? null : nameContains(authorName))
+                                .and(authorSurname == null ? null : surnameContains(authorSurname))
+                                .and(title == null ? null : titleContains(title))
+                                .and(priceLow == null ? null : priceLow(priceLow))
+                                .and(priceHigh == null ? null : priceHigh(priceHigh))
+                                .and(available ? availableBooks() : null),
+                        PageRequest.of(--page, 20)
+                ).stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
+                .distinct()
+                .toList();
+    }
+
+    public List<BookHeaderDetailsDTO> getBookWithDetails(Integer bookHeaderId) {
+        return bookHeaderRepository
+                .findByBookHeaderId(bookHeaderId)
+                .stream()
+                .map(bookHeader -> modelMapper
+                        .map(bookHeader, BookHeaderDetailsDTO.class))
+                .toList();
+    }
+
+    public void addBook(BookHeaderDetailsIdIgnoreDTO bookHeaderDTO) {
+        setCategories(bookHeaderDTO);
+        setAuthors(bookHeaderDTO);
+        setPublishingHouse(bookHeaderDTO);
+
+        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
+    }
+
+    public void updateBook(BookHeaderDetailsDTO bookHeaderDTO) {
+        setCategories(bookHeaderDTO);
+        setAuthors(bookHeaderDTO);
+        setPublishingHouse(bookHeaderDTO);
+
+        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
+    }
+
+    public List<BookHeaderDTO> getBooksByCategory(String category, Integer page){
+        return bookHeaderRepository
+                .findDistinctByBookCategories_DescriptionLikeIgnoreCase(contains(category), PageRequest.of(--page, 20))
+                .stream()
+                .map(bookHeader -> modelMapper.map(bookHeader, BookHeaderDTO.class))
+                .toList();
     }
 
     private static Specification<BookHeader> nameContains(String expression) {
@@ -128,51 +156,9 @@ public class BookService {
         return MessageFormat.format("%{0}%", expression);
     }
 
-    public List<BookHeaderDTO> searchBooksFilter(
-            String authorName,
-            String authorSurname,
-            String title,
-            Integer priceLow,
-            Integer priceHigh,
-            Integer page,
-            Boolean available) {
-
-        return bookHeaderRepository
-                .findAll(
-                        Specification
-                                .where(authorName == null ? null : nameContains(authorName))
-                                .and(authorSurname == null ? null : surnameContains(authorSurname))
-                                .and(title == null ? null : titleContains(title))
-                                .and(priceLow == null ? null : priceLow(priceLow))
-                                .and(priceHigh == null ? null : priceHigh(priceHigh))
-                                .and(available ? availableBooks() : null),
-                        PageRequest.of(--page, 20)
-                ).stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
-                .distinct()
-                .toList();
-    }
-
-    public List<BookHeaderDetailsDTO> getBookWithDetails(Integer bookHeaderId) {
-        return bookHeaderRepository
-                .findByBookHeaderId(bookHeaderId)
-                .stream()
-                .map(bookHeader -> modelMapper
-                        .map(bookHeader, BookHeaderDetailsDTO.class))
-                .toList();
-    }
-
-    public void addBook(BookHeaderNoIdDTO bookHeaderDTO) {
-        setCategories(bookHeaderDTO);
-        setAuthors(bookHeaderDTO);
-        setPublishingHouse(bookHeaderDTO);
-
-        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
-    }
-
-    private void setPublishingHouse(BookHeaderNoIdDTO bookHeaderDTO) {
+    private void setPublishingHouse(BookHeaderDetailsDTO bookHeaderDTO) {
         Optional<PublishingHouse> publishingHouse = publishingHouseRepository
-                .findByName(bookHeaderDTO.getPublishingHouse().getName());
+                .findByNameIgnoreCase(bookHeaderDTO.getPublishingHouse().getName());
 
         if (publishingHouse.isEmpty())
             publishingHouseRepository.save(bookHeaderDTO.getPublishingHouse());
@@ -180,7 +166,7 @@ public class BookService {
             bookHeaderDTO.getPublishingHouse().setPublishingHouseId(publishingHouse.get().getPublishingHouseId());
     }
 
-    private void setAuthors(BookHeaderNoIdDTO bookHeaderDTO) {
+    private void setAuthors(BookHeaderDetailsDTO bookHeaderDTO) {
         bookHeaderDTO
                 .getAuthors()
                 .forEach(author -> {
@@ -193,11 +179,11 @@ public class BookService {
                 });
     }
 
-    private void setCategories(BookHeaderNoIdDTO bookHeaderDTO) {
+    private void setCategories(BookHeaderDetailsDTO bookHeaderDTO) {
         bookHeaderDTO
                 .getBookCategories()
                 .forEach(category -> {
-                    Optional<Category> cat = categoryRepository.findByDescription(category.getDescription());
+                    Optional<Category> cat = categoryRepository.findByDescriptionIgnoreCase(category.getDescription());
                     if (cat.isEmpty())
                         cat = Optional.of(categoryRepository.save(modelMapper.map(category, Category.class)));
                     category.setCategoryId(cat.get().getCategoryId());

@@ -13,10 +13,10 @@ import java.io.Serializable;
 class OrderBookKey implements Serializable {
 
     @Column(name = "order_header_id", nullable = false)
-    int orderHeaderId;
+    Long orderHeaderId;
 
 
     @Column(name = "book_header_id", nullable = false)
-    int bookHeaderId;
+    Integer bookHeaderId;
 
 }

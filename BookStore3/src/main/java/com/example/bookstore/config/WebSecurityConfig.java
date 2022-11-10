@@ -2,8 +2,9 @@ package com.example.bookstore.config;
 
 import com.example.bookstore.jwt.AuthEntryPointJwt;
 import com.example.bookstore.jwt.AuthTokenFilter;
+import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.service.userDetailsService.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,25 +22,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-  UserDetailsServiceImpl userDetailsService;
-  AuthEntryPointJwt unauthorizedHandler;
+  private final UserDetailsServiceImpl userDetailsService;
+  private final AuthEntryPointJwt unauthorizedHandler;
 
-  @Autowired
-  public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
-    this.userDetailsService = userDetailsService;
-  }
-
-  @Autowired
-  public void setUnauthorizedHandler(AuthEntryPointJwt unauthorizedHandler) {
-    this.unauthorizedHandler = unauthorizedHandler;
-  }
+  private final JwtUtils jwtUtils;
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
+    return new AuthTokenFilter(jwtUtils, userDetailsService);
   }
   
   @Bean

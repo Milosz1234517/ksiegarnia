@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PublishingHouseRepository extends JpaRepository<PublishingHouse, Integer> {
-    Optional<PublishingHouse> findByName(String name);
+    Optional<PublishingHouse> findByNameIgnoreCase(String name);
 }

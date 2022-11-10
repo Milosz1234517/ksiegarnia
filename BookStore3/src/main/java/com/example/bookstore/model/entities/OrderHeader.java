@@ -15,17 +15,19 @@ import java.util.Collection;
 @Table(name = "order_header", schema = "public", catalog = "BookStore")
 public class OrderHeader {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "order_id", nullable = false)
-    private int orderId;
+    @SequenceGenerator(name = "order_seq", sequenceName = "order_sequence", initialValue = 100000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
+    private Long orderId;
 
     @Basic
     @Column(name = "order_date", nullable = false)
     private Date orderDate;
 
     @Basic
-    @Column(name = "total_price", nullable = false, precision = 2)
+    @Column(name = "total_price", nullable = false, precision = 6, scale = 2)
     private BigDecimal totalPrice;
 
     @Basic
@@ -33,7 +35,7 @@ public class OrderHeader {
     private int itemQuantity;
 
     @Basic
-    @Column(name = "realization_date", nullable = false)
+    @Column(name = "realization_date")
     private Date realizationDate;
 
     @Basic

@@ -16,18 +16,16 @@ import javax.persistence.Column;
 
 @Getter
 @Setter
-public class BookHeaderDTO {
+public class BookHeaderDTO extends BookHeaderOnlyIdDTO{
 
-    private Integer bookHeaderId;
+    private String bookTitle;
 
-    protected String bookTitle;
+    private Collection<Author> authors;
 
-    protected Collection<Author> authors;
+    private String icon;
 
-    protected String icon;
+    private Integer quantity;
 
-    protected Integer quantity;
-
-    protected BigDecimal price;
+    private BigDecimal price;
 
 }

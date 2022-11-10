@@ -2,6 +2,7 @@ package com.example.bookstore.service.userDetailsService;
 
 import com.example.bookstore.model.entities.Users;
 import com.example.bookstore.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,14 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  UserRepository userRepository;
-
-  @Autowired
-  public void setUserRepository(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
+  private final UserRepository userRepository;
 
   @Override
   @Transactional

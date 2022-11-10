@@ -22,11 +22,11 @@ public class Category {
     @Column(name = "description", unique = true)
     private String description;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "book_category",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_header_id"))
-    private Collection<BookHeader> bookHeaders;
+//    @ManyToMany()
+//    @JoinTable(
+//            name = "book_category",
+//            joinColumns = @JoinColumn(name = "category_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_header_id"))
+//    private Collection<BookHeader> bookHeaders;
 
 }
