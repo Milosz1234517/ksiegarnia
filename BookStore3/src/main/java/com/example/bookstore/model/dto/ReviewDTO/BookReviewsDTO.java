@@ -1,7 +1,6 @@
 package com.example.bookstore.model.dto.ReviewDTO;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
-import com.example.bookstore.model.dto.UserDTO;
+import com.example.bookstore.model.dto.UserDTO.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 

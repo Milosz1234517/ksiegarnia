@@ -21,7 +21,7 @@ public class BookHeader {
     private int bookHeaderId;
 
     @Basic
-    @Column(name = "book_title", nullable = false, length = 255)
+    @Column(name = "book_title", nullable = false)
     private String bookTitle;
 
     @Column(name = "release_date")

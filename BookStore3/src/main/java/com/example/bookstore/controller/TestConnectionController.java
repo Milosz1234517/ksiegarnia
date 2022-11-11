@@ -5,24 +5,13 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/test")
-public class TestController {
-
-  @GetMapping("/all")
-  public String allAccess() {
-    return "Public Content.";
-  }
+@RequestMapping("/api/connection")
+public class TestConnectionController {
 
   @GetMapping("/user")
-  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER')")
   public String userAccess() {
     return "User Content.";
-  }
-
-  @GetMapping("/mod")
-  @PreAuthorize("hasRole('MODERATOR')")
-  public String moderatorAccess() {
-    return "Moderator Board.";
   }
 
   @GetMapping("/admin")

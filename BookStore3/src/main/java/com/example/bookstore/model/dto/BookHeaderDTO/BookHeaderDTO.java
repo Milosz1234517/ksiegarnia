@@ -1,18 +1,11 @@
 package com.example.bookstore.model.dto.BookHeaderDTO;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Collection;
-
 import com.example.bookstore.model.entities.Author;
-import com.example.bookstore.model.entities.Category;
-import com.example.bookstore.model.entities.PublishingHouse;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
+import java.math.BigDecimal;
+import java.util.Collection;
 
 @Getter
 @Setter

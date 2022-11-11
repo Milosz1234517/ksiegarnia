@@ -43,12 +43,6 @@ public class Users {
     @Column(name = "phone_number", nullable = false)
     private int phoneNumber;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Collection<BookReviews> bookReviewsByUserId;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Collection<OrderHeader> orderHeadersByUserId;
-
     public Users(String login, String password, String name, String surname, int phoneNumber) {
         this.login = login;
         this.password = password;
