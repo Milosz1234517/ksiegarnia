@@ -1,11 +1,15 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.model.dto.ReviewDTO.BookReviewCreateDTO;
+import com.example.bookstore.model.dto.ReviewDTO.BookReviewUpdateDTO;
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewsDTO;
+import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -24,5 +28,23 @@ public class ReviewController {
     @GetMapping("/getReviewsForUser")
     public List<BookReviewsDTO> getReviewsForUser(@RequestParam Integer page, @RequestParam String login){
         return reviewService.getReviewsForUser(page, login);
+    }
+
+    @PostMapping("/reviewBook")
+    public ResponseEntity<?> reviewBook(@RequestBody BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){
+        reviewService.reviewBook(bookReviewCreateDTO, request);
+        return ResponseEntity.ok(new MessageResponse("Book review added successfully"));
+    }
+
+    @PutMapping("/modifyReview")
+    public ResponseEntity<?> modifyReview(@RequestBody BookReviewUpdateDTO bookReviewCreateDTO, HttpServletRequest request){
+        reviewService.modifyReview(bookReviewCreateDTO, request);
+        return ResponseEntity.ok(new MessageResponse("Book review modified successfully"));
+    }
+
+    @DeleteMapping("/deleteReview")
+    public ResponseEntity<?> deleteReview(@RequestParam Integer reviewId){
+        reviewService.delete(reviewId);
+        return ResponseEntity.ok(new MessageResponse("Book review deleted successfully"));
     }
 }

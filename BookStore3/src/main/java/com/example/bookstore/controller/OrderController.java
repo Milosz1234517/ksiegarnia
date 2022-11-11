@@ -47,15 +47,29 @@ public class OrderController {
         return ResponseEntity.ok(new MessageResponse("Order booked successfully"));
     }
 
-    @GetMapping("/getOrdersFilterUser")
-    public List<OrderHeaderDetailsDTO> getOrdersFilterUser(
+    @GetMapping("/getOrdersFilterAdmin")
+    public List<OrderHeaderDetailsDTO> getOrdersFilterAdmin(
+            Integer orderId,
             Integer status,
             Date placedFrom,
             Date placedTo,
             Date finalizedFrom,
             Date finalizedTo,
-            @RequestParam Integer page
+            @RequestParam Integer page,
+            HttpServletRequest request
     ){
-        return orderService.getOrdersFilterUser(status, placedFrom, placedTo, finalizedFrom, finalizedTo, page);
+        return orderService.getOrdersFilter(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, page, request);
+    }
+
+    @GetMapping("/getOrdersFilterUser")
+    public List<OrderHeaderDetailsDTO> getOrdersFilterUser(
+            Integer status,
+            Date placedFrom,
+            Date placedTo,
+            @RequestParam Integer page,
+            HttpServletRequest request
+
+    ){
+        return orderService.getOrdersFilter(null, status, placedFrom, placedTo, null, null, page, request);
     }
 }

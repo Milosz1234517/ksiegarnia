@@ -7,6 +7,9 @@ import com.example.bookstore.model.dto.OrderItemDTO;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.OrderHeader;
 import com.example.bookstore.model.entities.OrderItems;
+import com.example.bookstore.model.entities.Users;
+import com.example.bookstore.model.entities.role.ERole;
+import com.example.bookstore.model.entities.role.Role;
 import com.example.bookstore.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,6 +32,8 @@ public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderStatusRepository orderStatusRepository;
     private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
     private final OrderItemsRepository orderItemsRepository;
     private final ModelMapper modelMapper;
     private final BookHeaderRepository bookHeaderRepository;
@@ -76,14 +81,19 @@ public class OrderService {
         orderHeaderRepository.save(orderHeader);
     }
 
-    public List<OrderHeaderDetailsDTO> getOrdersFilterUser(
+    public List<OrderHeaderDetailsDTO> getOrdersFilter(
+            Integer orderId,
             Integer status,
             Date placedFrom,
             Date placedTo,
             Date finalizedFrom,
             Date finalizedTo,
-            Integer page
+            Integer page,
+            HttpServletRequest request
     ){
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
+
         return orderHeaderRepository
                 .findAll(
                         Specification
@@ -91,7 +101,9 @@ public class OrderService {
                                 .and(placedTo == null ? null : placedTo(placedTo))
                                 .and(finalizedFrom == null ? null : finalizedFrom(finalizedFrom))
                                 .and(finalizedTo == null ? null : finalizedTo(finalizedTo))
-                                .and(status == null ? null : orderStatus(status)),
+                                .and(status == null ? null : orderStatus(status))
+                                .and(orderId == null ? null : orderId(orderId))
+                                .and(users.getRoles().contains(role) ? user(users.getUserId()) : null),
                         PageRequest.of(--page, 20)
                 ).stream()
                 .map(order -> modelMapper.map(order, OrderHeaderDetailsDTO.class))
@@ -99,6 +111,12 @@ public class OrderService {
                 .toList();
     }
 
+    private static Specification<OrderHeader> user(Integer orderId) {
+        return (root, query, builder) -> builder.equal(root.join("user").get("userId"), orderId);
+    }
+    private static Specification<OrderHeader> orderId(Integer orderId) {
+        return (root, query, builder) -> builder.equal(root.get("orderId"), orderId);
+    }
     private static Specification<OrderHeader> orderStatus(Integer status) {
         return (root, query, builder) -> builder.equal(root.join("orderStatus").get("statusId"), status);
     }
@@ -118,11 +136,6 @@ public class OrderService {
     private static Specification<OrderHeader> placedTo(Date placedTo) {
         return (root, query, builder) -> builder.lessThanOrEqualTo(root.get("orderDate"), placedTo);
     }
-
-    private static String contains(String expression) {
-        return MessageFormat.format("%{0}%", expression);
-    }
-
 
     private OrderHeader getOrderHeader(OrderHeaderDTO order, HttpServletRequest request) {
         OrderHeader orderHeader = new OrderHeader();
