@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -36,8 +35,7 @@ public class BookService {
                         PageRequest.of(--page, 20)
                 )
                 .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
-                .collect(Collectors.toList());
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class)).toList();
     }
 
     public List<BookHeaderDTO> searchBooksFilter(
@@ -90,7 +88,7 @@ public class BookService {
         bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
     }
 
-    public List<BookHeaderDTO> getBooksByCategory(String category, Integer page){
+    public List<BookHeaderDTO> getBooksByCategory(String category, Integer page) {
         return bookHeaderRepository
                 .findDistinctByBookCategories_DescriptionLikeIgnoreCase(contains(category), PageRequest.of(--page, 20))
                 .stream()

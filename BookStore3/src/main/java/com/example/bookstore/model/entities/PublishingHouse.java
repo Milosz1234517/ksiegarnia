@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class PublishingHouse {
 
     @Basic
     @Column(name = "name", length = 15, unique = true)
+    @NotBlank(message = "Publishing house must have a name")
     private String name;
 
 }

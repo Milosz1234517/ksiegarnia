@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -31,13 +32,13 @@ public class ReviewController {
     }
 
     @PostMapping("/reviewBook")
-    public ResponseEntity<?> reviewBook(@RequestBody BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){
+    public ResponseEntity<?> reviewBook(@Valid @RequestBody BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){
         reviewService.reviewBook(bookReviewCreateDTO, request);
         return ResponseEntity.ok(new MessageResponse("Book review added successfully"));
     }
 
     @PutMapping("/modifyReview")
-    public ResponseEntity<?> modifyReview(@RequestBody BookReviewUpdateDTO bookReviewCreateDTO, HttpServletRequest request){
+    public ResponseEntity<?> modifyReview(@Valid@RequestBody BookReviewUpdateDTO bookReviewCreateDTO, HttpServletRequest request){
         reviewService.modifyReview(bookReviewCreateDTO, request);
         return ResponseEntity.ok(new MessageResponse("Book review modified successfully"));
     }

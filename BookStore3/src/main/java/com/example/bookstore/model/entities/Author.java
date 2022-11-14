@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -18,6 +21,8 @@ public class Author {
     private int authorId;
 
     @Basic
+    @Valid
+    @NotBlank(message = "Author must have name")
     @Column(name = "name", nullable = false, length = 15)
     private String name;
 

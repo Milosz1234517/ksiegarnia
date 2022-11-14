@@ -1,6 +1,7 @@
 package com.example.bookstore.service;
 
 
+import com.example.bookstore.exceptionhandlers.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.UserDTO.UserDetailsDTO;
 import com.example.bookstore.model.entities.Users;
@@ -32,24 +33,30 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    public void changePassword(String oldPass, String newPass, HttpServletRequest request){
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+    public void changePassword(String oldPass, String newPass, HttpServletRequest request) {
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
 
-       if(authenticationManager.authenticate(
-               new UsernamePasswordAuthenticationToken(user.getLogin(), oldPass)).isAuthenticated()
-       ){
-           user.setPassword(encoder.encode(newPass));
-           userRepository.save(user);
-       } else
-           throw new RuntimeException("Old password incorrect");
+        if (authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getLogin(), oldPass)).isAuthenticated()
+        ) {
+            user.setPassword(encoder.encode(newPass));
+            userRepository.save(user);
+        } else
+            throw new BadRequestException("Old password incorrect");
     }
 
-    public void changeUserDetails(UserDetailsDTO userDetailsDTO, HttpServletRequest request){
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
-        user.setLogin(userDetailsDTO.getLogin());
-        user.setName(userDetailsDTO.getName());
-        user.setSurname(userDetailsDTO.getSurname());
-        user.setPhoneNumber(userDetailsDTO.getPhoneNumber());
+    public void changeUserDetails(UserDetailsDTO userDetailsDTO, HttpServletRequest request) {
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        try {
+            user.setLogin(userDetailsDTO.getLogin());
+            user.setName(userDetailsDTO.getName());
+            user.setSurname(userDetailsDTO.getSurname());
+            user.setPhoneNumber(Integer.parseInt(userDetailsDTO.getPhoneNumber()));
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Error: Wrong phone number");
+        }
         userRepository.save(user);
     }
 
@@ -58,7 +65,7 @@ public class UserService {
             String name,
             String surname,
             Integer page
-    ){
+    ) {
         return userRepository
                 .findAll(
                         Specification

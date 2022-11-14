@@ -1,5 +1,6 @@
 package com.example.bookstore.service;
 
+import com.example.bookstore.exceptionhandlers.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
@@ -53,10 +54,12 @@ public class OrderService {
     }
 
     public void cancelOrder(Long orderID){
-        OrderHeader orderHeader = orderHeaderRepository.findById(orderID).orElseThrow();
+        OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
+                .orElseThrow(() -> new BadRequestException("Order not found"));
         if(orderHeader.getOrderStatus().getStatusId() == 2 || orderHeader.getOrderStatus().getStatusId() == 3)
-            throw new RuntimeException();
-        orderHeader.setOrderStatus(orderStatusRepository.findById(2).orElseThrow());
+            throw new BadRequestException("Order cannot be canceled");
+        orderHeader.setOrderStatus(orderStatusRepository.findById(2)
+                .orElseThrow(() -> new BadRequestException("Status not found")));
         orderHeader.getOrderItems()
                 .forEach(orderItem -> orderItem.getBookHeader()
                         .setQuantity(orderItem.getBookHeader().getQuantity() + orderItem.getQuantity()));
@@ -64,19 +67,23 @@ public class OrderService {
     }
 
     public void finalizeOrder(Long orderID){
-        OrderHeader orderHeader = orderHeaderRepository.findById(orderID).orElseThrow();
+        OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
+                .orElseThrow(() -> new BadRequestException("Order not found"));
         if(orderHeader.getOrderStatus().getStatusId() != 4)
-            throw new RuntimeException();
+            throw new BadRequestException("Order cannot be finalized");
         orderHeader.setRealizationDate(Date.valueOf(LocalDate.now()));
-        orderHeader.setOrderStatus(orderStatusRepository.findById(3).orElseThrow());
+        orderHeader.setOrderStatus(orderStatusRepository.findById(3)
+                .orElseThrow(() -> new BadRequestException("Status not found")));
         orderHeaderRepository.save(orderHeader);
     }
 
     public void bookOrder(Long orderID){
-        OrderHeader orderHeader = orderHeaderRepository.findById(orderID).orElseThrow();
+        OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
+                .orElseThrow(() -> new BadRequestException("Order not found"));
         if(orderHeader.getOrderStatus().getStatusId() != 1)
-            throw new RuntimeException();
-        orderHeader.setOrderStatus(orderStatusRepository.findById(4).orElseThrow());
+            throw new BadRequestException("Order cannot be booked");
+        orderHeader.setOrderStatus(orderStatusRepository.findById(4)
+                .orElseThrow(() -> new BadRequestException("Status not found")));
         orderHeaderRepository.save(orderHeader);
     }
 
@@ -138,8 +145,10 @@ public class OrderService {
 
     private OrderHeader getOrderHeader(OrderHeaderDTO order, HttpServletRequest request) {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setUser(userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow());
-        orderHeader.setOrderStatus(orderStatusRepository.findById(1).orElseThrow());
+        orderHeader.setUser(userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found")));
+        orderHeader.setOrderStatus(orderStatusRepository.findById(1)
+                .orElseThrow(() -> new BadRequestException("Status not found")));
         orderHeader.setOrderDate(Date.valueOf(LocalDate.now()));
         orderHeader.setDescription(order.getDescription());
         orderHeader.setTotalPrice(BigDecimal.valueOf(0));
@@ -148,10 +157,11 @@ public class OrderService {
 
     private OrderItems getOrderItems(OrderHeader orderHeader, OrderItemDTO orderItemDTO) {
         BookHeader bookHeader = bookHeaderRepository
-                .findByBookHeaderId(orderItemDTO.getBookHeader().getBookHeaderId()).orElseThrow();
+                .findByBookHeaderId(orderItemDTO.getBookHeader().getBookHeaderId())
+                .orElseThrow(() -> new BadRequestException("Book not found"));
 
-        if(bookHeader.getQuantity() < orderItemDTO.getQuantity() || bookHeader.getQuantity() < 0 || orderItemDTO.getQuantity() < 1)
-            throw new RuntimeException();
+        if(bookHeader.getQuantity() < orderItemDTO.getQuantity())
+            throw new BadRequestException("Wrong quantity, not enough books in warehouse");
         else
             bookHeader.setQuantity(bookHeader.getQuantity() - orderItemDTO.getQuantity());
 

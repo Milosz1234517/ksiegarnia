@@ -9,26 +9,22 @@ import javax.validation.constraints.*;
 @Setter
 public class SignupRequest {
 
-  @NotBlank
-  @Size(min = 3, max = 20)
+
+  @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Wrong email")
   private String username;
 
-  @NotBlank
-  @Size(min = 6, max = 40)
+  @Size(min = 6, max = 40, message = "Password must be between 6 and 40 length")
   private String password;
 
   private Set<String> role;
 
-  @NotBlank
-  @Size(min = 1, max = 15)
+  @Size(min = 1, max = 15, message = "Name must be between 1 and 15 length")
   private String name;
 
-  @NotBlank
-  @Size(min = 1, max = 15)
+  @Size(min = 1, max = 15, message = "Surname must be between 1 and 15 length")
   private String sname;
 
-  @NotBlank
-  @Size(min = 9, max = 9)
+  @Size(min = 9, max = 9, message = "Phone must be 9 numbers length")
   private String phone;
 
 }

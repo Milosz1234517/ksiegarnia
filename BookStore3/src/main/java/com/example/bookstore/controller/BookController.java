@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -47,13 +48,13 @@ public class BookController {
     }
 
     @PostMapping("/addBook")
-    public ResponseEntity<?> addBook(@RequestBody BookHeaderDetailsIdIgnoreDTO bookHeaderDTO){
+    public ResponseEntity<?> addBook(@Valid @RequestBody BookHeaderDetailsIdIgnoreDTO bookHeaderDTO){
         bookService.addBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book added successfully"));
     }
 
     @PutMapping("/updateBook")
-    public ResponseEntity<?> updateBook(@RequestBody BookHeaderDetailsDTO bookHeaderDTO){
+    public ResponseEntity<?> updateBook(@Valid @RequestBody BookHeaderDetailsDTO bookHeaderDTO){
         bookService.updateBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book updated successfully"));
     }

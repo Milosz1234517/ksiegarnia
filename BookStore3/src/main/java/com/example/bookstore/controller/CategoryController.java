@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -24,13 +25,13 @@ public class CategoryController {
     }
 
     @PostMapping("/addCategory")
-    public ResponseEntity<?> addCategory(@RequestBody CategoryDTO categoryIdIgnoreDTO){
+    public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDTO categoryIdIgnoreDTO){
         categoryService.addCategory(categoryIdIgnoreDTO);
         return ResponseEntity.ok(new MessageResponse("Category added successfully"));
     }
 
     @PutMapping("/updateCategory")
-    public ResponseEntity<?> updateCategory(@RequestBody Category category){
+    public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category){
         categoryService.updateCategory(category);
         return ResponseEntity.ok(new MessageResponse("Category updated successfully"));
     }

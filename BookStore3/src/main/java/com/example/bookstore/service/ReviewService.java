@@ -1,5 +1,6 @@
 package com.example.bookstore.service;
 
+import com.example.bookstore.exceptionhandlers.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewCreateDTO;
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewUpdateDTO;
@@ -45,14 +46,16 @@ public class ReviewService {
     }
 
     public void reviewBook(BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
-        BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(bookReviewCreateDTO.getBookHeaderId()).orElseThrow();
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(bookReviewCreateDTO.getBookHeaderId())
+                .orElseThrow(() -> new BadRequestException("Book not found"));
 
         if(!orderHeaderRepository.existsByOrderItems_BookHeader_BookHeaderIdAndUser_Login(bookHeader.getBookHeaderId(), user.getLogin()))
-            throw new RuntimeException();
+            throw new BadRequestException("Order not found");
 
         if(bookReviewsRepository.existsByBookHeader_BookHeaderIdAndUser_Login(bookHeader.getBookHeaderId(), user.getLogin()))
-            throw new RuntimeException();
+            throw new BadRequestException("This book has been already reviewed");
 
         BookReviews bookReviews = new BookReviews();
         bookReviews.setUser(user);
@@ -64,15 +67,18 @@ public class ReviewService {
     }
 
     public void modifyReview(BookReviewUpdateDTO bookReviewUpdateDTO,  HttpServletRequest request){
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
-        BookReviews bookReviews = bookReviewsRepository.findByReviewIdAndUser_Login(bookReviewUpdateDTO.getReviewId(), users.getLogin()).orElseThrow();
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        BookReviews bookReviews = bookReviewsRepository.findByReviewIdAndUser_Login(bookReviewUpdateDTO.getReviewId(), users.getLogin())
+                .orElseThrow(() -> new BadRequestException("Review not found"));
         bookReviews.setDescription(bookReviewUpdateDTO.getDescription());
         bookReviews.setMark(bookReviewUpdateDTO.getMark());
         bookReviewsRepository.save(bookReviews);
     }
 
     public void delete(Integer reviewID){
-        BookReviews bookReviews = bookReviewsRepository.findById(reviewID).orElseThrow();
+        BookReviews bookReviews = bookReviewsRepository.findById(reviewID)
+                .orElseThrow(() -> new BadRequestException("Review not found"));
         bookReviewsRepository.delete(bookReviews);
     }
 
