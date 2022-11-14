@@ -1,4 +1,4 @@
-package com.example.bookstore.exceptionhandlers;
+package com.example.bookstore.exceptions;
 
 public class BadRequestException extends RuntimeException{
     public BadRequestException(String s) {

@@ -4,7 +4,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
-import com.example.bookstore.exceptionhandlers.BadRequestException;
+import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.model.entities.role.ERole;
 import com.example.bookstore.model.entities.role.Role;
 import com.example.bookstore.model.entities.Users;

@@ -1,6 +1,6 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.exceptionhandlers.BadRequestException;
+import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
