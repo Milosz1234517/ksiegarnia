@@ -37,6 +37,11 @@ public class ReviewService {
                 .toList();
     }
 
+    public long getReviewsForBookCount(Integer bookHeaderId){
+        return bookReviewsRepository
+                .countByBookHeader_BookHeaderId(bookHeaderId);
+    }
+
     public List<BookReviewsDTO> getReviewsForUser(Integer page, String login) {
         return bookReviewsRepository
                 .findByUser_Login(login, PageRequest.of(--page, 20))

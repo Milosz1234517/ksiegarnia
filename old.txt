@@ -1,0 +1,74 @@
+insert into roles (name) values ('ROLE_USER');
+insert into roles (name) values ('ROLE_ADMIN');
+insert into roles (name) values ('ROLE_MOD');
+
+insert into publishing_house (name) values ('abc');
+insert into publishing_house (name) values ('abc1');
+insert into publishing_house (name) values ('abc2');
+insert into publishing_house (name) values ('abc3');
+
+insert into author (name, surname) values ('Odelia', 'Kelson');
+insert into author (name, surname) values ('Alley', 'Moyse');
+insert into author (name, surname) values ('Ephraim', 'Gabriely');
+insert into author (name, surname) values ('Daren', 'Walklate');
+insert into author (name, surname) values ('Thibaut', 'Robroe');
+insert into author (name, surname) values ('Quinn', 'Grzeszczak');
+insert into author (name, surname) values ('Tanya', 'Pidwell');
+insert into author (name, surname) values ('Derek', 'Yeowell');
+insert into author (name, surname) values ('Berty', 'Bonnavant');
+insert into author (name, surname) values ('Alec', 'MacCaffrey');
+insert into author (name, surname) values ('Kettie', 'Soper');
+insert into author (name, surname) values ('Emelyne', 'Gatiss');
+insert into author (name, surname) values ('Yurik', 'Putson');
+insert into author (name, surname) values ('Karita', 'Delamaine');
+insert into author (name, surname) values ('Tome', 'Smaridge');
+insert into author (name, surname) values ('Peder', 'Laverty');
+insert into author (name, surname) values ('Lilla', 'Kassel');
+insert into author (name, surname) values ('Tanitansy', 'Yearsley');
+
+
+insert into book_header (book_title, price, quantity, description, edition, icon, release_date, publishing_house_id)
+values 
+('title', 11.11, 3, 'x', 1, 'x', '2022-11-05', 1),
+('title', 12.11, 2, 'x', 2, 'x', '2022-11-07', 1),
+('title1', 13.11, 1, 'x', 9, 'x', '2022-11-30', 2),
+('title', 11.11, 0, 'x', 2, 'x', '2022-11-05', 3);
+
+insert into book_author (author_id, book_header_id) values (1, 1);
+insert into book_author (author_id, book_header_id) values (2, 2);
+insert into book_author (author_id, book_header_id) values (3, 3);
+insert into book_author (author_id, book_header_id) values (4, 1);
+insert into book_author (author_id, book_header_id) values (5, 2);
+insert into book_author (author_id, book_header_id) values (6, 1);
+insert into book_author (author_id, book_header_id) values (7, 2);
+
+insert into category (description) values ('cat1');
+insert into category (description) values ('cat2');
+insert into category (description) values ('cat3');
+
+insert into book_category (book_header_id, category_id) values (1, 1);
+insert into book_category (book_header_id, category_id) values (1, 2);
+insert into book_category (book_header_id, category_id) values (2, 3);
+insert into book_category (book_header_id, category_id) values (3, 3);
+insert into book_category (book_header_id, category_id) values (4, 1);
+
+INSERT INTO book_reviews (description,mark,book_header_id,user_id)
+VALUES
+  ('Good','0',1,1),
+  ('Decent','3',2,1),
+  ('Bad','5',3,1),
+  ('Good','5',4,1),
+  ('Ok','6',2,1),
+  ('Bad','2',1,1),
+  ('Decent','1',3,1),
+  ('Decent','8',3,1),
+  ('Good','2',3,1);
+
+insert into order_status (description) 
+values('Zlozone');
+insert into order_status (description) 
+values('Anulowane');
+insert into order_status (description) 
+values('Zrealizowane');
+insert into order_status (description) 
+values('Zarezerwowane');

@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface BookReviewsRepository extends JpaRepository<BookReviews, Integer> {
     List<BookReviews> findByBookHeader_BookHeaderId(Integer bookHeaderId, PageRequest of);
 
+    long countByBookHeader_BookHeaderId(int bookHeaderId);
+
     List<BookReviews> findByUser_Login(String login, Pageable pageable);
 
     Optional<BookReviews> findByReviewIdAndUser_Login(Integer reviewId, String login);

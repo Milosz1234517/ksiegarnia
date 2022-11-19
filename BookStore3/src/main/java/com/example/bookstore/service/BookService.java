@@ -9,6 +9,7 @@ import com.example.bookstore.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -49,18 +50,36 @@ public class BookService {
 
         return bookHeaderRepository
                 .findAll(
-                        Specification
-                                .where(authorName == null ? null : nameContains(authorName))
-                                .and(authorSurname == null ? null : surnameContains(authorSurname))
-                                .and(title == null ? null : titleContains(title))
-                                .and(priceLow == null ? null : priceLow(priceLow))
-                                .and(priceHigh == null ? null : priceHigh(priceHigh))
-                                .and(available ? availableBooks() : null),
-                        PageRequest.of(--page, 20)
+                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available),
+                        PageRequest.of(--page, 20, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
                 ).stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .distinct()
                 .toList();
+    }
+
+    public Long searchBooksFilterCount(
+            String authorName,
+            String authorSurname,
+            String title,
+            Integer priceLow,
+            Integer priceHigh,
+            Boolean available) {
+
+        return bookHeaderRepository
+                .count(
+                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available)
+                );
+    }
+
+    private static Specification<BookHeader> getBookHeaderSpecification(String authorName, String authorSurname, String title, Integer priceLow, Integer priceHigh, Boolean available) {
+        return Specification
+                .where(authorName == null ? null : nameContains(authorName))
+                .and(authorSurname == null ? null : surnameContains(authorSurname))
+                .and(title == null ? null : titleContains(title))
+                .and(priceLow == null ? null : priceLow(priceLow))
+                .and(priceHigh == null ? null : priceHigh(priceHigh))
+                .and(available ? availableBooks() : null);
     }
 
     public List<BookHeaderDetailsDTO> getBookWithDetails(Integer bookHeaderId) {

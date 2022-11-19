@@ -26,7 +26,7 @@ public class BookController {
     }
 
     @GetMapping("/getBooksFilter")
-    public List<BookHeaderDTO> searchBooksByAuthor(
+    public List<BookHeaderDTO> getBooksFilter(
             String name,
             String surname,
             String title,
@@ -35,6 +35,18 @@ public class BookController {
             @RequestParam Boolean available,
             @RequestParam Integer page) {
         return bookService.searchBooksFilter(name, surname, title, priceLow, priceHigh, page, available);
+    }
+
+    @GetMapping("/getBooksFilterCount")
+    public Long getBooksFilterCount(
+            String name,
+            String surname,
+            String title,
+            Integer priceLow,
+            Integer priceHigh,
+            @RequestParam Boolean available
+    ){
+        return bookService.searchBooksFilterCount(name, surname, title, priceLow, priceHigh, available);
     }
 
     @GetMapping("/getBookWithDetails")

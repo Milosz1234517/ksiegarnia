@@ -17,8 +17,8 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public List<Category> getAllCategories(Integer page){
-        return categoryRepository.findAll(PageRequest.of(--page, 20)).getContent();
+    public List<Category> getAllCategories(){
+        return categoryRepository.findAll();
     }
 
     public void addCategory(CategoryDTO categoryIdIgnoreDTO){

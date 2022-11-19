@@ -20,8 +20,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/getCategories")
-    public List<Category> getCategories(@RequestParam Integer page) {
-        return categoryService.getAllCategories(page);
+    public List<Category> getCategories() {
+        return categoryService.getAllCategories();
     }
 
     @PostMapping("/addCategory")
