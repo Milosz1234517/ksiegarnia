@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +50,13 @@ public class UserService {
     public void changeUserDetails(UserDetailsDTO userDetailsDTO, HttpServletRequest request) {
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
+
+        Optional<Users> userParam = userRepository.findByLogin(userDetailsDTO.getLogin());
+
         try {
+            if(userParam.isPresent() && userParam.get().getUserId() != user.getUserId())
+                    throw new BadRequestException("User already exist");
+
             user.setLogin(userDetailsDTO.getLogin());
             user.setName(userDetailsDTO.getName());
             user.setSurname(userDetailsDTO.getSurname());
@@ -58,6 +65,13 @@ public class UserService {
             throw new BadRequestException("Error: Wrong phone number");
         }
         userRepository.save(user);
+    }
+
+    public UserDetailsDTO getUserDetails(HttpServletRequest request) {
+        return userRepository
+                .findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .map(user -> modelMapper.map(user, UserDetailsDTO.class))
+                .orElseThrow(() -> new BadRequestException("User not found"));
     }
 
     public List<UserDetailsDTO> getUsersFilter(

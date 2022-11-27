@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,7 +26,7 @@ public class Users {
     private Set<Role> roles = new HashSet<>();
 
     @Basic
-    @Column(name = "login", nullable = false, length = 20)
+    @Column(name = "login", nullable = false, length = 20, unique = true)
     private String login;
 
     @Basic
@@ -42,6 +44,9 @@ public class Users {
     @Basic
     @Column(name = "phone_number", nullable = false)
     private int phoneNumber;
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Basket> basket;
 
     public Users(String login, String password, String name, String surname, int phoneNumber) {
         this.login = login;

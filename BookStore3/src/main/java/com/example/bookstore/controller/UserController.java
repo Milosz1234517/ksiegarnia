@@ -41,4 +41,9 @@ public class UserController {
         return userService.getUsersFilter(login, name, surname, page);
     }
 
+    @GetMapping("/getUserDetails")
+    public UserDetailsDTO getUserDetails(HttpServletRequest request){
+        return userService.getUserDetails(request);
+    }
+
 }
