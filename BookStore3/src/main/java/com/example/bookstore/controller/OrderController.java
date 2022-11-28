@@ -72,4 +72,15 @@ public class OrderController {
     ){
         return orderService.getOrdersFilter(null, status, placedFrom, placedTo, null, null, page, request);
     }
+
+    @GetMapping("/getOrdersFilterUserCount")
+    public Long getOrdersFilterUserCount(
+            Integer status,
+            Date placedFrom,
+            Date placedTo,
+            HttpServletRequest request
+
+    ){
+        return orderService.getOrdersFilterCount(null, status, placedFrom, placedTo, null, null, request);
+    }
 }

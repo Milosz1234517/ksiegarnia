@@ -32,8 +32,13 @@ public class ReviewController {
     }
 
     @GetMapping("/getReviewsForUser")
-    public List<BookReviewsDTO> getReviewsForUser(@RequestParam Integer page, @RequestParam String login){
-        return reviewService.getReviewsForUser(page, login);
+    public List<BookReviewsDTO> getReviewsForUser(@RequestParam Integer page, HttpServletRequest request){
+        return reviewService.getReviewsForUser(page, request);
+    }
+
+    @GetMapping("/getReviewsForUserCount")
+    public Long getReviewsForUserCount(HttpServletRequest request){
+        return reviewService.getReviewsForUserCount(request);
     }
 
     @PostMapping("/reviewBook")

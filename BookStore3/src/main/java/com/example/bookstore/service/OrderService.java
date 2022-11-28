@@ -87,6 +87,35 @@ public class OrderService {
         orderHeaderRepository.save(orderHeader);
     }
 
+    public Long getOrdersFilterCount(
+            Integer orderId,
+            Integer status,
+            Date placedFrom,
+            Date placedTo,
+            Date finalizedFrom,
+            Date finalizedTo,
+            HttpServletRequest request
+    ){
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
+
+        return orderHeaderRepository
+                .count(
+                        getOrderHeaderSpecification(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, users, role)
+                );
+    }
+
+    private static Specification<OrderHeader> getOrderHeaderSpecification(Integer orderId, Integer status, Date placedFrom, Date placedTo, Date finalizedFrom, Date finalizedTo, Users users, Role role) {
+        return Specification
+                .where(placedFrom == null ? null : placedFrom(placedFrom))
+                .and(placedTo == null ? null : placedTo(placedTo))
+                .and(finalizedFrom == null ? null : finalizedFrom(finalizedFrom))
+                .and(finalizedTo == null ? null : finalizedTo(finalizedTo))
+                .and(status == null ? null : orderStatus(status))
+                .and(orderId == null ? null : orderId(orderId))
+                .and(users.getRoles().contains(role) ? user(users.getUserId()) : null);
+    }
+
     public List<OrderHeaderDetailsDTO> getOrdersFilter(
             Integer orderId,
             Integer status,
@@ -102,15 +131,8 @@ public class OrderService {
 
         return orderHeaderRepository
                 .findAll(
-                        Specification
-                                .where(placedFrom == null ? null : placedFrom(placedFrom))
-                                .and(placedTo == null ? null : placedTo(placedTo))
-                                .and(finalizedFrom == null ? null : finalizedFrom(finalizedFrom))
-                                .and(finalizedTo == null ? null : finalizedTo(finalizedTo))
-                                .and(status == null ? null : orderStatus(status))
-                                .and(orderId == null ? null : orderId(orderId))
-                                .and(users.getRoles().contains(role) ? user(users.getUserId()) : null),
-                        PageRequest.of(--page, 20)
+                        getOrderHeaderSpecification(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, users, role),
+                        PageRequest.of(--page, 2)
                 ).stream()
                 .map(order -> modelMapper.map(order, OrderHeaderDetailsDTO.class))
                 .distinct()

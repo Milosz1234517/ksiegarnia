@@ -42,12 +42,21 @@ public class ReviewService {
                 .countByBookHeader_BookHeaderId(bookHeaderId);
     }
 
-    public List<BookReviewsDTO> getReviewsForUser(Integer page, String login) {
+    public List<BookReviewsDTO> getReviewsForUser(Integer page, HttpServletRequest request) {
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
         return bookReviewsRepository
-                .findByUser_Login(login, PageRequest.of(--page, 20))
+                .findByUser_Login(user.getLogin(), PageRequest.of(--page, 2))
                 .stream()
                 .map(bookReviews -> modelMapper.map(bookReviews, BookReviewsDTO.class))
                 .toList();
+    }
+
+    public Long getReviewsForUserCount(HttpServletRequest request) {
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        return bookReviewsRepository
+                .countByUser_Login(user.getLogin());
     }
 
     public void reviewBook(BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){

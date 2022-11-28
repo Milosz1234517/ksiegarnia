@@ -21,5 +21,9 @@ public interface BookReviewsRepository extends JpaRepository<BookReviews, Intege
 
     boolean existsByBookHeader_BookHeaderIdAndUser_Login(int bookHeaderId, String login);
 
+    long countByUser_Login(String login);
+
+
+
 
 }

@@ -36,7 +36,7 @@ public class BookHeader {
     private String description;
 
     @Basic
-    @Column(name = "icon", length = 15)
+    @Column(name = "icon", length = 255)
     private String icon;
 
     @Basic
