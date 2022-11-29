@@ -29,6 +29,11 @@ public class ReviewService {
     private final JwtUtils jwtUtils;
     private final ModelMapper modelMapper;
 
+    public Boolean getReviewsForBookAndUser(Integer bookHeaderId, HttpServletRequest request){
+        return bookReviewsRepository
+                .existsByBookHeader_BookHeaderIdAndUser_Login(bookHeaderId, jwtUtils.getUserNameFromJwtToken(parseJwt(request)));
+    }
+
     public List<BookReviewsDTO> getReviewsForBook(Integer page, Integer bookHeaderId){
         return bookReviewsRepository
                 .findByBookHeader_BookHeaderId(bookHeaderId, PageRequest.of(--page, 20))

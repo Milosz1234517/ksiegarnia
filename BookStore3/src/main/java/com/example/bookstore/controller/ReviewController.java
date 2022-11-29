@@ -26,6 +26,11 @@ public class ReviewController {
         return reviewService.getReviewsForBook(page, bookHeaderId);
     }
 
+    @GetMapping("/getReviewsForBookAndUser")
+    public Boolean getReviewsForBookAndUser(@RequestParam Integer bookHeaderId, HttpServletRequest request){
+        return reviewService.getReviewsForBookAndUser(bookHeaderId, request);
+    }
+
     @GetMapping("/getReviewsForBookCount")
     public long getReviewsForBook(@RequestParam Integer bookHeaderId){
         return reviewService.getReviewsForBookCount(bookHeaderId);
