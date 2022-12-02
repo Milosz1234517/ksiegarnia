@@ -1,5 +1,6 @@
 package com.example.bookstore.service;
 
+import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.model.dto.BookHeaderDTO.*;
 import com.example.bookstore.model.entities.Author;
 import com.example.bookstore.model.entities.BookHeader;
@@ -40,25 +41,6 @@ public class BookService {
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class)).toList();
     }
 
-    public List<BookHeaderDTO> searchBooksFilter(
-            String authorName,
-            String authorSurname,
-            String title,
-            Integer priceLow,
-            Integer priceHigh,
-            Integer page,
-            Boolean available) {
-
-        return bookHeaderRepository
-                .findAll(
-                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available),
-                        PageRequest.of(--page, 20, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
-                ).stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
-                .distinct()
-                .toList();
-    }
-
     public Long searchBooksFilterCount(
             String authorName,
             String authorSurname,
@@ -73,7 +55,27 @@ public class BookService {
                 );
     }
 
-    private static Specification<BookHeader> getBookHeaderSpecification(String authorName, String authorSurname, String title, Integer priceLow, Integer priceHigh, Boolean available) {
+    public List<BookHeaderDTO> searchBooksFilter(
+            String authorName,
+            String authorSurname,
+            String title,
+            Integer priceLow,
+            Integer priceHigh,
+            Integer page,
+            Boolean available) {
+
+        return bookHeaderRepository
+                .findAll(
+                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available),
+                        PageRequest.of(--page, 2, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
+                ).stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
+                .distinct()
+                .toList();
+    }
+
+    private static Specification<BookHeader> getBookHeaderSpecification(String authorName, String authorSurname,
+     String title, Integer priceLow, Integer priceHigh, Boolean available) {
         return Specification
                 .where(authorName == null ? null : nameContains(authorName))
                 .and(authorSurname == null ? null : surnameContains(authorSurname))
@@ -83,13 +85,9 @@ public class BookService {
                 .and(available ? availableBooks() : null);
     }
 
-    public List<BookHeaderDetailsDTO> getBookWithDetails(Integer bookHeaderId) {
-        return bookHeaderRepository
-                .findByBookHeaderId(bookHeaderId)
-                .stream()
-                .map(bookHeader -> modelMapper
-                        .map(bookHeader, BookHeaderDetailsDTO.class))
-                .toList();
+    public BookHeaderGetDetailsDTO getBookWithDetails(Integer bookHeaderId) {
+        return modelMapper.map(bookHeaderRepository
+                .findByBookHeaderId(bookHeaderId).orElseThrow(() -> new BadRequestException("Book Header not exist")), BookHeaderGetDetailsDTO.class);
     }
 
     public void addBook(BookHeaderDetailsIdIgnoreDTO bookHeaderDTO) {
@@ -184,7 +182,7 @@ public class BookService {
 
     private void setAuthors(BookHeaderDetailsDTO bookHeaderDTO) {
         bookHeaderDTO
-                .getAuthors()
+                .getBookAuthors()
                 .forEach(author -> {
                     Optional<Author> aut = authorRepository
                             .findByNameIgnoreCaseAndSurnameIgnoreCase(author.getName(), author.getSurname());

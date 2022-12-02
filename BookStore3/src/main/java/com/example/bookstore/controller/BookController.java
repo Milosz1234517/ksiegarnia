@@ -3,6 +3,7 @@ package com.example.bookstore.controller;
 import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
 import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsDTO;
 import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsIdIgnoreDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderGetDetailsDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class BookController {
     }
 
     @GetMapping("/getBookWithDetails")
-    public List<BookHeaderDetailsDTO> getBookWithDetails(@RequestParam Integer bookHeaderId) {
+    public BookHeaderGetDetailsDTO getBookWithDetails(@RequestParam Integer bookHeaderId) {
         return bookService.getBookWithDetails(bookHeaderId);
     }
 

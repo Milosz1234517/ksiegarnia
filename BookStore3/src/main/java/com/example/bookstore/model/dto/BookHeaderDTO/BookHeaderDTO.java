@@ -1,5 +1,6 @@
 package com.example.bookstore.model.dto.BookHeaderDTO;
 
+import com.example.bookstore.model.dto.AuthorDTO;
 import com.example.bookstore.model.entities.Author;
 
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ public class BookHeaderDTO extends BookHeaderOnlyIdDTO{
 
     @Valid
     @NotEmpty(message = "Book must have autor")
-    private Collection<Author> authors;
+    private Collection<Author> bookAuthors;
 
     private String icon;
 
