@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 @Getter
@@ -16,11 +17,11 @@ public class OrderHeaderDetailsDTO {
 
     private Long orderId;
 
-    private Date orderDate;
+    private Timestamp orderDate;
 
     private BigDecimal totalPrice;
 
-    private Date realizationDate;
+    private Timestamp realizationDate;
 
     private String description;
 

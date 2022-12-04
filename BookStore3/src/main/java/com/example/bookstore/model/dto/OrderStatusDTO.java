@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class OrderStatusDTO {
 
+    private Integer statusId;
+
     private String description;
 
 }

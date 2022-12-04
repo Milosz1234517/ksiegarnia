@@ -7,13 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookReviewsDTO {
+public class BookReviewsAdminDTO {
 
     private Integer reviewId;
 
     private String description;
 
     private Integer mark;
+
+    private UserDTO user;
 
     private BookHeaderTitleDTO bookHeader;
 

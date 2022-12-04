@@ -5,6 +5,7 @@ import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
 import com.example.bookstore.model.dto.OrderItemDTO;
+import com.example.bookstore.model.dto.OrderStatusDTO;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.OrderHeader;
 import com.example.bookstore.model.entities.OrderItems;
@@ -13,6 +14,7 @@ import com.example.bookstore.model.entities.role.ERole;
 import com.example.bookstore.model.entities.role.Role;
 import com.example.bookstore.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -53,47 +56,66 @@ public class OrderService {
 
     }
 
+    public List<OrderStatusDTO> getStatuses(){
+        return orderStatusRepository
+                .findAll()
+                .stream()
+                .map(s -> modelMapper.map(s, OrderStatusDTO.class))
+                .toList();
+    }
+
     public void cancelOrder(Long orderID){
         OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
                 .orElseThrow(() -> new BadRequestException("Order not found"));
+
         if(orderHeader.getOrderStatus().getStatusId() == 2 || orderHeader.getOrderStatus().getStatusId() == 3)
             throw new BadRequestException("Order cannot be canceled");
+
         orderHeader.setOrderStatus(orderStatusRepository.findById(2)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
         orderHeader.getOrderItems()
+
                 .forEach(orderItem -> orderItem.getBookHeader()
                         .setQuantity(orderItem.getBookHeader().getQuantity() + orderItem.getQuantity()));
+
         orderHeaderRepository.save(orderHeader);
     }
 
     public void finalizeOrder(Long orderID){
         OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
                 .orElseThrow(() -> new BadRequestException("Order not found"));
+
         if(orderHeader.getOrderStatus().getStatusId() != 4)
             throw new BadRequestException("Order cannot be finalized");
-        orderHeader.setRealizationDate(Date.valueOf(LocalDate.now()));
+
+        orderHeader.setRealizationDate(new Timestamp(System.currentTimeMillis()));
+
         orderHeader.setOrderStatus(orderStatusRepository.findById(3)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
+
         orderHeaderRepository.save(orderHeader);
     }
 
     public void bookOrder(Long orderID){
         OrderHeader orderHeader = orderHeaderRepository.findById(orderID)
                 .orElseThrow(() -> new BadRequestException("Order not found"));
+
         if(orderHeader.getOrderStatus().getStatusId() != 1)
             throw new BadRequestException("Order cannot be booked");
+
         orderHeader.setOrderStatus(orderStatusRepository.findById(4)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
+
         orderHeaderRepository.save(orderHeader);
     }
 
     public Long getOrdersFilterCount(
             Integer orderId,
             Integer status,
-            Date placedFrom,
-            Date placedTo,
-            Date finalizedFrom,
-            Date finalizedTo,
+            String placedFrom,
+            String placedTo,
+            String finalizedFrom,
+            String finalizedTo,
             HttpServletRequest request
     ){
         Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
@@ -105,12 +127,13 @@ public class OrderService {
                 );
     }
 
-    private static Specification<OrderHeader> getOrderHeaderSpecification(Integer orderId, Integer status, Date placedFrom, Date placedTo, Date finalizedFrom, Date finalizedTo, Users users, Role role) {
+    private static Specification<OrderHeader> getOrderHeaderSpecification(Integer orderId, Integer status, String placedFrom, String placedTo, String finalizedFrom, String finalizedTo, Users users, Role role) {
+
         return Specification
-                .where(placedFrom == null ? null : placedFrom(placedFrom))
-                .and(placedTo == null ? null : placedTo(placedTo))
-                .and(finalizedFrom == null ? null : finalizedFrom(finalizedFrom))
-                .and(finalizedTo == null ? null : finalizedTo(finalizedTo))
+                .where(placedFrom == null || placedFrom.equals("") ? null : placedFrom(Date.valueOf(placedFrom)))
+                .and(placedTo == null || placedTo.equals("")? null : placedTo(Date.valueOf(placedTo)))
+                .and(finalizedFrom == null || finalizedFrom.equals("")? null : finalizedFrom(Date.valueOf(finalizedFrom)))
+                .and(finalizedTo== null || finalizedTo.equals("") ? null : finalizedTo(Date.valueOf(finalizedTo)))
                 .and(status == null ? null : orderStatus(status))
                 .and(orderId == null ? null : orderId(orderId))
                 .and(users.getRoles().contains(role) ? user(users.getUserId()) : null);
@@ -119,20 +142,22 @@ public class OrderService {
     public List<OrderHeaderDetailsDTO> getOrdersFilter(
             Integer orderId,
             Integer status,
-            Date placedFrom,
-            Date placedTo,
-            Date finalizedFrom,
-            Date finalizedTo,
+            String placedFrom,
+            String placedTo,
+            String finalizedFrom,
+            String finalizedTo,
             Integer page,
             HttpServletRequest request
     ){
         Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
         Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
 
+
+
         return orderHeaderRepository
                 .findAll(
                         getOrderHeaderSpecification(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, users, role),
-                        PageRequest.of(--page, 2)
+                        PageRequest.of(--page, 2, Sort.by("orderDate").descending())
                 ).stream()
                 .map(order -> modelMapper.map(order, OrderHeaderDetailsDTO.class))
                 .distinct()
@@ -171,7 +196,7 @@ public class OrderService {
                 .orElseThrow(() -> new BadRequestException("User not found")));
         orderHeader.setOrderStatus(orderStatusRepository.findById(1)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
-        orderHeader.setOrderDate(Date.valueOf(LocalDate.now()));
+        orderHeader.setOrderDate(new Timestamp(System.currentTimeMillis()));
         orderHeader.setDescription(order.getDescription());
         orderHeader.setTotalPrice(BigDecimal.valueOf(0));
         return orderHeader;

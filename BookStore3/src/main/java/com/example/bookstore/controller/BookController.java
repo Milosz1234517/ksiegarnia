@@ -1,9 +1,6 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDetailsIdIgnoreDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderGetDetailsDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.*;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -23,7 +21,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/getBooksByTitle")
-    public List<BookHeaderDTO> searchBooksByTitle(@RequestParam String title, @RequestParam Integer page) {
+    public Set<String> searchBooksByTitle(@RequestParam String title, @RequestParam Integer page) {
         return bookService.searchBooksByTitle(title, page);
     }
 

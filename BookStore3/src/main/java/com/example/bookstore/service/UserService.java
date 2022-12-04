@@ -86,11 +86,25 @@ public class UserService {
                                 .where(name == null ? null : nameContains(name))
                                 .and(surname == null ? null : surnameContains(surname))
                                 .and(login == null ? null : loginContains(login)),
-                        PageRequest.of(--page, 20)
+                        PageRequest.of(--page, 2)
                 ).stream()
                 .map(user -> modelMapper.map(user, UserDetailsDTO.class))
                 .distinct()
                 .toList();
+    }
+
+    public Long getUsersFilterCount(
+            String login,
+            String name,
+            String surname
+    ) {
+        return userRepository
+                .count(
+                        Specification
+                                .where(name == null ? null : nameContains(name))
+                                .and(surname == null ? null : surnameContains(surname))
+                                .and(login == null ? null : loginContains(login))
+                );
     }
 
     private static Specification<Users> loginContains(String expression) {

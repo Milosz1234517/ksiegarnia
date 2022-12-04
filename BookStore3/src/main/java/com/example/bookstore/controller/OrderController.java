@@ -2,6 +2,7 @@ package com.example.bookstore.controller;
 
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
 import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
+import com.example.bookstore.model.dto.OrderStatusDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -51,21 +52,26 @@ public class OrderController {
     public List<OrderHeaderDetailsDTO> getOrdersFilterAdmin(
             Integer orderId,
             Integer status,
-            Date placedFrom,
-            Date placedTo,
-            Date finalizedFrom,
-            Date finalizedTo,
+            String placedFrom,
+            String placedTo,
+            String finalizedFrom,
+            String finalizedTo,
             @RequestParam Integer page,
             HttpServletRequest request
     ){
         return orderService.getOrdersFilter(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, page, request);
     }
 
+    @GetMapping("/getStatuses")
+    public List<OrderStatusDTO> getOrdersFilterUser(){
+        return orderService.getStatuses();
+    }
+
     @GetMapping("/getOrdersFilterUser")
     public List<OrderHeaderDetailsDTO> getOrdersFilterUser(
             Integer status,
-            Date placedFrom,
-            Date placedTo,
+            String placedFrom,
+            String placedTo,
             @RequestParam Integer page,
             HttpServletRequest request
 
@@ -73,11 +79,25 @@ public class OrderController {
         return orderService.getOrdersFilter(null, status, placedFrom, placedTo, null, null, page, request);
     }
 
+    @GetMapping("/getOrdersFilterAdminCount")
+    public Long getOrdersFilterAdminCount(
+            Integer orderId,
+            Integer status,
+            String placedFrom,
+            String placedTo,
+            String finalizedFrom,
+            String finalizedTo,
+            HttpServletRequest request
+
+    ){
+        return orderService.getOrdersFilterCount(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, request);
+    }
+
     @GetMapping("/getOrdersFilterUserCount")
     public Long getOrdersFilterUserCount(
             Integer status,
-            Date placedFrom,
-            Date placedTo,
+            String placedFrom,
+            String placedTo,
             HttpServletRequest request
 
     ){

@@ -41,6 +41,15 @@ public class UserController {
         return userService.getUsersFilter(login, name, surname, page);
     }
 
+    @GetMapping("/getUsersFilterCount")
+    public Long getUsersFilterCount(
+            String login,
+            String name,
+            String surname
+    ){
+        return userService.getUsersFilterCount(login, name, surname);
+    }
+
     @GetMapping("/getUserDetails")
     public UserDetailsDTO getUserDetails(HttpServletRequest request){
         return userService.getUserDetails(request);

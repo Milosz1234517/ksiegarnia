@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 @Getter
@@ -23,7 +24,7 @@ public class OrderHeader {
 
     @Basic
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private Timestamp orderDate;
 
     @Basic
     @Column(name = "total_price", nullable = false, precision = 6, scale = 2)
@@ -31,7 +32,7 @@ public class OrderHeader {
 
     @Basic
     @Column(name = "realization_date")
-    private Date realizationDate;
+    private Timestamp realizationDate;
 
     @Basic
     @Column(name = "description")

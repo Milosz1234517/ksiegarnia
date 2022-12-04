@@ -22,6 +22,12 @@ public interface BookHeaderRepository extends JpaRepository<BookHeader, Long>, J
 
     List<BookHeader> findDistinctByBookCategories_DescriptionLikeIgnoreCase(String category, Pageable pageable);
 
+    List<BookHeader> findDistinctByBookTitle(String bookTitle, Pageable pageable);
+
+
+
+
+
 
 
 }

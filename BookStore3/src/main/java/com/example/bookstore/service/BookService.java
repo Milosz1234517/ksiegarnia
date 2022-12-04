@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -31,15 +29,15 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public List<BookHeaderDTO> searchBooksByTitle(String bookTitle, Integer page) {
-        return bookHeaderRepository
-                .findByBookTitleLikeIgnoreCase(
-                        "%" + bookTitle + "%",
-                        PageRequest.of(--page, 20)
-                )
-                .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class)).toList();
-    }
+//    public List<BookHeaderDTO> searchBooksByTitle(String bookTitle, Integer page) {
+//        return bookHeaderRepository
+//                .findAllByDistinctBookTitleOrderByBookTitleAsc(
+//                        bookTitle,
+//                        PageRequest.of(--page, 20)
+//                )
+//                .stream()
+//                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class)).toList();
+//    }
 
     public Long searchBooksFilterCount(
             String authorName,
@@ -53,6 +51,28 @@ public class BookService {
                 .count(
                         getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available)
                 );
+    }
+
+    public Set<String> searchBooksByTitle(
+            String title,
+            Integer page
+    ) {
+
+        List<BookHeaderDTO> bookHeaders =bookHeaderRepository
+                .findAll(
+                        Specification
+                                .where(title == null ? null : titleContains(title)),
+                        PageRequest.of(--page, 20, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
+                ).stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
+                .distinct()
+                .toList();
+        Set<String> uniqueTitles = new HashSet<>();
+        bookHeaders.forEach(bookHeaderDTO -> {
+            uniqueTitles.add(bookHeaderDTO.getBookTitle().toLowerCase());
+        });
+
+        return uniqueTitles;
     }
 
     public List<BookHeaderDTO> searchBooksFilter(
@@ -75,7 +95,7 @@ public class BookService {
     }
 
     private static Specification<BookHeader> getBookHeaderSpecification(String authorName, String authorSurname,
-     String title, Integer priceLow, Integer priceHigh, Boolean available) {
+                                                                        String title, Integer priceLow, Integer priceHigh, Boolean available) {
         return Specification
                 .where(authorName == null ? null : nameContains(authorName))
                 .and(authorSurname == null ? null : surnameContains(authorSurname))
@@ -99,6 +119,7 @@ public class BookService {
     }
 
     public void updateBook(BookHeaderDetailsDTO bookHeaderDTO) {
+
         setCategories(bookHeaderDTO);
         setAuthors(bookHeaderDTO);
         setPublishingHouse(bookHeaderDTO);
@@ -132,9 +153,10 @@ public class BookService {
     private static Specification<BookHeader> titleContains(String expression) {
         return (root, query, builder) -> builder
                 .like(
-                        root
-                                .get("bookTitle"),
-                        contains(expression)
+                        builder.upper(
+                                root.get("bookTitle")
+                        ),
+                        contains(expression).toUpperCase()
                 );
     }
 

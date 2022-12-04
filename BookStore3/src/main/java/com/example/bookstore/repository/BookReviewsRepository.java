@@ -11,19 +11,20 @@ import java.util.Optional;
 
 @Repository
 public interface BookReviewsRepository extends JpaRepository<BookReviews, Integer> {
-    List<BookReviews> findByBookHeader_BookHeaderId(Integer bookHeaderId, PageRequest of);
+    List<BookReviews> findByApproveStatus(boolean approveStatus, Pageable pageable);
 
-    long countByBookHeader_BookHeaderId(int bookHeaderId);
+    long countByApproveStatus(boolean approveStatus);
 
-    List<BookReviews> findByUser_Login(String login, Pageable pageable);
+    List<BookReviews> findByBookHeader_BookHeaderIdAndApproveStatus(int bookHeaderId, boolean approveStatus, Pageable pageable);
+
+    long countByBookHeader_BookHeaderIdAndApproveStatus(int bookHeaderId, boolean approveStatus);
+
+    List<BookReviews> findByUser_LoginAndApproveStatus(String login, Pageable pageable, boolean approve);
 
     Optional<BookReviews> findByReviewIdAndUser_Login(Integer reviewId, String login);
 
     boolean existsByBookHeader_BookHeaderIdAndUser_Login(int bookHeaderId, String login);
 
-    long countByUser_Login(String login);
-
-
-
+    long countByUser_LoginAndApproveStatus(String login, boolean approve);
 
 }

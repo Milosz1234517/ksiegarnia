@@ -27,6 +27,10 @@ public class BookReviews {
     @Column(name = "mark", nullable = false)
     private int mark;
 
+    @Basic
+    @Column(name = "approve_status", nullable = false)
+    private boolean approveStatus;
+
     @ManyToOne(targetEntity = Users.class)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

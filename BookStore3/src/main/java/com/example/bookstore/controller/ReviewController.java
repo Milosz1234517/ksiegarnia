@@ -2,6 +2,7 @@ package com.example.bookstore.controller;
 
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewCreateDTO;
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewUpdateDTO;
+import com.example.bookstore.model.dto.ReviewDTO.BookReviewsAdminDTO;
 import com.example.bookstore.model.dto.ReviewDTO.BookReviewsDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.ReviewService;
@@ -26,9 +27,9 @@ public class ReviewController {
         return reviewService.getReviewsForBook(page, bookHeaderId);
     }
 
-    @GetMapping("/getReviewsForBookAndUser")
-    public Boolean getReviewsForBookAndUser(@RequestParam Integer bookHeaderId, HttpServletRequest request){
-        return reviewService.getReviewsForBookAndUser(bookHeaderId, request);
+    @GetMapping("/checkReviewPossibility")
+    public Boolean checkReviewPossibility(@RequestParam Integer bookHeaderId, @RequestParam Long orderId, HttpServletRequest request){
+        return reviewService.checkReviewPossibility(bookHeaderId, orderId, request);
     }
 
     @GetMapping("/getReviewsForBookCount")
@@ -41,14 +42,24 @@ public class ReviewController {
         return reviewService.getReviewsForUser(page, request);
     }
 
+    @GetMapping("/getReviewsForApprove")
+    public List<BookReviewsAdminDTO> getReviewsForApprove(@RequestParam Integer page){
+        return reviewService.getReviewsForApprove(page);
+    }
+
+    @GetMapping("/getReviewsForApproveCount")
+    public Long getReviewsForApproveCount(){
+        return reviewService.getReviewsForApproveCount();
+    }
+
     @GetMapping("/getReviewsForUserCount")
     public Long getReviewsForUserCount(HttpServletRequest request){
         return reviewService.getReviewsForUserCount(request);
     }
 
     @PostMapping("/reviewBook")
-    public ResponseEntity<?> reviewBook(@Valid @RequestBody BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request){
-        reviewService.reviewBook(bookReviewCreateDTO, request);
+    public ResponseEntity<?> reviewBook(@Valid @RequestBody BookReviewCreateDTO bookReviewCreateDTO, @RequestParam Long orderId, HttpServletRequest request){
+        reviewService.reviewBook(bookReviewCreateDTO, orderId, request);
         return ResponseEntity.ok(new MessageResponse("Book review added successfully"));
     }
 
@@ -56,6 +67,12 @@ public class ReviewController {
     public ResponseEntity<?> modifyReview(@Valid@RequestBody BookReviewUpdateDTO bookReviewCreateDTO, HttpServletRequest request){
         reviewService.modifyReview(bookReviewCreateDTO, request);
         return ResponseEntity.ok(new MessageResponse("Book review modified successfully"));
+    }
+
+    @PutMapping("/approveReview")
+    public ResponseEntity<?> approveReview(@RequestParam Integer reviewId){
+        reviewService.approveReview(reviewId);
+        return ResponseEntity.ok(new MessageResponse("Book review approved successfully"));
     }
 
     @DeleteMapping("/deleteReview")
