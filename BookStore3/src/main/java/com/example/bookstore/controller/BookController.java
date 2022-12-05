@@ -32,9 +32,10 @@ public class BookController {
             String title,
             Integer priceLow,
             Integer priceHigh,
+            String category,
             @RequestParam Boolean available,
             @RequestParam Integer page) {
-        return bookService.searchBooksFilter(name, surname, title, priceLow, priceHigh, page, available);
+        return bookService.searchBooksFilter(name, surname, title, priceLow, priceHigh, page, available, category);
     }
 
     @GetMapping("/getBooksFilterCount")
@@ -44,9 +45,10 @@ public class BookController {
             String title,
             Integer priceLow,
             Integer priceHigh,
+            String category,
             @RequestParam Boolean available
     ){
-        return bookService.searchBooksFilterCount(name, surname, title, priceLow, priceHigh, available);
+        return bookService.searchBooksFilterCount(name, surname, title, priceLow, priceHigh, available, category);
     }
 
     @GetMapping("/getBookWithDetails")

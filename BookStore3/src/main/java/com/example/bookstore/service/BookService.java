@@ -45,11 +45,12 @@ public class BookService {
             String title,
             Integer priceLow,
             Integer priceHigh,
-            Boolean available) {
+            Boolean available,
+            String category) {
 
         return bookHeaderRepository
                 .count(
-                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available)
+                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available, category)
                 );
     }
 
@@ -82,11 +83,12 @@ public class BookService {
             Integer priceLow,
             Integer priceHigh,
             Integer page,
-            Boolean available) {
+            Boolean available,
+            String category) {
 
         return bookHeaderRepository
                 .findAll(
-                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available),
+                        getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available, category),
                         PageRequest.of(--page, 2, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
                 ).stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
@@ -95,13 +97,15 @@ public class BookService {
     }
 
     private static Specification<BookHeader> getBookHeaderSpecification(String authorName, String authorSurname,
-                                                                        String title, Integer priceLow, Integer priceHigh, Boolean available) {
+                                                                        String title, Integer priceLow, Integer priceHigh,
+                                                                        Boolean available, String category) {
         return Specification
                 .where(authorName == null ? null : nameContains(authorName))
                 .and(authorSurname == null ? null : surnameContains(authorSurname))
                 .and(title == null ? null : titleContains(title))
                 .and(priceLow == null ? null : priceLow(priceLow))
                 .and(priceHigh == null ? null : priceHigh(priceHigh))
+                .and(category == null ? null : category(category))
                 .and(available ? availableBooks() : null);
     }
 
@@ -155,6 +159,17 @@ public class BookService {
                 .like(
                         builder.upper(
                                 root.get("bookTitle")
+                        ),
+                        contains(expression).toUpperCase()
+                );
+    }
+
+    private static Specification<BookHeader> category(String expression) {
+        return (root, query, builder) -> builder
+                .like(
+                        builder.upper(
+                                root.join("bookCategories")
+                                        .get("description")
                         ),
                         contains(expression).toUpperCase()
                 );

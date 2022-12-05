@@ -38,13 +38,15 @@ public class UserService {
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
+        if (newPass.length() < 6) {
+            throw new BadRequestException("New password is too short");
+        }
         if (authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getLogin(), oldPass)).isAuthenticated()
         ) {
             user.setPassword(encoder.encode(newPass));
             userRepository.save(user);
-        } else
-            throw new BadRequestException("Old password incorrect");
+        }
     }
 
     public void changeUserDetails(UserDetailsDTO userDetailsDTO, HttpServletRequest request) {
@@ -54,8 +56,8 @@ public class UserService {
         Optional<Users> userParam = userRepository.findByLogin(userDetailsDTO.getLogin());
 
         try {
-            if(userParam.isPresent() && userParam.get().getUserId() != user.getUserId())
-                    throw new BadRequestException("User already exist");
+            if (userParam.isPresent() && userParam.get().getUserId() != user.getUserId())
+                throw new BadRequestException("User already exist");
 
             user.setLogin(userDetailsDTO.getLogin());
             user.setName(userDetailsDTO.getName());

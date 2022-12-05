@@ -33,7 +33,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({BadRequestException.class})
     protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
         final Map<String, Object> body = new HashMap<>();
-        body.put("message", Collections.singletonList(ex.getMessage()));
+        body.put("message", ex.getMessage());
         return ResponseEntity.badRequest().body(body);
     }
 

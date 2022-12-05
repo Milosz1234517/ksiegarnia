@@ -35,7 +35,6 @@ public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderStatusRepository orderStatusRepository;
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
     private final OrderItemsRepository orderItemsRepository;
     private final ModelMapper modelMapper;
@@ -43,7 +42,6 @@ public class OrderService {
     private final JwtUtils jwtUtils;
 
     public void placeOrder(OrderHeaderDTO order, HttpServletRequest request) {
-
         OrderHeader orderHeader = getOrderHeader(order, request);
 
         List<OrderItems> orderItems = order
