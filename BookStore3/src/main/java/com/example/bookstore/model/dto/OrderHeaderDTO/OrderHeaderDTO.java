@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Getter
@@ -13,8 +14,10 @@ import java.util.Collection;
 public class OrderHeaderDTO {
 
     @Valid
-    @NotEmpty(message = "Order must contain items")
+    @NotEmpty(message = " order must contain items")
     private Collection<OrderItemDTO> orderItems;
 
+    @Valid
+    @Size(max = 255, message = " description too long")
     private String description;
 }
