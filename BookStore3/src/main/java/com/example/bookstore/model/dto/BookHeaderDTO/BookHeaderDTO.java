@@ -1,6 +1,5 @@
 package com.example.bookstore.model.dto.BookHeaderDTO;
 
-import com.example.bookstore.model.dto.AuthorDTO;
 import com.example.bookstore.model.entities.Author;
 
 import javax.validation.Valid;
@@ -19,21 +18,21 @@ import java.util.Collection;
 public class BookHeaderDTO extends BookHeaderOnlyIdDTO{
 
     @Valid
-    @NotBlank(message = "Title cannot be empty")
+    @NotBlank(message = " title cannot be empty")
     private String bookTitle;
 
     @Valid
-    @NotEmpty(message = "Book must have autor")
+    @NotEmpty(message = " book must have author")
     private Collection<Author> bookAuthors;
 
     private String icon;
 
     @Valid
-    @Min(value = 1, message = "Quantity must be greater than 0")
+    @Min(value = 1, message = " quantity must be greater than 0")
     private Integer quantity;
 
     @Valid
-    @NotNull(message = "Enter some price")
+    @NotNull(message = " enter some price")
     private BigDecimal price;
 
 }

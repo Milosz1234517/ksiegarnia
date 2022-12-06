@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -31,24 +30,28 @@ public class OrderController {
     }
 
     @PutMapping("/cancelOrder")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> cancelOrder(@RequestParam Long orderId){
         orderService.cancelOrder(orderId);
         return ResponseEntity.ok(new MessageResponse("Order canceled successfully"));
     }
 
     @PutMapping("/finalizeOrder")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> finalizeOrder(@RequestParam Long orderId){
         orderService.finalizeOrder(orderId);
         return ResponseEntity.ok(new MessageResponse("Order finalized successfully"));
     }
 
     @PutMapping("/bookOrder")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> bookOrder(@RequestParam Long orderId){
         orderService.bookOrder(orderId);
         return ResponseEntity.ok(new MessageResponse("Order booked successfully"));
     }
 
     @GetMapping("/getOrdersFilterAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<OrderHeaderDetailsDTO> getOrdersFilterAdmin(
             Integer orderId,
             Integer status,
@@ -63,11 +66,13 @@ public class OrderController {
     }
 
     @GetMapping("/getStatuses")
-    public List<OrderStatusDTO> getOrdersFilterUser(){
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<OrderStatusDTO> getStatuses(){
         return orderService.getStatuses();
     }
 
     @GetMapping("/getOrdersFilterUser")
+    @PreAuthorize("hasRole('USER')")
     public List<OrderHeaderDetailsDTO> getOrdersFilterUser(
             Integer status,
             String placedFrom,
@@ -80,6 +85,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrdersFilterAdminCount")
+    @PreAuthorize("hasRole('ADMIN')")
     public Long getOrdersFilterAdminCount(
             Integer orderId,
             Integer status,
@@ -94,6 +100,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrdersFilterUserCount")
+    @PreAuthorize("hasRole('USER')")
     public Long getOrdersFilterUserCount(
             Integer status,
             String placedFrom,

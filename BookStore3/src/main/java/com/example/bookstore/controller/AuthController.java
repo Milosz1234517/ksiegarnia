@@ -1,7 +1,6 @@
 package com.example.bookstore.controller;
 
 import java.util.*;
-
 import javax.validation.Valid;
 
 import com.example.bookstore.exceptions.BadRequestException;
@@ -44,14 +43,27 @@ public class AuthController {
 
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(
-                jwt,
-                "Bearer",
-                userDetails.getUsername(),
-                userDetails.getName(),
-                userDetails.getSurname(),
-                userDetails.getPhoneNumber()));
+        userDetails.getRoles().forEach(role -> {
+            if(!Objects.equals(role.getName().toString(), "ROLE_USER")){
+                throw new BadRequestException("Bad user credentials");
+            }
+        });
+        return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
+    }
 
+    @PostMapping("/loginAdmin")
+    public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        userDetails.getRoles().forEach(role -> {
+            if(!Objects.equals(role.getName().toString(), "ROLE_ADMIN")){
+                throw new BadRequestException("Bad admin credentials");
+            }
+        });
+        return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
     }
 
     @PostMapping("/register")
@@ -81,23 +93,9 @@ public class AuthController {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin" -> {
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new BadRequestException("Error: Role is not found."));
-                        roles.add(adminRole);
-                    }
-                    case "mod" -> {
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new BadRequestException("Error: Role is not found."));
-                        roles.add(modRole);
-                    }
-                    default -> {
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new BadRequestException("Error: Role is not found."));
-                        roles.add(userRole);
-                    }
-                }
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new BadRequestException("Error: Role is not found."));
+                roles.add(userRole);
             });
         }
 

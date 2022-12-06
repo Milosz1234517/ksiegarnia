@@ -7,8 +7,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class BookHeaderOnlyIdDTO {
+public class BookHeaderIdNotNullDTO {
 
+    @NotNull(message = "Book header must contain id")
     private Integer bookHeaderId;
 
 }

@@ -13,7 +13,13 @@ public class SignupRequest {
   @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Wrong email")
   private String username;
 
-  @Size(min = 6, max = 40, message = "Password must be between 6 and 40 length")
+  @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",
+  message = """
+          Password must contain at least one digit [0-9],
+           one lowercase Latin character [a-z],
+           one uppercase Latin character [A-Z],
+           one special character like ! @ # & ( ),
+           and length of at least 8 characters and a maximum of 20 characters.""")
   private String password;
 
   private Set<String> role;

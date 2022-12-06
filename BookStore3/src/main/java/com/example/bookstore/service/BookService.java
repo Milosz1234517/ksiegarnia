@@ -29,16 +29,6 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-//    public List<BookHeaderDTO> searchBooksByTitle(String bookTitle, Integer page) {
-//        return bookHeaderRepository
-//                .findAllByDistinctBookTitleOrderByBookTitleAsc(
-//                        bookTitle,
-//                        PageRequest.of(--page, 20)
-//                )
-//                .stream()
-//                .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class)).toList();
-//    }
-
     public Long searchBooksFilterCount(
             String authorName,
             String authorSurname,

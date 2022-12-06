@@ -5,6 +5,7 @@ import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -62,12 +63,14 @@ public class BookController {
     }
 
     @PostMapping("/addBook")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addBook(@Valid @RequestBody BookHeaderDetailsIdIgnoreDTO bookHeaderDTO){
         bookService.addBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book added successfully"));
     }
 
     @PutMapping("/updateBook")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateBook(@Valid @RequestBody BookHeaderDetailsDTO bookHeaderDTO){
         bookService.updateBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book updated successfully"));

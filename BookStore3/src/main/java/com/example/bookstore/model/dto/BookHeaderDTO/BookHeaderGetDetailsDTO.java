@@ -2,8 +2,6 @@ package com.example.bookstore.model.dto.BookHeaderDTO;
 
 import com.example.bookstore.model.dto.AuthorDTO;
 import com.example.bookstore.model.dto.CategoryDTO.CategoryDTO;
-import com.example.bookstore.model.entities.Author;
-import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.model.entities.PublishingHouse;
 import lombok.Getter;
 import lombok.Setter;

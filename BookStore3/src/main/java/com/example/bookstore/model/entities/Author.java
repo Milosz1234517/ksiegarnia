@@ -27,6 +27,8 @@ public class Author {
     private String name;
 
     @Basic
+    @Valid
+    @NotBlank(message = "Author must have surname")
     @Column(name = "surname", length = 15)
     private String surname;
 }

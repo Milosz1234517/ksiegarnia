@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderHeaderRepository extends JpaRepository<OrderHeader, Long>, JpaSpecificationExecutor<OrderHeader> {
     boolean existsByOrderItems_BookHeader_BookHeaderIdAndUser_Login(int bookHeaderId, String login);
+    boolean existsByUser_LoginAndOrderStatus_StatusId(String login, Integer statusId);
 
-    boolean existsByOrderIdAndOrderStatus_StatusId(Long orderId, Integer statusId);
+
 
 
 }

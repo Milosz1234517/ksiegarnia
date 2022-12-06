@@ -6,6 +6,7 @@ import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,12 +26,14 @@ public class CategoryController {
     }
 
     @PostMapping("/addCategory")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDTO categoryIdIgnoreDTO){
         categoryService.addCategory(categoryIdIgnoreDTO);
         return ResponseEntity.ok(new MessageResponse("Category added successfully"));
     }
 
     @PutMapping("/updateCategory")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category){
         categoryService.updateCategory(category);
         return ResponseEntity.ok(new MessageResponse("Category updated successfully"));

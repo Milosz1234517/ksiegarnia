@@ -3,10 +3,10 @@ package com.example.bookstore.service.userDetailsService;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.example.bookstore.model.entities.Users;
+import com.example.bookstore.model.entities.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,21 +20,13 @@ public class UserDetailsImpl implements UserDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
-    @Getter
-    private final Integer userId;
     private final String login;
     @JsonIgnore
     private final String password;
+
+    @Getter
+    private Collection<Role> roles;
     private final Collection<? extends GrantedAuthority> authorities;
-
-    @Getter
-    private String name;
-
-    @Getter
-    private String surname;
-
-    @Getter
-    private int phoneNumber;
 
     public static UserDetailsImpl build(Users user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
@@ -42,13 +34,10 @@ public class UserDetailsImpl implements UserDetails {
                 .collect(Collectors.toList());
 
         return new UserDetailsImpl(
-                user.getUserId(),
                 user.getLogin(),
                 user.getPassword(),
-                authorities,
-                user.getName(),
-                user.getSurname(),
-                user.getPhoneNumber());
+                user.getRoles(),
+                authorities);
     }
 
     @Override
@@ -84,16 +73,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(userId, user.userId);
     }
 
 }

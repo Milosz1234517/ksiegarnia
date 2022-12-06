@@ -30,9 +30,9 @@ public class ReviewService {
     private final JwtUtils jwtUtils;
     private final ModelMapper modelMapper;
 
-    public Boolean checkReviewPossibility(Integer bookHeaderId, Long orderId, HttpServletRequest request) {
+    public Boolean checkReviewPossibility(Integer bookHeaderId, HttpServletRequest request) {
         return !orderHeaderRepository
-                .existsByOrderIdAndOrderStatus_StatusId(orderId, 3)
+                .existsByUser_LoginAndOrderStatus_StatusId(jwtUtils.getUserNameFromJwtToken(parseJwt(request)), 3)
                 || bookReviewsRepository
                 .existsByBookHeader_BookHeaderIdAndUser_Login(bookHeaderId, jwtUtils.getUserNameFromJwtToken(parseJwt(request)));
     }
@@ -67,7 +67,7 @@ public class ReviewService {
                 .countByUser_LoginAndApproveStatus(user.getLogin(), true);
     }
 
-    public void reviewBook(BookReviewCreateDTO bookReviewCreateDTO, Long orderId, HttpServletRequest request) {
+    public void reviewBook(BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request) {
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(bookReviewCreateDTO.getBookHeaderId())
@@ -76,7 +76,7 @@ public class ReviewService {
         if (!orderHeaderRepository.existsByOrderItems_BookHeader_BookHeaderIdAndUser_Login(bookHeader.getBookHeaderId(), user.getLogin()))
             throw new BadRequestException("Order not found");
 
-        if (checkReviewPossibility(bookHeader.getBookHeaderId(), orderId, request))
+        if (checkReviewPossibility(bookHeader.getBookHeaderId(), request))
             throw new BadRequestException("Cannot create review, because order is not completed or this book has already been reviewed");
 
         BookReviews bookReviews = new BookReviews();
