@@ -32,14 +32,14 @@ public class BasketController {
 
     @PostMapping("/addItemToBasket")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addItemToBasket(@RequestBody BasketBookIdOnlyDTO basketBookIdOnlyDTO, HttpServletRequest request){
+    public ResponseEntity<?> addItemToBasket(@Valid @RequestBody BasketBookIdOnlyDTO basketBookIdOnlyDTO, HttpServletRequest request){
         basketService.addItemToBasket(basketBookIdOnlyDTO, request);
         return ResponseEntity.ok(new MessageResponse("Item added successfully"));
     }
 
     @PutMapping("/updateItem")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateItem(@RequestBody BasketUpdateDTO basketUpdateDTO, HttpServletRequest request){
+    public ResponseEntity<?> updateItem(@Valid @RequestBody BasketUpdateDTO basketUpdateDTO, HttpServletRequest request){
         basketService.updateBasketItem(basketUpdateDTO, request);
         return ResponseEntity.ok(new MessageResponse("Item updated successfully"));
     }
