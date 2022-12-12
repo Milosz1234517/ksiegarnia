@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -20,8 +21,9 @@ public class PublishingHouse {
     private Integer publishingHouseId;
 
     @Basic
-    @Column(name = "name", length = 15, unique = true)
+    @Valid
     @NotBlank(message = "Publishing house must have a name")
+    @Column(name = "name", length = 15, unique = true)
     private String name;
 
 }

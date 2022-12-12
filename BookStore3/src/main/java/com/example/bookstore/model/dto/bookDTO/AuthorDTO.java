@@ -1,8 +1,10 @@
-package com.example.bookstore.model.dto;
+package com.example.bookstore.model.dto.bookDTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -10,13 +12,14 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AuthorDTO {
 
+    @JsonIgnore
     private int authorId;
 
     @Valid
-    @NotBlank(message = "Author must have name")
+    @NotBlank(message = " author must have name")
     private String name;
 
     @Valid
-    @NotBlank(message = "Author must have surname")
+    @NotBlank(message = " author must have surname")
     private String surname;
 }

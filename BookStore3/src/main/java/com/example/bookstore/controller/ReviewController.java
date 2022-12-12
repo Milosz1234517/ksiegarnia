@@ -1,9 +1,9 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewCreateDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewUpdateDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewsAdminDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewsDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewCreateDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewUpdateDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewsAdminDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewsDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.ReviewService;
 import lombok.RequiredArgsConstructor;

@@ -1,13 +1,9 @@
-package com.example.bookstore.model.dto.OrderHeaderDTO;
+package com.example.bookstore.model.dto.orderDTO;
 
-import com.example.bookstore.model.dto.OrderItemDetailsDTO;
-import com.example.bookstore.model.dto.OrderStatusDTO;
-import com.example.bookstore.model.entities.OrderItems;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 

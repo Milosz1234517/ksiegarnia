@@ -1,8 +1,8 @@
-package com.example.bookstore.model.dto.BookHeaderDTO;
+package com.example.bookstore.model.dto.bookDTO;
 
-import com.example.bookstore.model.dto.CategoryDTO.CategoryDTO;
-import com.example.bookstore.model.entities.Author;
+import com.example.bookstore.model.dto.categoryDTO.CategoryCreateDTO;
 import com.example.bookstore.model.entities.PublishingHouse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,29 +15,31 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
 
+
 @Getter
 @Setter
-public class BookHeaderUpdateDTO {
+public class BookHeaderCreateDTO {
+
+    @JsonIgnore
+    private Integer bookHeaderId;
 
     @Valid
-    @NotEmpty(message = "Book must have category")
-    private Collection<CategoryDTO> bookCategories;
+    @NotEmpty(message = " book must have category")
+    private Collection<CategoryCreateDTO> bookCategories;
 
     @Valid
-    @NotNull(message = "Book must have release date")
+    @NotNull(message = " book must have release date")
     private Date releaseDate;
 
     @Valid
-    @NotNull(message = "Book must have edition")
+    @NotNull(message = " book must have edition")
     private Integer edition;
 
     @Valid
-    @NotNull(message = "Book must have publishing house")
+    @NotNull(message = " book must have publishing house")
     private PublishingHouse publishingHouse;
 
     private String description;
-
-    private Integer bookHeaderId;
 
     @Valid
     @NotBlank(message = " title cannot be empty")
@@ -45,7 +47,7 @@ public class BookHeaderUpdateDTO {
 
     @Valid
     @NotEmpty(message = " book must have author")
-    private Collection<Author> bookAuthors;
+    private Collection<AuthorDTO> bookAuthors;
 
     private String icon;
 

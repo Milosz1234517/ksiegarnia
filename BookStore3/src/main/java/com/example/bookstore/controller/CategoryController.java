@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.CategoryDTO.CategoryDTO;
+import com.example.bookstore.model.dto.categoryDTO.CategoryCreateDTO;
+import com.example.bookstore.model.dto.categoryDTO.CategoryUpdateDTO;
 import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.CategoryService;
@@ -27,14 +28,14 @@ public class CategoryController {
 
     @PostMapping("/addCategory")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDTO categoryIdIgnoreDTO){
+    public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryCreateDTO categoryIdIgnoreDTO){
         categoryService.addCategory(categoryIdIgnoreDTO);
         return ResponseEntity.ok(new MessageResponse("Category added successfully"));
     }
 
     @PutMapping("/updateCategory")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateCategory(@Valid @RequestBody Category category){
+    public ResponseEntity<?> updateCategory(@Valid @RequestBody CategoryUpdateDTO category){
         categoryService.updateCategory(category);
         return ResponseEntity.ok(new MessageResponse("Category updated successfully"));
     }

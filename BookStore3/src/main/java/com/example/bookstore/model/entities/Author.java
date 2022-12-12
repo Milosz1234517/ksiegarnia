@@ -17,18 +17,13 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id", nullable = false)
-    @JsonIgnore
     private int authorId;
 
     @Basic
-    @Valid
-    @NotBlank(message = "Author must have name")
     @Column(name = "name", nullable = false, length = 15)
     private String name;
 
     @Basic
-    @Valid
-    @NotBlank(message = "Author must have surname")
     @Column(name = "surname", length = 15)
     private String surname;
 }

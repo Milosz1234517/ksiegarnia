@@ -13,8 +13,8 @@ import java.sql.Date;
 @Table(name = "basket", schema = "public", catalog = "BookStore")
 public class Basket {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
     private int itemId;
 

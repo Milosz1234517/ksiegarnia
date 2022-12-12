@@ -14,8 +14,9 @@ import java.util.Set;
 @Getter
 @Setter
 public class Users {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private int userId;
 
@@ -44,9 +45,6 @@ public class Users {
     @Basic
     @Column(name = "phone_number", nullable = false)
     private int phoneNumber;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Basket> basket;
 
     public Users(String login, String password, String name, String surname, int phoneNumber) {
         this.login = login;

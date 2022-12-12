@@ -1,11 +1,11 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.model.dto.CategoryDTO.CategoryDTO;
+import com.example.bookstore.model.dto.categoryDTO.CategoryCreateDTO;
+import com.example.bookstore.model.dto.categoryDTO.CategoryUpdateDTO;
 import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +21,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public void addCategory(CategoryDTO categoryIdIgnoreDTO){
+    public void addCategory(CategoryCreateDTO categoryIdIgnoreDTO){
         categoryRepository.save(modelMapper.map(categoryIdIgnoreDTO, Category.class));
     }
 
-    public void updateCategory(Category category){
-        categoryRepository.save(category);
+    public void updateCategory(CategoryUpdateDTO category){
+        categoryRepository.save(modelMapper.map(category, Category.class));
     }
 }

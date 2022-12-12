@@ -1,14 +1,8 @@
 package com.example.bookstore.model.dto.basketDTO;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
-import com.example.bookstore.model.dto.UserDTO.UserDTO;
-import com.example.bookstore.model.entities.BookHeader;
-import com.example.bookstore.model.entities.Users;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.bookstore.model.dto.bookDTO.BookHeaderDTO;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Getter
 @Setter

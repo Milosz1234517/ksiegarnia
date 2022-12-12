@@ -14,10 +14,10 @@ import java.math.BigDecimal;
 @Table(name = "order_items", schema = "public", catalog = "BookStore")
 public class OrderItems {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
-    Long orderId;
+    private Long orderId;
 
     @Basic
     @Column(name = "price", nullable = false, precision = 6, scale = 2)

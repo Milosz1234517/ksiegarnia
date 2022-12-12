@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.*;
+import com.example.bookstore.model.dto.bookDTO.*;
+import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class BookController {
     }
 
     @GetMapping("/getBookWithDetails")
-    public BookHeaderDetailsDTO getBookWithDetails(@RequestParam Integer bookHeaderId) {
+    public BookHeader getBookWithDetails(@RequestParam Integer bookHeaderId) {
         return bookService.getBookWithDetails(bookHeaderId);
     }
 

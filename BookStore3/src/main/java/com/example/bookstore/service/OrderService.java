@@ -2,10 +2,10 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
-import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
-import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
-import com.example.bookstore.model.dto.OrderItemDTO;
-import com.example.bookstore.model.dto.OrderStatusDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderHeaderDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderHeaderDetailsDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderItemDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderStatusDTO;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.OrderHeader;
 import com.example.bookstore.model.entities.OrderItems;

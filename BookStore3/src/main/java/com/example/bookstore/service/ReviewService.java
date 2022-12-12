@@ -2,10 +2,10 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewCreateDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewUpdateDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewsAdminDTO;
-import com.example.bookstore.model.dto.ReviewDTO.BookReviewsDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewCreateDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewUpdateDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewsAdminDTO;
+import com.example.bookstore.model.dto.reviewDTO.BookReviewsDTO;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.BookReviews;
 import com.example.bookstore.model.entities.Users;

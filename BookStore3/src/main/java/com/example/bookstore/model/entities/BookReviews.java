@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Table(name = "book_reviews", schema = "public", catalog = "BookStore")
 public class BookReviews {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)
     @JsonBackReference
     private Integer reviewId;

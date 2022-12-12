@@ -15,8 +15,8 @@ import java.util.Collection;
 @Table(name = "book_header", schema = "public", catalog = "BookStore")
 public class BookHeader {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_header_id", nullable = false)
     private int bookHeaderId;
 

@@ -1,8 +1,8 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDTO;
-import com.example.bookstore.model.dto.OrderHeaderDTO.OrderHeaderDetailsDTO;
-import com.example.bookstore.model.dto.OrderStatusDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderHeaderDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderHeaderDetailsDTO;
+import com.example.bookstore.model.dto.orderDTO.OrderStatusDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;

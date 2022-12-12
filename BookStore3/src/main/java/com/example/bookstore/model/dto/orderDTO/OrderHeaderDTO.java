@@ -1,6 +1,5 @@
-package com.example.bookstore.model.dto.OrderHeaderDTO;
+package com.example.bookstore.model.dto.orderDTO;
 
-import com.example.bookstore.model.dto.OrderItemDTO;
 import lombok.Getter;
 import lombok.Setter;
 

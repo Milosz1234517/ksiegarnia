@@ -3,7 +3,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
-import com.example.bookstore.model.dto.UserDTO.UserDetailsDTO;
+import com.example.bookstore.model.dto.userDTO.UserDetailsDTO;
 import com.example.bookstore.model.entities.Users;
 import com.example.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

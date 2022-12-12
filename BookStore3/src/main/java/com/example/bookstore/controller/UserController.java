@@ -1,6 +1,6 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.UserDTO.UserDetailsDTO;
+import com.example.bookstore.model.dto.userDTO.UserDetailsDTO;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;

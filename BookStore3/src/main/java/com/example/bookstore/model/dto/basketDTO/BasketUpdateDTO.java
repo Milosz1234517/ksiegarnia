@@ -1,6 +1,6 @@
 package com.example.bookstore.model.dto.basketDTO;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderIdDTO;
+import com.example.bookstore.model.dto.bookDTO.BookHeaderIdDTO;
 import lombok.Getter;
 import lombok.Setter;
 

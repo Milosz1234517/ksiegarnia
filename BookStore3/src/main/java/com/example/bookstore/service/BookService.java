@@ -1,7 +1,7 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
-import com.example.bookstore.model.dto.BookHeaderDTO.*;
+import com.example.bookstore.model.dto.bookDTO.*;
 import com.example.bookstore.model.entities.Author;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.Category;
@@ -97,9 +97,9 @@ public class BookService {
                 .and(available ? availableBooks() : null);
     }
 
-    public BookHeaderDetailsDTO getBookWithDetails(Integer bookHeaderId) {
-        return modelMapper.map(bookHeaderRepository
-                .findByBookHeaderId(bookHeaderId).orElseThrow(() -> new BadRequestException("Book Header not exist")), BookHeaderDetailsDTO.class);
+    public BookHeader getBookWithDetails(Integer bookHeaderId) {
+        return bookHeaderRepository
+                .findByBookHeaderId(bookHeaderId).orElseThrow(() -> new BadRequestException("Book Header not exist"));
     }
 
     public void addBook(BookHeaderCreateDTO bookHeaderDTO) {

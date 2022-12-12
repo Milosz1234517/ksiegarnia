@@ -1,4 +1,4 @@
-package com.example.bookstore.model.dto.BookHeaderDTO;
+package com.example.bookstore.model.dto.bookDTO;
 
 import lombok.Getter;
 import lombok.Setter;
