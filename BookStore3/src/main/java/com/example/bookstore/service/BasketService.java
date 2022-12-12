@@ -2,8 +2,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.jwt.JwtUtils;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderOnlyIdDTO;
-import com.example.bookstore.model.dto.basketDTO.BasketBookIdOnlyDTO;
+import com.example.bookstore.model.dto.basketDTO.BasketBookIdDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketUpdateDTO;
 import com.example.bookstore.model.entities.Basket;
@@ -40,14 +39,14 @@ public class BasketService {
                 .toList();
     }
 
-    public void addItemToBasket(BasketBookIdOnlyDTO basketBookIdOnlyDTO, HttpServletRequest request){
+    public void addItemToBasket(BasketBookIdDTO basketBookIdDTO, HttpServletRequest request){
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
         Basket basket = new Basket();
 
-        if(basketRepository.findByBookHeader_BookHeaderIdAndUser_Login(basketBookIdOnlyDTO.getBookHeaderId(), user.getLogin()).isPresent())
+        if(basketRepository.findByBookHeader_BookHeaderIdAndUser_Login(basketBookIdDTO.getBookHeaderId(), user.getLogin()).isPresent())
             throw new BadRequestException("Item already exist in basket, update quantity");
 
-        BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(basketBookIdOnlyDTO.getBookHeaderId())
+        BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(basketBookIdDTO.getBookHeaderId())
                 .orElseThrow(()->new BadRequestException("Book not Found"));
 
         if(bookHeader.getQuantity() < 1)

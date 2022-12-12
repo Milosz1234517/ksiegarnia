@@ -1,7 +1,6 @@
 package com.example.bookstore.model.dto;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderIdNotNullDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderOnlyIdDTO;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderIdDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,7 @@ public class OrderItemDTO {
 
     @Valid
     @NotNull(message = "Order item must contain book")
-    private BookHeaderIdNotNullDTO bookHeader;
+    private BookHeaderIdDTO bookHeader;
 
     @Min(value = 1, message = "Quantity must be greater than 0")
     private Integer quantity;

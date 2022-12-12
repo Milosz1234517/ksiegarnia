@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -53,7 +52,7 @@ public class BookController {
     }
 
     @GetMapping("/getBookWithDetails")
-    public BookHeaderGetDetailsDTO getBookWithDetails(@RequestParam Integer bookHeaderId) {
+    public BookHeaderDetailsDTO getBookWithDetails(@RequestParam Integer bookHeaderId) {
         return bookService.getBookWithDetails(bookHeaderId);
     }
 
@@ -64,14 +63,14 @@ public class BookController {
 
     @PostMapping("/addBook")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addBook(@Valid @RequestBody BookHeaderDetailsIdIgnoreDTO bookHeaderDTO){
+    public ResponseEntity<?> addBook(@Valid @RequestBody BookHeaderCreateDTO bookHeaderDTO){
         bookService.addBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book added successfully"));
     }
 
     @PutMapping("/updateBook")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateBook(@Valid @RequestBody BookHeaderDetailsDTO bookHeaderDTO){
+    public ResponseEntity<?> updateBook(@Valid @RequestBody BookHeaderUpdateDTO bookHeaderDTO){
         bookService.updateBook(bookHeaderDTO);
         return ResponseEntity.ok(new MessageResponse("Book updated successfully"));
     }

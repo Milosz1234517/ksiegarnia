@@ -1,10 +1,8 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.dto.CategoryDTO.CategoryDTO;
-import com.example.bookstore.model.dto.basketDTO.BasketBookIdOnlyDTO;
+import com.example.bookstore.model.dto.basketDTO.BasketBookIdDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketUpdateDTO;
-import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BasketService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +30,8 @@ public class BasketController {
 
     @PostMapping("/addItemToBasket")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addItemToBasket(@Valid @RequestBody BasketBookIdOnlyDTO basketBookIdOnlyDTO, HttpServletRequest request){
-        basketService.addItemToBasket(basketBookIdOnlyDTO, request);
+    public ResponseEntity<?> addItemToBasket(@Valid @RequestBody BasketBookIdDTO basketBookIdDTO, HttpServletRequest request){
+        basketService.addItemToBasket(basketBookIdDTO, request);
         return ResponseEntity.ok(new MessageResponse("Item added successfully"));
     }
 

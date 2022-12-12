@@ -1,14 +1,10 @@
 package com.example.bookstore.model.dto.basketDTO;
 
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderIdNotNullDTO;
-import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderOnlyIdDTO;
-import com.example.bookstore.model.entities.Users;
+import com.example.bookstore.model.dto.BookHeaderDTO.BookHeaderIdDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +14,7 @@ public class BasketUpdateDTO {
 
     @Valid
     @NotNull(message = " book header must contain id")
-    private BookHeaderIdNotNullDTO bookHeader;
+    private BookHeaderIdDTO bookHeader;
 
     @Min(value = 0, message = " wrong quantity")
     private Integer quantity;

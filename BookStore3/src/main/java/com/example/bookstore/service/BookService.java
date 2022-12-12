@@ -59,9 +59,7 @@ public class BookService {
                 .distinct()
                 .toList();
         Set<String> uniqueTitles = new HashSet<>();
-        bookHeaders.forEach(bookHeaderDTO -> {
-            uniqueTitles.add(bookHeaderDTO.getBookTitle().toLowerCase());
-        });
+        bookHeaders.forEach(bookHeaderDTO -> uniqueTitles.add(bookHeaderDTO.getBookTitle().toLowerCase()));
 
         return uniqueTitles;
     }
@@ -99,26 +97,29 @@ public class BookService {
                 .and(available ? availableBooks() : null);
     }
 
-    public BookHeaderGetDetailsDTO getBookWithDetails(Integer bookHeaderId) {
+    public BookHeaderDetailsDTO getBookWithDetails(Integer bookHeaderId) {
         return modelMapper.map(bookHeaderRepository
-                .findByBookHeaderId(bookHeaderId).orElseThrow(() -> new BadRequestException("Book Header not exist")), BookHeaderGetDetailsDTO.class);
+                .findByBookHeaderId(bookHeaderId).orElseThrow(() -> new BadRequestException("Book Header not exist")), BookHeaderDetailsDTO.class);
     }
 
-    public void addBook(BookHeaderDetailsIdIgnoreDTO bookHeaderDTO) {
-        setCategories(bookHeaderDTO);
-        setAuthors(bookHeaderDTO);
-        setPublishingHouse(bookHeaderDTO);
+    public void addBook(BookHeaderCreateDTO bookHeaderDTO) {
+        BookHeader bookHeader = modelMapper.map(bookHeaderDTO, BookHeader.class);
 
-        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
+        setCategories(bookHeader);
+        setAuthors(bookHeader);
+        setPublishingHouse(bookHeader);
+
+        bookHeaderRepository.save(bookHeader);
     }
 
-    public void updateBook(BookHeaderDetailsDTO bookHeaderDTO) {
+    public void updateBook(BookHeaderUpdateDTO bookHeaderDTO) {
+        BookHeader bookHeader = modelMapper.map(bookHeaderDTO, BookHeader.class);
 
-        setCategories(bookHeaderDTO);
-        setAuthors(bookHeaderDTO);
-        setPublishingHouse(bookHeaderDTO);
+        setCategories(bookHeader);
+        setAuthors(bookHeader);
+        setPublishingHouse(bookHeader);
 
-        bookHeaderRepository.save(modelMapper.map(bookHeaderDTO, BookHeader.class));
+        bookHeaderRepository.save(bookHeader);
     }
 
     public List<BookHeaderDTO> getBooksByCategory(String category, Integer page) {
@@ -197,7 +198,7 @@ public class BookService {
         return MessageFormat.format("%{0}%", expression);
     }
 
-    private void setPublishingHouse(BookHeaderDetailsDTO bookHeaderDTO) {
+    private void setPublishingHouse(BookHeader bookHeaderDTO) {
         Optional<PublishingHouse> publishingHouse = publishingHouseRepository
                 .findByNameIgnoreCase(bookHeaderDTO.getPublishingHouse().getName());
 
@@ -207,7 +208,7 @@ public class BookService {
             bookHeaderDTO.getPublishingHouse().setPublishingHouseId(publishingHouse.get().getPublishingHouseId());
     }
 
-    private void setAuthors(BookHeaderDetailsDTO bookHeaderDTO) {
+    private void setAuthors(BookHeader bookHeaderDTO) {
         bookHeaderDTO
                 .getBookAuthors()
                 .forEach(author -> {
@@ -220,7 +221,7 @@ public class BookService {
                 });
     }
 
-    private void setCategories(BookHeaderDetailsDTO bookHeaderDTO) {
+    private void setCategories(BookHeader bookHeaderDTO) {
         bookHeaderDTO
                 .getBookCategories()
                 .forEach(category -> {
@@ -230,6 +231,4 @@ public class BookService {
                     category.setCategoryId(cat.get().getCategoryId());
                 });
     }
-
-
 }
