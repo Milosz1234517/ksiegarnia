@@ -23,7 +23,7 @@ public class PublishingHouse {
     @Basic
     @Valid
     @NotBlank(message = "Publishing house must have a name")
-    @Column(name = "name", length = 15, unique = true)
+    @Column(name = "name", length = 100, unique = true)
     private String name;
 
 }

@@ -35,7 +35,7 @@ public class OrderHeader {
     private Timestamp realizationDate;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", length = 30000)
     private String description;
 
     @ManyToOne(targetEntity = Users.class)

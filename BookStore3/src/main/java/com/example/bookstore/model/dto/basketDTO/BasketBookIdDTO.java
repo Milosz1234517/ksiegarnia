@@ -9,6 +9,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class BasketBookIdDTO {
 
-    @NotNull(message = "Book header must contain id")
+    @NotNull(message = " book header must contain id")
     private Integer bookHeaderId;
 }

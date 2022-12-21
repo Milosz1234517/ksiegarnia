@@ -20,7 +20,7 @@ public class OrderItems {
     private Long orderId;
 
     @Basic
-    @Column(name = "price", nullable = false, precision = 6, scale = 2)
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @Basic

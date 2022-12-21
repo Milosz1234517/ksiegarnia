@@ -36,7 +36,7 @@ public class BookHeader {
     private String description;
 
     @Basic
-    @Column(name = "icon", length = 255)
+    @Column(name = "icon", length = 2048)
     private String icon;
 
     @Basic
@@ -44,7 +44,7 @@ public class BookHeader {
     private Integer quantity;
 
     @Basic
-    @Column(name = "price", nullable = false, precision = 6, scale = 2)
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
 

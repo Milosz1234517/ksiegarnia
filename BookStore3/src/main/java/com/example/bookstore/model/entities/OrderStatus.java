@@ -18,7 +18,7 @@ public class OrderStatus {
     private Integer statusId;
 
     @Basic
-    @Column(name = "description", unique = true)
+    @Column(name = "description", unique = true, length = 100)
     private String description;
 
     @OneToMany(mappedBy = "orderStatus", cascade = CascadeType.ALL)

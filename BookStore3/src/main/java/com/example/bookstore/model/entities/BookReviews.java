@@ -20,7 +20,7 @@ public class BookReviews {
     private Integer reviewId;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", length = 30000)
     private String description;
 
     @Basic

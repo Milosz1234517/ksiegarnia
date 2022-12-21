@@ -27,19 +27,19 @@ public class Users {
     private Set<Role> roles = new HashSet<>();
 
     @Basic
-    @Column(name = "login", nullable = false, length = 20, unique = true)
+    @Column(name = "login", nullable = false, length = 30, unique = true)
     private String login;
 
     @Basic
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 30)
     private String password;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 15)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     @Basic
-    @Column(name = "surname", nullable = false, length = 15)
+    @Column(name = "surname", nullable = false, length = 100)
     private String surname;
 
     @Basic

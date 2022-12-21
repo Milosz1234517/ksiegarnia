@@ -19,7 +19,7 @@ public class Category {
     private Integer categoryId;
 
     @Basic
-    @Column(name = "description", unique = true)
+    @Column(name = "description", unique = true, length = 100)
     private String description;
 
 }

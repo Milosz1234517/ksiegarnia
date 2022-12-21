@@ -20,10 +20,10 @@ public class Author {
     private int authorId;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 15)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     @Basic
-    @Column(name = "surname", length = 15)
+    @Column(name = "surname", length = 100)
     private String surname;
 }
