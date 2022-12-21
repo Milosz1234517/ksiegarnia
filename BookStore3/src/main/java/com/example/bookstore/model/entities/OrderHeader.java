@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -27,7 +29,9 @@ public class OrderHeader {
     private Timestamp orderDate;
 
     @Basic
-    @Column(name = "total_price", nullable = false, precision = 6, scale = 2)
+    @Valid
+    @DecimalMax(value = "10000000000000.00", message = " wrong price value")
+    @Column(name = "total_price", nullable = false, precision = 20, scale = 2)
     private BigDecimal totalPrice;
 
     @Basic
