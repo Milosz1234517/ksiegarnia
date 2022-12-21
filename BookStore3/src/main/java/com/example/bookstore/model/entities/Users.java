@@ -27,11 +27,11 @@ public class Users {
     private Set<Role> roles = new HashSet<>();
 
     @Basic
-    @Column(name = "login", nullable = false, length = 30, unique = true)
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
 
     @Basic
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Basic
