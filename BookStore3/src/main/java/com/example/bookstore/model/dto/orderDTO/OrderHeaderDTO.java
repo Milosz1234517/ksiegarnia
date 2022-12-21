@@ -17,6 +17,6 @@ public class OrderHeaderDTO {
     private Collection<OrderItemDTO> orderItems;
 
     @Valid
-    @Size(max = 255, message = " description too long")
+    @Size(max = 30000, message = " description too long")
     private String description;
 }

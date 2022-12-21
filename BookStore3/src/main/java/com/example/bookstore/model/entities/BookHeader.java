@@ -21,7 +21,7 @@ public class BookHeader {
     private int bookHeaderId;
 
     @Basic
-    @Column(name = "book_title", nullable = false)
+    @Column(name = "book_title", nullable = false, length = 1000)
     private String bookTitle;
 
     @Column(name = "release_date")
@@ -32,7 +32,7 @@ public class BookHeader {
     private Integer edition;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", length = 80000)
     private String description;
 
     @Basic

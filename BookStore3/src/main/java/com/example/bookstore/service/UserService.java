@@ -38,7 +38,7 @@ public class UserService {
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
-        if (newPass.length() < 6) {
+        if (newPass.length() < 8) {
             throw new BadRequestException("New password is too short");
         }
         if (authenticationManager.authenticate(

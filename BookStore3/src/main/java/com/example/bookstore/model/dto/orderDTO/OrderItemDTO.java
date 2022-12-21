@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -17,5 +18,6 @@ public class OrderItemDTO {
     private BookHeaderIdDTO bookHeader;
 
     @Min(value = 1, message = "Quantity must be greater than 0")
+    @Max(value = 1000, message = " quantity must be less than 1000")
     private Integer quantity;
 }
