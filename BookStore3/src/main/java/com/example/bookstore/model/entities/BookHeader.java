@@ -24,11 +24,11 @@ public class BookHeader {
     @Column(name = "book_title", nullable = false, length = 1000)
     private String bookTitle;
 
-    @Column(name = "release_date")
+    @Column(name = "release_date", nullable = false)
     private Date releaseDate;
 
     @Basic
-    @Column(name = "edition")
+    @Column(name = "edition", nullable = false)
     private Integer edition;
 
     @Basic
@@ -36,7 +36,7 @@ public class BookHeader {
     private String description;
 
     @Basic
-    @Column(name = "icon", length = 2048)
+    @Column(name = "icon", length = 2048, nullable = false)
     private String icon;
 
     @Basic

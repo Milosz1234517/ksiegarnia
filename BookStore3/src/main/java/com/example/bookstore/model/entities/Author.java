@@ -24,6 +24,6 @@ public class Author {
     private String name;
 
     @Basic
-    @Column(name = "surname", length = 100)
+    @Column(name = "surname", nullable = false, length = 100)
     private String surname;
 }
