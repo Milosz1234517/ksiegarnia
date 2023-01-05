@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,6 +76,11 @@ public class BasketService {
     public void deleteItemFromBasket(Integer itemId){
         basketRepository.delete(basketRepository.findById(itemId)
                 .orElseThrow(()-> new BadRequestException("Item not exist")));
+    }
+
+    public void clearBasket(HttpServletRequest request){
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        basketRepository.deleteByUser(user);
     }
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");

@@ -49,4 +49,11 @@ public class BasketController {
         return ResponseEntity.ok(new MessageResponse("Item deleted successfully"));
     }
 
+    @DeleteMapping("/deleteAllItemsFromBasket")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteAllItemsFromBasket(HttpServletRequest httpServletRequest){
+        basketService.clearBasket(httpServletRequest);
+        return ResponseEntity.ok(new MessageResponse("Items deleted successfully"));
+    }
+
 }

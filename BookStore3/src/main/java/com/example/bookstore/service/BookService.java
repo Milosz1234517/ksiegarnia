@@ -77,7 +77,7 @@ public class BookService {
         return bookHeaderRepository
                 .findAll(
                         getBookHeaderSpecification(authorName, authorSurname, title, priceLow, priceHigh, available, category),
-                        PageRequest.of(--page, 2, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
+                        PageRequest.of(--page, 20, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
                 ).stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .distinct()
