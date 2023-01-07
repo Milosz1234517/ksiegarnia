@@ -17,6 +17,7 @@ public class BookReviewCreateDTO {
 
     @Min(value = 1, message = "Mark must be greater than 0")
     @Max(value = 10, message = "Mark must be not higher than 10")
+    @NotNull(message = "Mark cannot be empty")
     private Integer mark;
 
     @NotNull(message = "Book header must be added")

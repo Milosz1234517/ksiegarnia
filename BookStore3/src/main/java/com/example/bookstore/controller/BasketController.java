@@ -3,6 +3,7 @@ package com.example.bookstore.controller;
 import com.example.bookstore.model.dto.basketDTO.BasketBookIdDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketUpdateDTO;
+import com.example.bookstore.payload.response.BasketTotalResponse;
 import com.example.bookstore.payload.response.MessageResponse;
 import com.example.bookstore.service.BasketService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class BasketController {
 
     @GetMapping("/getBasket")
     @PreAuthorize("hasRole('USER')")
-    public List<BasketDTO> getBasket(HttpServletRequest request) {
+    public BasketTotalResponse getBasket(HttpServletRequest request) {
         return basketService.getBasket(request);
     }
 
@@ -37,9 +38,8 @@ public class BasketController {
 
     @PutMapping("/updateItem")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateItem(@Valid @RequestBody BasketUpdateDTO basketUpdateDTO, HttpServletRequest request){
-        basketService.updateBasketItem(basketUpdateDTO, request);
-        return ResponseEntity.ok(new MessageResponse("Item updated successfully"));
+    public BasketTotalResponse updateItem(@Valid @RequestBody BasketUpdateDTO basketUpdateDTO, HttpServletRequest request){
+        return basketService.updateBasketItem(basketUpdateDTO, request);
     }
 
     @DeleteMapping("/deleteItemFromBasket")

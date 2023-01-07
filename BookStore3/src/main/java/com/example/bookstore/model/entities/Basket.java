@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Getter
@@ -31,4 +32,8 @@ public class Basket {
     @Basic
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Basic
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 }

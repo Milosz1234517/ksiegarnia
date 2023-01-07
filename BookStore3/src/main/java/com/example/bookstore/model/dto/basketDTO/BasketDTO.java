@@ -4,6 +4,10 @@ import com.example.bookstore.model.dto.bookDTO.BookHeaderDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 public class BasketDTO {
@@ -13,4 +17,6 @@ public class BasketDTO {
     private BookHeaderDTO bookHeader;
 
     private Integer quantity;
+
+    private BigDecimal price;
 }

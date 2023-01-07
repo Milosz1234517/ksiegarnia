@@ -39,6 +39,7 @@ public class OrderService {
     private final ModelMapper modelMapper;
     private final BookHeaderRepository bookHeaderRepository;
     private final JwtUtils jwtUtils;
+    private final BasketService basketService;
 
     public void placeOrder(OrderHeaderDTO order, HttpServletRequest request) {
         OrderHeader orderHeader = getOrderHeader(order, request);
@@ -50,6 +51,8 @@ public class OrderService {
 
         orderHeaderRepository.save(orderHeader);
         orderItemsRepository.saveAll(orderItems);
+
+        basketService.clearBasket(request);
 
     }
 
@@ -214,7 +217,7 @@ public class OrderService {
 
         OrderItems ord = new OrderItems();
         ord.setBookHeader(bookHeader);
-        ord.setPrice(bookHeader.getPrice());
+        ord.setPrice(bookHeader.getPrice().multiply(BigDecimal.valueOf(orderItemDTO.getQuantity())));
         ord.setOrderHeader(orderHeader);
         ord.setQuantity(orderItemDTO.getQuantity());
         return ord;
