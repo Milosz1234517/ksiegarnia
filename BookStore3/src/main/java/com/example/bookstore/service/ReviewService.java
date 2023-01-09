@@ -54,7 +54,7 @@ public class ReviewService {
         Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         return bookReviewsRepository
-                .findByUser_LoginAndApproveStatus(user.getLogin(), PageRequest.of(--page, 2), true)
+                .findByUser_LoginAndApproveStatus(user.getLogin(), PageRequest.of(--page, 20), true)
                 .stream()
                 .map(bookReviews -> modelMapper.map(bookReviews, BookReviewsDTO.class))
                 .toList();

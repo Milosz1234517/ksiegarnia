@@ -157,7 +157,7 @@ public class OrderService {
         return orderHeaderRepository
                 .findAll(
                         getOrderHeaderSpecification(orderId, status, placedFrom, placedTo, finalizedFrom, finalizedTo, users, role),
-                        PageRequest.of(--page, 2, Sort.by("orderDate").descending())
+                        PageRequest.of(--page, 20, Sort.by("orderDate").descending())
                 ).stream()
                 .map(order -> modelMapper.map(order, OrderHeaderDetailsDTO.class))
                 .distinct()
