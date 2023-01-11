@@ -80,7 +80,7 @@ public class AuthController {
                     encoder.encode(signUpRequest.getPassword()),
                     signUpRequest.getName(),
                     signUpRequest.getSname(),
-                    Integer.parseInt(signUpRequest.getPhone()));
+                    signUpRequest.getPhone());
         } catch (NumberFormatException e) {
             throw new BadRequestException("Error: Wrong phone number");
         }

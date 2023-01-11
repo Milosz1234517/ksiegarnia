@@ -27,7 +27,9 @@ public class SignupRequest {
   @Size(min = 1, max = 15, message = " surname must be between 1 and 15 length")
   private String sname;
 
-  @Size(min = 9, max = 9, message = " phone must be 9 numbers")
-  private String phone;
+  @Min(value = 100000000, message = " phone must be 9 numbers")
+  @Max(value = 999999999, message = " phone must be 9 numbers")
+  @NotNull(message = " phone must be 9 numbers")
+  private int phone;
 
 }
