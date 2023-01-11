@@ -55,7 +55,7 @@ public class BookHeaderCreateDTO {
 
     @Valid
     @Min(value = 1, message = " quantity must be greater than 0")
-    @Max(value = 1000, message = " quantity must be less than 1000")
+    @Max(value = 1000000, message = " quantity must be less than 1000000")
     private Integer quantity;
 
     @Valid

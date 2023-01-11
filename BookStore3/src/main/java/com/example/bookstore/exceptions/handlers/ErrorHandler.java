@@ -1,6 +1,7 @@
 package com.example.bookstore.exceptions.handlers;
 
 import com.example.bookstore.exceptions.BadRequestException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.*;
 
 @ControllerAdvice
+@Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -24,16 +26,30 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .filter(Objects::nonNull)
         );
-
         return ResponseEntity.badRequest().body(body);
     }
 
-
-
     @ExceptionHandler({BadRequestException.class})
-    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+    protected ResponseEntity<Object> handleBadRequestException(RuntimeException ex) {
         final Map<String, Object> body = new HashMap<>();
         body.put("message", ex.getMessage());
+        log.error(ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler({Exception.class})
+    protected ResponseEntity<Object> handleException(Exception e) {
+        final Map<String, Object> body = new HashMap<>();
+        log.error(e.getMessage());
+        body.put("message", "Something went wrong");
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    protected ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        final Map<String, Object> body = new HashMap<>();
+        log.error(e.getMessage());
+        body.put("message", "Something went wrong");
         return ResponseEntity.badRequest().body(body);
     }
 
