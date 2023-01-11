@@ -53,7 +53,7 @@ public class BookService {
                 .findAll(
                         Specification
                                 .where(title == null ? null : titleContains(title)),
-                        PageRequest.of(--page, 20, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
+                        PageRequest.of(--page, 10, Sort.by(Sort.Direction.ASC, "bookHeaderId"))
                 ).stream()
                 .map(warehouseItem -> modelMapper.map(warehouseItem, BookHeaderDTO.class))
                 .distinct()
