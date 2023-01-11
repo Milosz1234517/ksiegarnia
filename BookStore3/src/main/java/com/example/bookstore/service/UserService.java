@@ -88,7 +88,7 @@ public class UserService {
                                 .where(name == null ? null : nameContains(name))
                                 .and(surname == null ? null : surnameContains(surname))
                                 .and(login == null ? null : loginContains(login)),
-                        PageRequest.of(--page, 2)
+                        PageRequest.of(--page, 20)
                 ).stream()
                 .map(user -> modelMapper.map(user, UserDetailsDTO.class))
                 .distinct()

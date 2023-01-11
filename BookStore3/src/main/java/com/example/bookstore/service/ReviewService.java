@@ -107,7 +107,7 @@ public class ReviewService {
 
     public List<BookReviewsAdminDTO> getReviewsForApprove(Integer page) {
         return bookReviewsRepository
-                .findByApproveStatus(false, PageRequest.of(--page, 2))
+                .findByApproveStatus(false, PageRequest.of(--page, 20))
                 .stream()
                 .map(bookReviews -> modelMapper.map(bookReviews, BookReviewsAdminDTO.class))
                 .toList();
