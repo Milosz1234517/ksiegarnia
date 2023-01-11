@@ -14,10 +14,10 @@ import javax.validation.constraints.NotNull;
 public class OrderItemDTO {
 
     @Valid
-    @NotNull(message = "Order item must contain book")
+    @NotNull(message = " order item must contain book")
     private BookHeaderIdDTO bookHeader;
 
-    @Min(value = 1, message = "Quantity must be greater than 0")
+    @Min(value = 1, message = " quantity must be greater than 0")
     @Max(value = 1000, message = " quantity must be less than 1000")
     private Integer quantity;
 }

@@ -12,14 +12,14 @@ import javax.validation.constraints.Size;
 @Setter
 public class BookReviewUpdateDTO {
 
-    @NotNull(message = "Review ID cannot be empty")
+    @NotNull(message = " review ID cannot be empty")
     private Integer reviewId;
 
     @Size(max = 30000, message = " review too long")
     private String description;
 
-    @Min(value = 1, message = "Mark must be greater than 0")
-    @Max(value = 10, message = "Mark must be not higher than 10")
+    @Min(value = 1, message = " mark must be greater than 0")
+    @Max(value = 10, message = " mark must be not higher than 10")
     private Integer mark;
 
 }

@@ -1,6 +1,5 @@
 package com.example.bookstore.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,12 +28,10 @@ public class OrderItems {
 
     @ManyToOne
     @JoinColumn(name = "book_header_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BookHeader bookHeader;
 
     @ManyToOne
     @JoinColumn(name = "order_header_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private OrderHeader orderHeader;
 
 }

@@ -1,6 +1,5 @@
 package com.example.bookstore.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -44,11 +42,9 @@ public class OrderHeader {
 
     @ManyToOne(targetEntity = Users.class)
     @JoinColumn(name = "ordered_by")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Users user;
     @ManyToOne(targetEntity = OrderStatus.class)
     @JoinColumn(name = "status_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)

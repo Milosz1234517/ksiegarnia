@@ -1,7 +1,6 @@
 package com.example.bookstore.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,12 +32,10 @@ public class BookReviews {
 
     @ManyToOne(targetEntity = Users.class)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Users user;
 
     @ManyToOne(targetEntity = BookHeader.class)
     @JoinColumn(name = "book_header_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BookHeader bookHeader;
 
 }

@@ -15,11 +15,11 @@ public class BookReviewCreateDTO {
     @Size(max = 30000, message = " review too long")
     private String description;
 
-    @Min(value = 1, message = "Mark must be greater than 0")
-    @Max(value = 10, message = "Mark must be not higher than 10")
-    @NotNull(message = "Mark cannot be empty")
+    @Min(value = 1, message = " mark must be greater than 0")
+    @Max(value = 10, message = " mark must be not higher than 10")
+    @NotNull(message = " mark cannot be empty")
     private Integer mark;
 
-    @NotNull(message = "Book header must be added")
+    @NotNull(message = " book header must be added")
     private Integer bookHeaderId;
 }

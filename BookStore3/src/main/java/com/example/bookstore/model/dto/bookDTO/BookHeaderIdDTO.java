@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class BookHeaderIdDTO {
 
-    @NotNull(message = "Book header must contain id")
+    @NotNull(message = " book header must contain id")
     private Integer bookHeaderId;
 
 }
