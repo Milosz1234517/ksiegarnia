@@ -1,6 +1,7 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
+import com.example.bookstore.jwt.AuthTokenFilter;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.reviewDTO.BookReviewCreateDTO;
 import com.example.bookstore.model.dto.reviewDTO.BookReviewUpdateDTO;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,9 +32,9 @@ public class ReviewService {
 
     public Boolean checkReviewPossibility(Integer bookHeaderId, HttpServletRequest request) {
         return !orderHeaderRepository
-                .existsByUser_LoginAndOrderStatus_StatusId(jwtUtils.getUserNameFromJwtToken(parseJwt(request)), 3)
+                .existsByUser_LoginAndOrderStatus_StatusId(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)), 3)
                 || bookReviewsRepository
-                .existsByBookHeader_BookHeaderIdAndUser_Login(bookHeaderId, jwtUtils.getUserNameFromJwtToken(parseJwt(request)));
+                .existsByBookHeader_BookHeaderIdAndUser_Login(bookHeaderId, jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)));
     }
 
     public List<BookReviewsDTO> getReviewsForBook(Integer page, Integer bookHeaderId) {
@@ -51,7 +51,7 @@ public class ReviewService {
     }
 
     public List<BookReviewsDTO> getReviewsForUser(Integer page, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         return bookReviewsRepository
                 .findByUser_LoginAndApproveStatus(user.getLogin(), PageRequest.of(--page, 20), true)
@@ -61,14 +61,14 @@ public class ReviewService {
     }
 
     public Long getReviewsForUserCount(HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         return bookReviewsRepository
                 .countByUser_LoginAndApproveStatus(user.getLogin(), true);
     }
 
     public void reviewBook(BookReviewCreateDTO bookReviewCreateDTO, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         BookHeader bookHeader = bookHeaderRepository.findByBookHeaderId(bookReviewCreateDTO.getBookHeaderId())
                 .orElseThrow(() -> new BadRequestException("Book not found"));
@@ -90,7 +90,7 @@ public class ReviewService {
     }
 
     public void modifyReview(BookReviewUpdateDTO bookReviewUpdateDTO, HttpServletRequest request) {
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
         BookReviews bookReviews = bookReviewsRepository.findByReviewIdAndUser_Login(bookReviewUpdateDTO.getReviewId(), users.getLogin())
                 .orElseThrow(() -> new BadRequestException("Review not found"));
@@ -103,16 +103,6 @@ public class ReviewService {
         BookReviews bookReviews = bookReviewsRepository.findById(reviewID)
                 .orElseThrow(() -> new BadRequestException("Review not found"));
         bookReviewsRepository.delete(bookReviews);
-    }
-
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
     }
 
     public List<BookReviewsAdminDTO> getReviewsForApprove(Integer page) {

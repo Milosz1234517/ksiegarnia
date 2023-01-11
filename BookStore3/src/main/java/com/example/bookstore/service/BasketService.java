@@ -1,6 +1,7 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
+import com.example.bookstore.jwt.AuthTokenFilter;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.basketDTO.BasketBookIdDTO;
 import com.example.bookstore.model.dto.basketDTO.BasketDTO;
@@ -16,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -34,7 +33,7 @@ public class BasketService {
     private final BookHeaderRepository bookHeaderRepository;
 
     public BasketTotalResponse getBasket(HttpServletRequest request) {
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         BasketTotalResponse basketTotalResponse = new BasketTotalResponse();
         List<BasketDTO> basketDTO = basketRepository
                 .findByUser_Login(users.getLogin(), Sort.by(Sort.Direction.ASC, "itemId"))
@@ -51,7 +50,7 @@ public class BasketService {
     }
 
     public void addItemToBasket(BasketBookIdDTO basketBookIdDTO, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         Basket basket = new Basket();
 
         if (basketRepository.findByBookHeader_BookHeaderIdAndUser_Login(basketBookIdDTO.getBookHeaderId(), user.getLogin()).isPresent())
@@ -70,7 +69,7 @@ public class BasketService {
     }
 
     public BasketTotalResponse updateBasketItem(BasketUpdateDTO basketUpdateDTO, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         Basket basket = basketRepository.findByBookHeader_BookHeaderIdAndUser_Login(basketUpdateDTO.getBookHeader().getBookHeaderId(), user.getLogin())
                 .orElseThrow(() -> new BadRequestException("Item not exist in basket"));
 
@@ -96,17 +95,7 @@ public class BasketService {
     }
 
     public void clearBasket(HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         basketRepository.deleteByUser(user);
-    }
-
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
     }
 }

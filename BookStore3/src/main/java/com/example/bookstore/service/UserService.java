@@ -2,6 +2,7 @@ package com.example.bookstore.service;
 
 
 import com.example.bookstore.exceptions.BadRequestException;
+import com.example.bookstore.jwt.AuthTokenFilter;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.userDTO.UserDetailsDTO;
 import com.example.bookstore.model.entities.Users;
@@ -13,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.modelmapper.ModelMapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class UserService {
     private final JwtUtils jwtUtils;
 
     public void changePassword(String oldPass, String newPass, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
         if (newPass.length() < 8) {
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public void changeUserDetails(UserDetailsDTO userDetailsDTO, HttpServletRequest request) {
-        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        Users user = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
         Optional<Users> userParam = userRepository.findByLogin(userDetailsDTO.getLogin());
@@ -71,7 +71,7 @@ public class UserService {
 
     public UserDetailsDTO getUserDetails(HttpServletRequest request) {
         return userRepository
-                .findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+                .findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .map(user -> modelMapper.map(user, UserDetailsDTO.class))
                 .orElseThrow(() -> new BadRequestException("User not found"));
     }
@@ -150,16 +150,6 @@ public class UserService {
 
     private static String contains(String expression) {
         return MessageFormat.format("%{0}%", expression);
-    }
-
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
     }
 
 }

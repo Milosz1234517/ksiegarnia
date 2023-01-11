@@ -1,6 +1,7 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.exceptions.BadRequestException;
+import com.example.bookstore.jwt.AuthTokenFilter;
 import com.example.bookstore.jwt.JwtUtils;
 import com.example.bookstore.model.dto.orderDTO.OrderHeaderDTO;
 import com.example.bookstore.model.dto.orderDTO.OrderHeaderDetailsDTO;
@@ -17,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 
@@ -118,7 +118,7 @@ public class OrderService {
             String finalizedTo,
             HttpServletRequest request
     ){
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
 
         return orderHeaderRepository
@@ -149,7 +149,7 @@ public class OrderService {
             Integer page,
             HttpServletRequest request
     ){
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow();
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
         Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
 
 
@@ -192,7 +192,7 @@ public class OrderService {
 
     private OrderHeader getOrderHeader(OrderHeaderDTO order, HttpServletRequest request) {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setUser(userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request)))
+        orderHeader.setUser(userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
                 .orElseThrow(() -> new BadRequestException("User not found")));
         orderHeader.setOrderStatus(orderStatusRepository.findById(1)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
@@ -221,15 +221,5 @@ public class OrderService {
         ord.setOrderHeader(orderHeader);
         ord.setQuantity(orderItemDTO.getQuantity());
         return ord;
-    }
-
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
     }
 }
