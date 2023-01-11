@@ -39,6 +39,8 @@ public class BasketService {
                 .findByUser_Login(users.getLogin(), Sort.by(Sort.Direction.ASC, "itemId"))
                 .stream()
                 .map(item -> {
+                    item.setPrice(item.getBookHeader()
+                            .getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
                     basketTotalResponse.setTotalPrice(
                             basketTotalResponse.getTotalPrice().add(item.getPrice())
                     );
