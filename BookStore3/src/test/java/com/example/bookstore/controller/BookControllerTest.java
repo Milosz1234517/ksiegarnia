@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.model.dto.bookDTO.BookHeaderDTO;
 import com.example.bookstore.model.entities.BookHeader;
 import com.example.bookstore.model.entities.PublishingHouse;
 import com.example.bookstore.repository.BookHeaderRepository;
@@ -25,16 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser
 class BookControllerTest {
-
-    //given
-    //when
-    //then
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
@@ -62,7 +57,7 @@ class BookControllerTest {
         publishingHouseRepository.save(publishingHouse);
         bookHeaderRepository.save(bookHeader);
         //when
-        MvcResult mvcResult = mockMvc.perform(get("/api/bookstore/getBooksByTitle?page=1&title="+bookHeader.getBookTitle()))
+        MvcResult mvcResult = mockMvc.perform(get("/api/bookstore/getBooksByTitle?page=1&title=" + bookHeader.getBookTitle()))
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andReturn();
@@ -74,23 +69,137 @@ class BookControllerTest {
     }
 
     @Test
-    void getBooksFilter() {
+    @Transactional
+    void getBooksFilter() throws Exception {
+        //given
+        PublishingHouse publishingHouse = new PublishingHouse();
+        publishingHouse.setName("pub");
+
+        BookHeader bookHeader = new BookHeader();
+        bookHeader.setQuantity(0);
+        bookHeader.setIcon("");
+        bookHeader.setBookTitle("Title test");
+        bookHeader.setEdition(1);
+        bookHeader.setPrice(BigDecimal.valueOf(7));
+        bookHeader.setPublishingHouse(publishingHouse);
+        bookHeader.setReleaseDate(Date.valueOf(LocalDate.now()));
+
+        publishingHouseRepository.save(publishingHouse);
+        bookHeaderRepository.save(bookHeader);
+        //when
+        MvcResult mvcResult = mockMvc.perform(get("/api/bookstore/getBooksFilter?available=false&page=1&title=" + bookHeader.getBookTitle()))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andReturn();
+        //then
+        BookHeaderDTO[] headerDTOS = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), BookHeaderDTO[].class);
+        assertThat(headerDTOS).isNotNull();
+        assertThat(headerDTOS[0].getBookTitle()).isEqualTo(bookHeader.getBookTitle());
+        assertThat(headerDTOS[0].getQuantity()).isEqualTo(bookHeader.getQuantity());
+        assertThat(headerDTOS.length).isEqualTo(1);
     }
 
     @Test
-    void getBooksFilterCount() {
+    @Transactional
+    void getBooksFilterCount() throws Exception {
+        //given
+        PublishingHouse publishingHouse = new PublishingHouse();
+        publishingHouse.setName("pub");
+
+        BookHeader bookHeader = new BookHeader();
+        bookHeader.setQuantity(0);
+        bookHeader.setIcon("");
+        bookHeader.setBookTitle("Title test");
+        bookHeader.setEdition(1);
+        bookHeader.setPrice(BigDecimal.valueOf(7));
+        bookHeader.setPublishingHouse(publishingHouse);
+        bookHeader.setReleaseDate(Date.valueOf(LocalDate.now()));
+
+        publishingHouseRepository.save(publishingHouse);
+        bookHeaderRepository.save(bookHeader);
+        //when
+        MvcResult mvcResult = mockMvc.perform(get("/api/bookstore/getBooksFilterCount?available=false&title=" + bookHeader.getBookTitle()))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andReturn();
+        //then
+        Integer headerCount = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Integer.class);
+        assertThat(headerCount).isNotNull();
+        assertThat(headerCount).isEqualTo(1);
     }
 
     @Test
-    void getBookWithDetails() {
+    @Transactional
+    void getBookWithDetails() throws Exception {
+        //given
+        PublishingHouse publishingHouse = new PublishingHouse();
+        publishingHouse.setName("pub");
+
+        BookHeader bookHeader = new BookHeader();
+        bookHeader.setQuantity(1);
+        bookHeader.setIcon("");
+        bookHeader.setBookTitle("Title test");
+        bookHeader.setEdition(1);
+        bookHeader.setPrice(BigDecimal.valueOf(7));
+        bookHeader.setPublishingHouse(publishingHouse);
+        bookHeader.setReleaseDate(Date.valueOf(LocalDate.now()));
+
+        publishingHouseRepository.save(publishingHouse);
+        bookHeaderRepository.save(bookHeader);
+        //when
+        MvcResult mvcResult = mockMvc.perform(get("/api/bookstore/getBookWithDetails?bookHeaderId=" + bookHeader.getBookHeaderId()))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andReturn();
+        //then
+        BookHeader header = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), BookHeader.class);
+        assertThat(header).isNotNull();
+        assertThat(header.getBookTitle()).isEqualTo(bookHeader.getBookTitle());
+        assertThat(header.getQuantity()).isEqualTo(bookHeader.getQuantity());
+        assertThat(header.getEdition()).isEqualTo(bookHeader.getEdition());
+        assertThat(header.getPublishingHouse().getName()).isEqualTo(bookHeader.getPublishingHouse().getName());
     }
 
     @Test
-    void getBooksByCategory() {
-    }
-
-    @Test
-    void addBook() {
+    @WithMockUser(roles = "ADMIN")
+    void addBook() throws Exception {
+        //given
+        //when
+        MvcResult mvcResult = mockMvc.perform(post("/api/bookstore/addBook")
+                        .content("""
+                                {
+                                  "bookAuthors": [
+                                    {
+                                      "name": "string",
+                                      "surname": "string"
+                                    }
+                                  ],
+                                  "bookCategories": [
+                                    {
+                                      "description": "string"
+                                    }
+                                  ],
+                                  "bookTitle": "string",
+                                  "description": "string",
+                                  "edition": 1,
+                                  "icon": "string",
+                                  "price": 10,
+                                  "publishingHouse": {
+                                    "name": "string"
+                                  },
+                                  "quantity": 10,
+                                  "releaseDate": "02-02-2000"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andReturn();
+        //then
+        BookHeader header = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), BookHeader.class);
+        assertThat(header).isNotNull();
+        assertThat(header.getBookTitle()).isEqualTo("string");
+        assertThat(header.getQuantity()).isEqualTo(10);
+        assertThat(header.getEdition()).isEqualTo(1);
+        assertThat(header.getPublishingHouse().getName()).isEqualTo("string");
     }
 
     @Test

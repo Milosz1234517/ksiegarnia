@@ -41,7 +41,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleException(Exception e) {
         final Map<String, Object> body = new HashMap<>();
         log.error(e.getMessage());
-        body.put("message", "Something went wrong");
+        body.put("message", "Something went wrong, no access to resources");
         return ResponseEntity.badRequest().body(body);
     }
 
@@ -49,7 +49,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
         final Map<String, Object> body = new HashMap<>();
         log.error(e.getMessage());
-        body.put("message", "Something went wrong");
+        body.put("message", "Something went wrong, no access to resources");
         return ResponseEntity.badRequest().body(body);
     }
 
