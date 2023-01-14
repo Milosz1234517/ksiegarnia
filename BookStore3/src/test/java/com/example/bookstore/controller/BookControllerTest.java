@@ -1,23 +1,30 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.model.dto.bookDTO.BookHeaderDTO;
+import com.example.bookstore.model.entities.Author;
 import com.example.bookstore.model.entities.BookHeader;
+import com.example.bookstore.model.entities.Category;
 import com.example.bookstore.model.entities.PublishingHouse;
+import com.example.bookstore.repository.AuthorRepository;
 import com.example.bookstore.repository.BookHeaderRepository;
+import com.example.bookstore.repository.CategoryRepository;
 import com.example.bookstore.repository.PublishingHouseRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,12 +38,16 @@ class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @Autowired
     private BookHeaderRepository bookHeaderRepository;
     @Autowired
     private PublishingHouseRepository publishingHouseRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     @Transactional
@@ -161,11 +172,14 @@ class BookControllerTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(roles = "ADMIN")
     void addBook() throws Exception {
         //given
         //when
+        MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
         MvcResult mvcResult = mockMvc.perform(post("/api/bookstore/addBook")
+                        .accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
                         .content("""
                                 {
                                   "bookAuthors": [
@@ -188,21 +202,148 @@ class BookControllerTest {
                                     "name": "string"
                                   },
                                   "quantity": 10,
-                                  "releaseDate": "02-02-2000"
+                                  "releaseDate": "2000-02-02"
                                 }"""))
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andReturn();
         //then
-        BookHeader header = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), BookHeader.class);
-        assertThat(header).isNotNull();
-        assertThat(header.getBookTitle()).isEqualTo("string");
-        assertThat(header.getQuantity()).isEqualTo(10);
-        assertThat(header.getEdition()).isEqualTo(1);
-        assertThat(header.getPublishingHouse().getName()).isEqualTo("string");
+        String answer = mvcResult.getResponse().getContentAsString();
+        assertThat(answer).isNotNull();
+        assertThat(answer).isEqualTo("{\"message\":\"Book added successfully\"}");
+
+        List<BookHeader> header = bookHeaderRepository.findAll();
+        assertThat(header.size()).isEqualTo(1);
+        assertThat(header.get(0).getBookTitle()).isEqualTo("string");
+        assertThat(header.get(0).getQuantity()).isEqualTo(10);
+        assertThat(header.get(0).getEdition()).isEqualTo(1);
+        assertThat(header.get(0).getPublishingHouse().getName()).isEqualTo("string");
     }
 
     @Test
-    void updateBook() {
+    @Transactional
+    @WithMockUser(roles = "USER")
+    void addBookWrongRole() throws Exception {
+        //given
+        //when
+        MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
+        MvcResult mvcResult = mockMvc.perform(post("/api/bookstore/addBook")
+                        .accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
+                        .content("""
+                                {
+                                  "bookAuthors": [
+                                    {
+                                      "name": "string",
+                                      "surname": "string"
+                                    }
+                                  ],
+                                  "bookCategories": [
+                                    {
+                                      "description": "string"
+                                    }
+                                  ],
+                                  "bookTitle": "string",
+                                  "description": "string",
+                                  "edition": 1,
+                                  "icon": "string",
+                                  "price": 10,
+                                  "publishingHouse": {
+                                    "name": "string"
+                                  },
+                                  "quantity": 10,
+                                  "releaseDate": "2000-02-02"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().is(400))
+                .andReturn();
+        //then
+        String answer = mvcResult.getResponse().getContentAsString();
+        assertThat(answer).isNotNull();
+        assertThat(answer).isEqualTo("{\"message\":\"Something went wrong, no access to resources\"}");
+
+        List<BookHeader> header = bookHeaderRepository.findAll();
+        assertThat(header.size()).isEqualTo(0);
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void updateBook() throws Exception {
+        //given
+        PublishingHouse publishingHouse = new PublishingHouse();
+        publishingHouse.setName("pub");
+
+        Author author = new Author();
+        author.setName("name");
+        author.setSurname("surname");
+
+        Category category = new Category();
+        category.setDescription("cat");
+
+        BookHeader bookHeader = new BookHeader();
+        bookHeader.setQuantity(1);
+        bookHeader.setIcon("");
+        bookHeader.setBookTitle("Title test");
+        bookHeader.setEdition(1);
+        bookHeader.setPrice(BigDecimal.valueOf(7));
+        bookHeader.setPublishingHouse(publishingHouse);
+        bookHeader.setBookAuthors(List.of(author));
+        bookHeader.setBookCategories(List.of(category));
+        bookHeader.setReleaseDate(Date.valueOf(LocalDate.now()));
+
+        publishingHouseRepository.save(publishingHouse);
+        authorRepository.save(author);
+        categoryRepository.save(category);
+        bookHeaderRepository.save(bookHeader);
+        //when
+        MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
+        MvcResult mvcResult = mockMvc.perform(put("/api/bookstore/updateBook")
+                        .accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
+                        .content("""
+                                {
+                                  "bookAuthors": [
+                                    {
+                                      "name": "string",
+                                      "surname": "string"
+                                    }
+                                  ],
+                                  "bookCategories": [
+                                    {
+                                      "description": "string"
+                                    }
+                                  ],
+                                  "bookTitle": "string",
+                                  "bookHeaderId" :\040""" + bookHeader.getBookHeaderId() + ","+
+                                """
+                                  "description": "string",
+                                  "edition": 10,
+                                  "icon": "string",
+                                  "price": 10,
+                                  "publishingHouse": {
+                                    "name": "string"
+                                  },
+                                  "quantity": 10,
+                                  "releaseDate": "2000-02-02"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andReturn();
+        //then
+        String answer = mvcResult.getResponse().getContentAsString();
+        assertThat(answer).isNotNull();
+        assertThat(answer).isEqualTo("{\"message\":\"Book updated successfully\"}");
+
+        List<BookHeader> header = bookHeaderRepository.findAll();
+        assertThat(header).isNotNull();
+        assertThat(header.size()).isEqualTo(1);
+        assertThat(header.get(0).getBookTitle()).isEqualTo("string");
+        assertThat(header.get(0).getQuantity()).isEqualTo(10);
+        assertThat(header.get(0).getEdition()).isEqualTo(10);
+        assertThat(header.get(0).getPublishingHouse().getName()).isEqualTo("string");
+
+        bookHeaderRepository.deleteAll();
+        authorRepository.deleteAll();
+        publishingHouseRepository.deleteAll();
+        categoryRepository.deleteAll();
+
     }
 }
