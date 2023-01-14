@@ -19,8 +19,6 @@ public class SignupRequest {
   @Size(max = 255, message = " password too long")
   private String password;
 
-  private Set<String> role;
-
   @Size(min = 1, max = 15, message = " name must be between 1 and 15 length")
   private String name;
 
