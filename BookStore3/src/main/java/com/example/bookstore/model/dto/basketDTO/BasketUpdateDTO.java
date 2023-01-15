@@ -24,5 +24,4 @@ public class BasketUpdateDTO {
     @Max(value = 1000, message = " quantity must be lower than 1000")
     private Integer quantity;
 
-    private BigDecimal price;
 }

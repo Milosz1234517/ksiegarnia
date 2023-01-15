@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -266,6 +268,7 @@ class BookControllerTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(roles = "ADMIN")
     void updateBook() throws Exception {
         //given
@@ -286,8 +289,8 @@ class BookControllerTest {
         bookHeader.setEdition(1);
         bookHeader.setPrice(BigDecimal.valueOf(7));
         bookHeader.setPublishingHouse(publishingHouse);
-        bookHeader.setBookAuthors(List.of(author));
-        bookHeader.setBookCategories(List.of(category));
+        bookHeader.setBookAuthors(new ArrayList<>(List.of(author)));
+        bookHeader.setBookCategories(new ArrayList<>(List.of(category)));
         bookHeader.setReleaseDate(Date.valueOf(LocalDate.now()));
 
         publishingHouseRepository.save(publishingHouse);

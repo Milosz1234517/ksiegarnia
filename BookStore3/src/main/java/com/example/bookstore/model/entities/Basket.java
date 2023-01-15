@@ -21,12 +21,10 @@ public class Basket {
 
     @ManyToOne(targetEntity = BookHeader.class)
     @JoinColumn(name = "book_header_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private BookHeader bookHeader;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Users user;
 
     @Basic
