@@ -13,7 +13,6 @@ import java.util.Collection;
 public class OrderStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "status_id", nullable = false)
     private Integer statusId;
 

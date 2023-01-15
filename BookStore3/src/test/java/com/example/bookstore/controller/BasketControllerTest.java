@@ -51,7 +51,7 @@ class BasketControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    BasketRepository basketRepository;
+    private BasketRepository basketRepository;
 
     @Test
     @Transactional

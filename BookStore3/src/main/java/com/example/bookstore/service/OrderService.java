@@ -49,6 +49,8 @@ public class OrderService {
                 .stream()
                 .map(orderItemDTO -> getOrderItems(orderHeader, orderItemDTO)).toList();
 
+        orderHeader.setOrderItems(orderItems);
+
         orderHeaderRepository.save(orderHeader);
         orderItemsRepository.saveAll(orderItems);
 
@@ -73,8 +75,8 @@ public class OrderService {
 
         orderHeader.setOrderStatus(orderStatusRepository.findById(2)
                 .orElseThrow(() -> new BadRequestException("Status not found")));
-        orderHeader.getOrderItems()
 
+        orderHeader.getOrderItems()
                 .forEach(orderItem -> orderItem.getBookHeader()
                         .setQuantity(orderItem.getBookHeader().getQuantity() + orderItem.getQuantity()));
 
@@ -149,10 +151,10 @@ public class OrderService {
             Integer page,
             HttpServletRequest request
     ){
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request))).orElseThrow();
-        Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow();
-
-
+        Users users = userRepository
+                .findByLogin(jwtUtils.getUserNameFromJwtToken(AuthTokenFilter.parseJwt(request)))
+                .orElseThrow(()->new BadRequestException("User not found"));
+        Role role = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(()->new BadRequestException("Role not found"));
 
         return orderHeaderRepository
                 .findAll(

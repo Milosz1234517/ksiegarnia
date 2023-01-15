@@ -45,7 +45,6 @@ class BookControllerTest {
     private BookHeaderRepository bookHeaderRepository;
     @Autowired
     private PublishingHouseRepository publishingHouseRepository;
-
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
